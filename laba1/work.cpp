@@ -64,14 +64,7 @@ int CountPointInCircle(Point *center, double R, Point *arr, int N)
     return Res;
 }
 
-int CountPointInTriangle1(Point *p1, Point *p2, Point *p3,
-                         Point *arr, int N)
-{
-    int S1 = CountPointUnderSegment(p1, p2, arr, N);
-    int S2 = CountPointUnderSegment(p2, p3, arr, N);
-    int S3 = CountPointUnderSegment(p1, p3, arr, N);
-    return abs(S1 + S2 - S3);
-}
+
 int CountPointInTriangle(Point *p1, Point *p2, Point *p3,
                          Point *arr, int N)
 {
@@ -86,21 +79,6 @@ int CountPointInTriangle(Point *p1, Point *p2, Point *p3,
         }
     }
     return res;
-}
-
-int CountPointUnderSegment(Point *p1, Point *p2, Point *arr, int N)
-{
-    double xmin = min(p1->x, p2->x);
-    double xmax = max(p1->x, p2->x);
-    int Res = 0;
-    for(int i = 0; i < N; i++) {
-        if(arr[i].x >= xmin && arr[i].x <= xmax) {
-            if(SignSquare(p1, p2, &arr[i]) <= 0 + EPS) { //= для включения контура
-                Res++;
-            }
-        }
-    }
-    return Res;
 }
 
 int DifferencePointForTriangle(Point *p1, Point *p2, Point *p3,

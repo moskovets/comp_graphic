@@ -68,15 +68,12 @@ Point FindCircumCircle(Point *p1, Point *p2, Point *p3);
 // знаковая площадь треугольника 123
 double SignSquare(Point *p1, Point *p2, Point *p3);
 
-// количество точек в окружности (без контура)
+// количество точек в окружности (с контуром)
 int CountPointInCircle(Point *center, double R, Point *arr, int N);
 
-// количество точек в треугольнике (без контура)
+// количество точек в треугольнике (c контуром)
 int CountPointInTriangle(Point *p1, Point *p2, Point *p3,
                          Point *arr, int N);
-
-// количество точек под отрезком
-int CountPointUnderSegment(Point *p1, Point *p2, Point *arr, int N);
 
 // поиск разницы точек внутри треугольника и
 // за пределами треугольника внутри описанной окружности

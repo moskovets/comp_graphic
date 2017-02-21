@@ -23,28 +23,26 @@ class MyGraphicView : public QGraphicsView
 
 public:
     explicit MyGraphicView(QWidget *parent = 0);
-    //void paintEvent(QPaintEvent *event);
     ~MyGraphicView();
     void Paint(Answer *ans);
 
 private slots:
-    void slotAlarmTimer();
+    void ChangeScene();
 private:
-    /* Перегружаем событие изменения размера окна,
-         * чтобы перехватывать его
-         * */
     void resizeEvent(QResizeEvent *event);
+
     Ui::MyGraphicView *ui;
+
     Answer* scaling(Answer *ans, double h, double w);
-    //QPainter *paint;
+
     QGraphicsScene      *scene;     // Объявляем сцену для отрисовки
     QGraphicsItemGroup  *group_1;   // Объявляем первую группу элементов
     QGraphicsItemGroup  *group_2;   // Объявляем вторую группу элементов
     QGraphicsItemGroup  *group_3;   // Объявляем вторую группу элементов
-//    QPainter paint;
-     QTimer              *timer;
-         void deleteItemsFromGroup(QGraphicsItemGroup *group_1);
-     Answer *ans_data = NULL;
+
+    void deleteItemsFromGroup(QGraphicsItemGroup *group_1);
+
+    Answer *ans_data = NULL;
 };
 
 #endif // MYGRAPHICVIEW_H
