@@ -56,7 +56,7 @@ int CountPointInCircle(Point *center, double R, Point *arr, int N)
     for(int i = 0; i < N; i++) {
         double len = (arr[i].x - center->x) * (arr[i].x - center->x) +
                      (arr[i].y - center->y) * (arr[i].y - center->y);
-        len = sqrt(len);
+        //len = sqrt(len);
         if(compare_double(len, r) <= 0) { //= для включения контура
             Res++;
         }
@@ -97,7 +97,7 @@ int DifferencePointForTriangle(Point *p1, Point *p2, Point *p3,
     int in = N1;
     int out = N2 - N1 + 3;
     cout << in << " " << out << endl;
-    return fabs(in - out);
+    return abs(in - out);
 }
 
 Answer* FindMinTriangleWithPoints(Point *arr, int N)
