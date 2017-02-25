@@ -89,7 +89,7 @@ void MyGraphicView::ChangeScene()
         QBrush brush;
         brush.setColor(Qt::black);
         brush.setStyle(Qt::BDiagPattern);
-        group_1->addToGroup(scene->addPolygon(new_ans->rect, penBlack, brush));
+        group_1->addToGroup(scene->addPolygon(new_ans->rect, penBlack));
 
         brush.setColor(Qt::red);
         brush.setStyle(Qt::SolidPattern);

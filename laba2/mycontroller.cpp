@@ -11,6 +11,7 @@ MyController::MyController(QWidget *parent) :
 
     par = parent;
     ui->setupUi(this);
+    ui->backButton->setEnabled(false);
 }
 
 MyController::~MyController()
@@ -91,7 +92,9 @@ void MyController::on_paint_new_clicked()
     Answer* ans = Create_figure(data[0], data[1]);
 
     history.push(ans);
-
+    if(!ui->backButton->isEnabled()) {
+        ui->backButton->setEnabled(true);
+    }
     emit AnswerChange(ans);
 }
 
@@ -110,6 +113,9 @@ void MyController::on_rotateButton_clicked()
     Answer* ans = Rotate_figure(history.top(), data[0], data[1], data[2]);
 
     history.push(ans);
+    if(!ui->backButton->isEnabled()) {
+        ui->backButton->setEnabled(true);
+    }
 
     emit AnswerChange(ans);
 }
@@ -131,6 +137,9 @@ void MyController::on_scaleButton_clicked()
                                 data[0], data[1], data[2], data[3]);
 
     history.push(ans);
+    if(!ui->backButton->isEnabled()) {
+        ui->backButton->setEnabled(true);
+    }
 
     emit AnswerChange(ans);
 
@@ -151,13 +160,15 @@ void MyController::on_moveButton_clicked()
                                 data[0], data[1]);
 
     history.push(ans);
-
+    if(!ui->backButton->isEnabled()) {
+        ui->backButton->setEnabled(true);
+    }
     emit AnswerChange(ans);
 }
 
 void MyController::on_backButton_clicked()
 {
-    if(history.empty() == 0) {
+    if(history.empty()) {
         QErrorMessage errorMessage;
         errorMessage.showMessage("Истории отрисовок пока нет");
         errorMessage.exec();
@@ -165,8 +176,14 @@ void MyController::on_backButton_clicked()
     }
 
     Answer *ans = history.top();
-
     history.pop();
 
+    if(history.empty()) {
+        history.push(ans);
+        ui->backButton->setEnabled(false);
+    }
+    else {
+        ans = history.top();
+    }
     emit AnswerChange(ans);
 }

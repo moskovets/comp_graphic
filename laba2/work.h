@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <QString>
-#include <QPolygon>
+#include <QPolygonF>
 
 enum error_status { OK, NoSolution, Identity };
 
@@ -33,10 +33,39 @@ public:
         return str;
     }
 };
+/*class Matrix {
+public:
+    int n;
+    int m;
+    double** a;
+    Matrix(double x, double y, double z = 1)
+    {
+        a = new double * [1];
+        a[1] = new double[3];
+        a[0][0] = x;
+        a[0][1] = y;
+        a[0][2] = z;
+    }
+
+    Matrix(double x, double y, double z = 1)
+    {
+        a = new double * [1];
+        a[1] = new double[3];
+        a[0][0] = x;
+        a[0][1] = y;
+        a[0][2] = z;
+    }
+
+};*/
 
 struct Answer {
-    QPolygon rect;
-    QPolygon graph;
+    QPolygonF rect;
+    QPolygonF graph;
+    Answer(Answer *obj) {
+        rect = obj->rect;
+        graph = obj->graph;
+    }
+    Answer() {}
 };
 
 
