@@ -37,12 +37,12 @@ Answer * stabilize(Answer* ans, double cx, double cy)
     for(int i = 0; i < ans->rect.size(); i++) {
 
         new_ans->rect << QPoint(cx + ans->rect.at(i).x(),
-                                cy - ans->rect.at(i).y());
+                                cy + ans->rect.at(i).y());
     }
 
     for(int i = 0; i < ans->graph.size(); i++) {
         new_ans->graph << QPoint(cx + ans->graph.at(i).x(),
-                                 cy - ans->graph.at(i).y());
+                                 cy + ans->graph.at(i).y());
     }
     return new_ans;
 
@@ -94,7 +94,19 @@ void MyGraphicView::ChangeScene()
         brush.setColor(Qt::red);
         brush.setStyle(Qt::SolidPattern);
         group_2->addToGroup(scene->addPolygon(new_ans->graph, penRed));
+        cout << "ok";
 
+        for(unsigned int i = 0; i < ans_data->brush.vec.size(); i++) {
+            for(unsigned int j = 0; j < ans_data->brush.vec[i].size(); j += 2) {
+
+                QPointF st = ans_data->brush.vec[i][j];
+                QPointF en = ans_data->brush.vec[i][j+1];
+
+                group_1->addToGroup(scene->addLine(cx + st.x(), cy + st.y(), cx + en.x(), cy + en.y(), penBlack));
+            }
+            cout << "1";
+        }
+        cout << endl;
         /*
          * рисуем эпициклоиду
         */
