@@ -94,7 +94,7 @@ void MyGraphicView::ChangeScene()
         brush.setColor(Qt::red);
         brush.setStyle(Qt::SolidPattern);
         group_2->addToGroup(scene->addPolygon(new_ans->graph, penRed));
-        cout << "ok";
+        cout << "ok" << new_ans->graph.size() << endl;
 
         for(unsigned int i = 0; i < ans_data->brush.vec.size(); i++) {
             for(unsigned int j = 0; j < ans_data->brush.vec[i].size(); j += 2) {
@@ -104,9 +104,11 @@ void MyGraphicView::ChangeScene()
 
                 group_1->addToGroup(scene->addLine(cx + st.x(), cy + st.y(), cx + en.x(), cy + en.y(), penBlack));
             }
-            cout << "1";
+            //cout << "1";
         }
-        cout << endl;
+        //cout << endl;
+        //group_1->addToGroup(scene->addLine(cx, cy, cx + 100, cy, penBlack));
+
         /*
          * рисуем эпициклоиду
         */

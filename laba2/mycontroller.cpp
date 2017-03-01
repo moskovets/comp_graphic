@@ -1,7 +1,12 @@
 #include "mycontroller.h"
 #include "ui_mycontroller.h"
+#include <QRegExpValidator>
+#include <QIntValidator>
+
 #include <iostream>
+#define MIN_PAR 10
 Text_Error LineEditError;
+
 
 MyController::MyController(QWidget *parent) :
     QWidget(parent),
@@ -11,6 +16,9 @@ MyController::MyController(QWidget *parent) :
 
     par = parent;
     ui->setupUi(this);
+    ui->aEdit->setValidator(new QIntValidator(11, 1000));
+    ui->bEdit->setValidator(new QIntValidator(11, 1000));
+    ui->angleEdit->setValidator(new QRegExpValidator(QRegExp("^[+-]?[0-9]{0,5}(\\.|,|$)[0-9]{0,4}$")));
     ui->backButton->setEnabled(false);
 }
 
@@ -88,6 +96,12 @@ void MyController::on_paint_new_clicked()
     double *data = GetData(edits);
     if(LineEditError != NO_ER)
         return;
+    if(data[0] <= MIN_PAR || data[1] <= MIN_PAR) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Параметры должны быть больше 10!");
+        errorMessage.exec();
+        return;
+    }
 
     Answer* ans = Create_figure(data[0], data[1]);
 
