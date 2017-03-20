@@ -29,7 +29,8 @@ HEADERS  += mainwindow.h \
     work.h \
     drawLine.h \
     point.h \
-    algo.h
+    algo.h \
+    point.h
 
 FORMS    += mainwindow.ui \
     mygraphicview.ui \
