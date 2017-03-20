@@ -37,10 +37,16 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>110</height>
+       </size>
+      </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>90</height>
+        <height>100</height>
        </size>
       </property>
       <property name="font">
@@ -219,19 +225,44 @@
         <string>0</string>
        </property>
       </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="dwawButton">
-      <property name="minimumSize">
-       <size>
-        <width>81</width>
-        <height>23</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Нарисовать</string>
-      </property>
+      <widget class="QPushButton" name="dwawlineButton">
+       <property name="geometry">
+        <rect>
+         <x>4</x>
+         <y>84</y>
+         <width>171</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>81</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Нарисовать</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="dwawSunButton">
+       <property name="geometry">
+        <rect>
+         <x>192</x>
+         <y>84</y>
+         <width>141</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>81</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Нарисовать</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item>
@@ -256,7 +287,7 @@
       <property name="title">
        <string>Параметры отрисовщика</string>
       </property>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="linelabel">
        <property name="geometry">
         <rect>
          <x>40</x>
@@ -316,7 +347,7 @@
         <string>Цвет отрезка</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="fonlabel">
        <property name="geometry">
         <rect>
          <x>199</x>
@@ -407,16 +438,30 @@
         <string>Цвет фона</string>
        </property>
       </widget>
-      <zorder>label_5</zorder>
+      <widget class="QPushButton" name="sizePixelButton">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>25</y>
+         <width>71</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Задать</string>
+       </property>
+      </widget>
+      <zorder>linelabel</zorder>
       <zorder>label_12</zorder>
       <zorder>label_13</zorder>
-      <zorder>label_6</zorder>
+      <zorder>fonlabel</zorder>
       <zorder>label_15</zorder>
       <zorder>sizeEdit</zorder>
-      <zorder>groupBox</zorder>
       <zorder>foncolorButton</zorder>
       <zorder>linecolorButton</zorder>
       <zorder>fonButton</zorder>
+      <zorder>sizePixelButton</zorder>
+      <zorder>groupBox</zorder>
      </widget>
     </item>
     <item>
@@ -445,7 +490,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
+         <y>28</y>
          <width>151</width>
          <height>21</height>
         </rect>
@@ -458,7 +503,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>60</y>
+         <y>53</y>
          <width>181</width>
          <height>21</height>
         </rect>
@@ -471,7 +516,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>90</y>
+         <y>79</y>
          <width>151</width>
          <height>21</height>
         </rect>
@@ -484,7 +529,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>120</y>
+         <y>106</y>
          <width>311</width>
          <height>21</height>
         </rect>
@@ -494,10 +539,13 @@
        </property>
       </widget>
       <widget class="QRadioButton" name="standartButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>150</y>
+         <y>154</y>
          <width>151</width>
          <height>21</height>
         </rect>
@@ -505,7 +553,36 @@
        <property name="text">
         <string>Стандартный</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
+      <widget class="QRadioButton" name="wuButton">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>130</y>
+         <width>311</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>алгоритм Ву</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="clearButton">
+      <property name="minimumSize">
+       <size>
+        <width>81</width>
+        <height>23</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Очистить</string>
+      </property>
      </widget>
     </item>
    </layout>

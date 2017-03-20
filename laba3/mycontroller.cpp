@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <iostream>
 #include <string.h>
+#include <QColorDialog>
 
 
 #define MIN_PAR 10
@@ -26,8 +27,15 @@ MyController::MyController(QWidget *parent) :
     ui->ystartEdit->setValidator(Validator);
     ui->yendEdit->setValidator(Validator);
     ui->sizeEdit->setValidator(Validator);
+
+    data.fon = QColor(255, 255, 255); //фон белый
+    data.color = QColor(0, 0, 0); //отрезок черный
+    colorLine = data.color;
+    data.sizePixel = 1;
+
 }
-void MyController::GetScene(My_Scene *scene1) {
+void MyController::GetScene(tScene *scene1)
+{
     this->scene.x_center = scene1->x_center;
     this->scene.y_center = scene1->y_center;
     this->scene.scene = scene1->scene;
@@ -49,8 +57,7 @@ double * MyController::GetData(vector <QLineEdit*> &vec)
     for(unsigned int i = 0; i < vec.size(); i++) {
         str = vec[i]->text();
         x = Analiz_Text(str);
-        switch(LineEditError)
-        {
+        switch(LineEditError) {
         case EMPTY:
             mess = "Область текста пуста.\n Введите данные!";
             break;
@@ -90,7 +97,6 @@ double Analiz_Text(QString str)
     bool ok = true;
     for(int i = 0; i < list.size(); i++) {
         x = list.at(i).toDouble(&ok);
-        //cout << tmp.toStdString() << " " << ok << " " << x << endl;
         if(!ok) {
             LineEditError = E_SYMBOL;
             return 0;
@@ -98,4 +104,139 @@ double Analiz_Text(QString str)
     }
     return x;
 }
+ALGORITHM MyController::GetAlgorithm()
+{
+    if(ui->standartButton->isChecked())
+        return STANDART;
+    if(ui->brDoubleButton->isChecked())
+        return BR_DOUBLE;
+    if(ui->brIntButton->isChecked())
+        return BR_INT;
+    if(ui->brModButton->isChecked())
+        return BR_SMOOTH;
+    if(ui->cdaButton->isChecked())
+        return CDA;
+    if(ui->wuButton->isChecked())
+        return WU;
+    std::cout << "oops\n";
+    return STANDART;
+}
 
+void MyController::on_dwawlineButton_clicked()
+{
+    vector<QLineEdit*> edits;
+    edits.push_back(ui->xstartEdit);
+    edits.push_back(ui->ystartEdit);
+    edits.push_back(ui->xendEdit);
+    edits.push_back(ui->yendEdit);
+
+    double *arr = GetData(edits);
+
+    if(LineEditError != NO_ER)
+        return;
+
+    data.start = QPointF(arr[0], arr[1]);
+    data.end   = QPointF(arr[2], arr[3]);
+
+    if(ui->fonButton->isChecked()) {
+        data.color = data.fon;
+    }
+    else {
+        data.color = colorLine;
+    }
+
+    draw_Line(scene, data, GetAlgorithm());
+
+    delete[] arr;
+}
+
+
+
+void MyController::on_sizePixelButton_clicked()
+{
+    vector<QLineEdit*> edits;
+    edits.push_back(ui->sizeEdit);
+
+    double *arr = GetData(edits);
+
+    if(LineEditError != NO_ER)
+        return;
+    data.sizePixel = arr[0];
+    draw_Line(scene, data, CHANGE_SCALE);
+
+    delete[] arr;
+}
+QString MyController::GetColor(QColor &color)
+{
+    QString r = QString::number(color.red());
+    QString g = QString::number(color.green());
+    QString b = QString::number(color.blue());
+    QString res = "rgb(" + r + ", " + g + ", " + b + ")";
+    return res;
+}
+
+void MyController::on_foncolorButton_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::black);
+    if (!color.isValid() ) {
+     return;
+    }
+    ui->fonlabel->setStyleSheet("background-color: " + GetColor(color));
+    data.fon = color;
+    draw_Line(scene, data, CHANGE_FON);
+}
+
+void MyController::on_fonButton_clicked()
+{
+    if(ui->fonButton->isChecked()) {
+        ui->linecolorButton->setEnabled(false);
+    }
+    else {
+        ui->linecolorButton->setEnabled(true);
+    }
+}
+
+void MyController::on_linecolorButton_clicked()
+{
+    QColor color = QColorDialog::getColor(Qt::black);
+    if (!color.isValid() ) {
+     return;
+    }
+    ui->linelabel->setStyleSheet("background-color: " + GetColor(color));
+    data.color = color;
+    colorLine = color;
+}
+
+void MyController::on_clearButton_clicked()
+{
+    draw_Line(scene, data, CLEAR_SCENE);
+}
+
+void MyController::on_dwawSunButton_clicked()
+{
+    vector<QLineEdit*> edits;
+    edits.push_back(ui->dEdit);
+
+    double *arr = GetData(edits);
+
+    if(LineEditError != NO_ER)
+        return;
+
+
+    if(ui->fonButton->isChecked()) {
+        data.color = data.fon;
+    }
+    else {
+        data.color = colorLine;
+    }
+//TODO
+    /*нужен последовательный вызов для каждого отрезка
+     * data.start = QPointF(arr[0], arr[1]);
+    data.end   = QPointF(arr[2], arr[3]);
+
+    draw_Line(scene, data, GetAlgorithm());
+    */
+
+    delete[] arr;
+
+}

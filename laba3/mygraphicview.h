@@ -26,10 +26,10 @@ public:
     void Paint(QGraphicsScene *scene);
     void Connect();
 signals:
-    void SendScene(My_Scene* my_scene);
+    void SendScene(tScene* my_scene);
 private:
     Ui::MyGraphicView *ui;
-    My_Scene my_scene;
+    tScene my_scene;
 };
 
 #endif // MYGRAPHICVIEW_H

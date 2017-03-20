@@ -16,15 +16,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mygraphicview.cpp \
     mycontroller.cpp \
-    draw_on_scene.cpp \
-    errors.cpp
+    errors.cpp \
+    work.cpp \
+    drawLine.cpp \
+    algo.cpp
 
 HEADERS  += mainwindow.h \
     mygraphicview.h \
     mycontroller.h \
     my_scene.h \
-    draw_on_scene.h \
     errors.h \
+    work.h \
+    drawLine.h \
+    point.h \
+    algo.h
 
 FORMS    += mainwindow.ui \
     mygraphicview.ui \

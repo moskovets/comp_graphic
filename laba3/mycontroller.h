@@ -2,17 +2,19 @@
 #define MYCONTROLLER_H
 
 #include "my_scene.h"
+#include "work.h"
 
 #include <QWidget>
 #include <QtGui>
 #include <QErrorMessage>
 #include <QString>
 #include <QStringList>
+#include <QLineEdit>
+#include <QGraphicsScene>
+
 #include <string>
 #include <stdio.h>
 #include <vector>
-#include <QLineEdit>
-#include <QGraphicsScene>
 
 using namespace std;
 enum Text_Error { EMPTY, E_SYMBOL, NO_ER };
@@ -29,15 +31,32 @@ class MyController : public QWidget
 public:
     explicit MyController(QWidget *parent = 0);
     ~MyController();
-    void GetScene(My_Scene *scene);
+    void GetScene(tScene *scene);
 signals:
     void SceneChange(QGraphicsScene *scene);
 private slots:
 
-private:
+    void on_dwawlineButton_clicked();
 
+    void on_sizePixelButton_clicked();
+
+    void on_foncolorButton_clicked();
+
+    void on_fonButton_clicked();
+
+    void on_linecolorButton_clicked();
+
+    void on_clearButton_clicked();
+
+    void on_dwawSunButton_clicked();
+
+private:
+    QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
-    My_Scene scene;
+    ALGORITHM GetAlgorithm();
+    tScene scene;
+    tData data;
+    QColor colorLine;
     Ui::MyController *ui;
     QWidget *par;
     QRegExpValidator *Validator;

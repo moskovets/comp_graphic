@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QHBoxLayout *layout = new QHBoxLayout;
     ui->centralWidget->setLayout(layout);
-    this->setWindowTitle("Лабораторная работа №1");
+    this->setWindowTitle("Лабораторная работа №3");
 
     myPicture   = new MyGraphicView();
     layout->addWidget(myPicture);
@@ -18,11 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(myController);
     myController->setFixedWidth(347); //magic :)
 
-    QObject::connect(myPicture, SIGNAL(SendScene(My_Scene*)),
-            this, SLOT(SendingScene(My_Scene*)));
+    QObject::connect(myPicture, SIGNAL(SendScene(tScene*)),
+            this, SLOT(SendingScene(tScene*)));
     myPicture->Connect();
 }
-void MainWindow::SendingScene(My_Scene* my_scene)
+void MainWindow::SendingScene(tScene* my_scene)
 {
     std::cout << "window:" << my_scene->x_center << endl;
     myController->GetScene(my_scene);
