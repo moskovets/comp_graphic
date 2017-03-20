@@ -31,6 +31,7 @@ void tImage::printOnScene(tScene &scene)
                        image.height() * scale));
     QPixmap pixmap;
     pixmap.convertFromImage(image_tmp);
+    scene.scene->clear();
     scene.scene->addPixmap(pixmap);
 }
 

@@ -5,6 +5,7 @@
 int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
 {
     //TODO
+    SomeAlgo(vec, data.start, data.end);
     return 0;
 }
 
@@ -36,7 +37,7 @@ int draw_Line(tScene &scene, const tData &data, ALGORITHM alg)
         image.changeFon(scene, data.fon);
         break;
     case CHANGE_SCALE:
-        image.changeFon(scene, data.sizePixel);
+        image.changeScale(scene, data.sizePixel);
     case CLEAR_SCENE:
         image = tImage(scene, data.sizePixel, data.fon);
         break;

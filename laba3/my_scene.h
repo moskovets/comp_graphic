@@ -3,7 +3,7 @@
 
 #include <QGraphicsScene>
 
-struct My_Scene {
+struct tScene {
     QGraphicsScene *scene = NULL;
     double x_center;
     double y_center;
