@@ -135,8 +135,8 @@ void MyController::on_dwawlineButton_clicked()
     if(LineEditError != NO_ER)
         return;
 
-    data.start = QPointF(arr[0], arr[1]);
-    data.end   = QPointF(arr[2], arr[3]);
+    data.start = QPoint(arr[0], arr[1]);
+    data.end   = QPoint(arr[2], arr[3]);
 
     if(ui->fonButton->isChecked()) {
         data.color = data.fon;

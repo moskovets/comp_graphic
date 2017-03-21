@@ -24,6 +24,11 @@ int draw_Line(tScene &scene, const tData &data, ALGORITHM alg)
     case BR_INT:
     case BR_SMOOTH:
     case CDA:
+        CdaAlgo(line.line, data.start, data.end);
+        line.color = data.color;
+        line.sizePixel = data.sizePixel;
+        image.drawLine(scene, line);
+        break;
     case WU:
         draw_Algorithm(line.line, data, alg);
         line.color = data.color;
