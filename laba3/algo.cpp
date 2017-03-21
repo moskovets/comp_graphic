@@ -52,3 +52,18 @@ int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
     }
     return 0;
 }
+int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+{
+    if(IsDegenerate(start, end)) {
+        return DegenerateAlgo(vec, start);
+    }
+    double dx = end.x() - start.x();
+    double dy = end.y() - start.y();
+
+    double sx = fabs(dx);
+    double sy = fabs(dy);
+    //TODO
+
+
+    return 0;
+}
