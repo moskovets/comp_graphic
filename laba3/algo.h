@@ -6,6 +6,6 @@
 
 using namespace std;
 
-int SomeAlgo(vector<tPoint> &vec, const QPointF &start, const QPointF &end);
-
+int SomeAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
 #endif // ALGO_H

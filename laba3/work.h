@@ -1,6 +1,6 @@
 #ifndef WORK_H
 #define WORK_H
-#include "QPointF"
+#include "QPoint"
 #include "QColor"
 #include "my_scene.h"
 
@@ -17,8 +17,8 @@ enum ALGORITHM {
 };
 
 struct tData {
-    QPointF start;
-    QPointF end;
+    QPoint start;
+    QPoint end;
     int sizePixel;
     QColor color;
     QColor fon;
