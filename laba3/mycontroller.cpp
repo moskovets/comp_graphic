@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string.h>
 #include <QColorDialog>
-
+#include <QDebug>
 
 #define MIN_PAR 10
 Text_Error LineEditError;
@@ -211,6 +211,17 @@ void MyController::on_clearButton_clicked()
 {
     draw_Line(scene, data, CLEAR_SCENE);
 }
+void Rotate(QPoint &p, QPoint center, double angle)
+{
+    angle *= M_PI / 180;
+    QPoint buff = p;
+
+    //p.setX(center.x() + (buff.x() - center.x())*cos(angle));
+    //p.setY(center.y() + (buff.y() - center.y())*sin(angle));
+
+    p.setX(center.x() + (double)(buff.x() - center.x())*cos(angle) - (double)(buff.y() - center.y())*sin(angle));
+    p.setY(center.y() + (double)(buff.x() - center.x())*sin(angle) +  (double)(buff.y() - center.y())*cos(angle));
+}
 
 void MyController::on_dwawSunButton_clicked()
 {
@@ -229,6 +240,23 @@ void MyController::on_dwawSunButton_clicked()
     else {
         data.color = colorLine;
     }
+    double teta = 0;
+    double dteta = arr[0];
+    qDebug() << "я тут";
+//    QPoint start(scene.x_center, scene.y_center);
+//    QPoint end(scene.x_center+50, scene.y_center+50);
+
+    QPoint start(100, 100);
+    data.start = start;
+    QPoint end(150, 100);
+    while(teta < 360) {
+        data.end = end;
+        Rotate(data.end, start, teta);
+        qDebug() << data.end;
+        draw_Line(scene, data, GetAlgorithm());
+        teta += dteta;
+    }
+
 //TODO
     /*нужен последовательный вызов для каждого отрезка
      * data.start = QPointF(arr[0], arr[1]);
