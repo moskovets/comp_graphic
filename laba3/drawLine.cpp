@@ -44,7 +44,7 @@ void tImage::addPixel(const tPoint &p, const QColor &color)
 
 tImage::tImage(tScene &scene, int sizepixel, const QColor &color)
 {
-    image = QImage((int)scene.scene->width() / sizepixel, (int)scene.scene->height() / sizepixel, QImage::Format_RGB888);
+    image = QImage((int)scene.scene->width() / sizepixel, (int)scene.scene->height() / sizepixel, QImage::Format_ARGB32);
     image.fill(color);
     fon = color;
     scale = sizepixel;
