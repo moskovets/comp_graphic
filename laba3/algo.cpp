@@ -110,6 +110,59 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
         return 1;
     }
 
+    return 0;
+}
+
+int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+{
+    if(IsDegenerate(start, end)) {
+        return DegenerateAlgo(vec, start);
+    }
+    int deltax = end.x() - start.x();
+    int deltay = end.y() - start.y();
+
+    int dx = SIGN(deltax);
+    int dy = SIGN(deltay);
+
+    int sx = abs(deltax);
+    int sy = abs(deltay);
+
+    int obmen = 0;
+
+    if(sx <= sy) {
+        obmen = 1;
+        swap(sx, sy);
+    }
+
+    int e = 2*sy - sx;
+    int d2x = 2*sx;
+    int d2y = 2*sy;
+
+
+    int x = start.x();
+    int y = start.y();
+    for(int i = 1; i <= sx + 1; i++) {
+        vec.push_back(tPoint(x, y, 1));
+        //qDebug() << round(x) << round(y);
+        if(e >= 0) {
+            if(obmen)
+                x += dx;
+            else
+                y += dy;
+            e -= d2x;
+        }
+
+        if(obmen)
+            y += dy;
+        else
+            x += dx;
+        e += d2y;
+    }
+    if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
+
+        qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
+        return 1;
+    }
 
     return 0;
 }

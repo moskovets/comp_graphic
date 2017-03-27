@@ -12,6 +12,8 @@ int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
         return BresenhamDoubleAlgo(vec, data.start, data.end);
         break;
     case BR_INT:
+        return BresenhamIntAlgo(vec, data.start, data.end);
+        break;
     case BR_SMOOTH:
     case WU:
     default:
