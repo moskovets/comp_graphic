@@ -6,9 +6,11 @@ int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
 {
     switch(alg) {
     case CDA:
-        CdaAlgo(vec, data.start, data.end);
+        return CdaAlgo(vec, data.start, data.end);
         break;
     case BR_DOUBLE:
+        return BresenhamDoubleAlgo(vec, data.start, data.end);
+        break;
     case BR_INT:
     case BR_SMOOTH:
     case WU:
