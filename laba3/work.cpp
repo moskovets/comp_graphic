@@ -5,6 +5,8 @@
 int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
 {
     switch(alg) {
+    case STANDART:
+        return StandartAlgo(vec, data.start, data.end);
     case CDA:
         return CdaAlgo(vec, data.start, data.end);
         break;
@@ -15,6 +17,8 @@ int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
         return BresenhamIntAlgo(vec, data.start, data.end);
         break;
     case BR_SMOOTH:
+        return BresenhamSmoothAlgo(vec, data.start, data.end);
+        break;
     case WU:
     default:
         SomeAlgo(vec, data.start, data.end);
@@ -32,7 +36,7 @@ int draw_Line(tScene &scene, const tData &data, ALGORITHM alg)
 
     case STANDART:
         //TODO
-        break;
+        //break;
     case BR_DOUBLE:
     case BR_INT:
     case BR_SMOOTH:

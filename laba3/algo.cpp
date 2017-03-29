@@ -1,6 +1,10 @@
 #include "algo.h"
 #include <QDebug>
 #include <math.h>
+#include <QImage>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#define EPS 0.00001
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
 int IsDegenerate(const QPoint &start, const QPoint &end)
@@ -112,6 +116,74 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
 
     return 0;
 }
+int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+{
+    if(IsDegenerate(start, end)) {
+        return DegenerateAlgo(vec, start);
+    }
+    double deltax = end.x() - start.x();
+    double deltay = end.y() - start.y();
+
+    double dx = SIGN(deltax);
+    double dy = SIGN(deltay);
+
+    double sx = fabs(deltax);
+    double sy = fabs(deltay);
+
+    int obmen = 0;
+
+    if(sx <= sy) {
+        obmen = 1;
+        swap(sx, sy);
+    }
+
+    double m = sy / sx;
+    double I = 1; //max intensivity
+    double e = I * 0.5;
+    m *= I;
+    double w = I - m;
+
+
+    double x = start.x();
+    double y = start.y();
+
+    for(int i = 0; i <= sx; i++) {
+        vec.push_back(tPoint(round(x), round(y), 1-e)); //can optim
+        //qDebug() << round(x) << round(y);
+       /* if(e < w) {
+            if(obmen)
+                y += dy;
+            else
+                x += dx;
+            e += m;
+        }
+        else if(e > w - EPS) {
+            y += dy;
+            x += dx;
+            e -= w;
+        }*/
+        if(e >= w) {
+            if(obmen)
+                x += dx;
+            else
+                y += dy;
+            e -= I;
+        }
+        if(obmen)
+            y += dy;
+        else
+            x += dx;
+        e += m;
+
+    }
+    if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
+
+        qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
+        return 1;
+    }
+
+    return 0;
+}
 
 int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
@@ -166,3 +238,14 @@ int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end
 
     return 0;
 }
+#include <QGraphicsObject>
+int StandartAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+{
+    return 0;
+    QGraphicsScene scene;
+    scene.setSceneRect(0, 0, max(start.x(), end.x()) + 1, max(start.y(), end.y()) + 1);
+    scene.addLine(QLineF(start, end));
+    //QGraphicsItem item;
+
+}
+
