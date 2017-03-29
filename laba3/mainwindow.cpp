@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setFixedSize(1200, 700);
     QHBoxLayout *layout = new QHBoxLayout;
     ui->centralWidget->setLayout(layout);
     this->setWindowTitle("Лабораторная работа №3");
@@ -17,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     myController   = new MyController();
     layout->addWidget(myController);
     myController->setFixedWidth(347); //magic :)
-    this->setFixedSize(1200, 700);
 
     QObject::connect(myPicture, SIGNAL(SendScene(tScene*)),
             this, SLOT(SendingScene(tScene*)));

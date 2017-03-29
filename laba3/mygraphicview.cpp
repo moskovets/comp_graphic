@@ -1,6 +1,9 @@
 #include "mygraphicview.h"
 #include "ui_mygraphicview.h"
 #include <iostream>
+#include <QDebug>
+#define BORDERX 200
+#define BORDERY 170
 
 MyGraphicView::MyGraphicView(QWidget *parent) :
      QGraphicsView(parent),
@@ -13,8 +16,10 @@ MyGraphicView::MyGraphicView(QWidget *parent) :
 
     my_scene.scene = new QGraphicsScene();   // Инициализируем сцену для отрисовки
     this->setScene(my_scene.scene);          // Устанавливаем сцену в виджет
-    int width = this->width();
-    int height = this->height();
+
+    int width  = BORDERX + this->width();
+    int height = BORDERY + this->height();
+    qDebug() << width << height;
     my_scene.scene->setSceneRect(0,0,width,height);
     my_scene.x_center = width / 2;
     my_scene.y_center = height / 2;
