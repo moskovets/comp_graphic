@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #define MIN_PAR 10
+#define LEN 300
 Text_Error LineEditError;
 
 
@@ -219,8 +220,8 @@ void Rotate(QPoint &p, QPoint center, double angle)
     //p.setX(center.x() + (buff.x() - center.x())*cos(angle));
     //p.setY(center.y() + (buff.y() - center.y())*sin(angle));
 
-    p.setX(center.x() + (double)(buff.x() - center.x())*cos(angle) - (double)(buff.y() - center.y())*sin(angle));
-    p.setY(center.y() + (double)(buff.x() - center.x())*sin(angle) +  (double)(buff.y() - center.y())*cos(angle));
+    p.setX(center.x() + round((double)(buff.x() - center.x())*cos(angle) - (double)(buff.y() - center.y())*sin(angle)));
+    p.setY(center.y() + round((double)(buff.x() - center.x())*sin(angle) +  (double)(buff.y() - center.y())*cos(angle)));
 }
 
 void MyController::on_dwawSunButton_clicked()
@@ -242,13 +243,14 @@ void MyController::on_dwawSunButton_clicked()
     }
     double teta = 0;
     double dteta = arr[0];
+    double len = LEN / (double)data.sizePixel;
     qDebug() << "я тут";
 //    QPoint start(scene.x_center, scene.y_center);
 //    QPoint end(scene.x_center+50, scene.y_center+50);
 
-    QPoint start(100, 100);
+    QPoint start(scene.x_center / (double)data.sizePixel, scene.y_center /  (double)data.sizePixel);
     data.start = start;
-    QPoint end(150, 100);
+    QPoint end(scene.x_center / (double)data.sizePixel  + len, scene.y_center / (double)data.sizePixel);
     while(teta < 360) {
         data.end = end;
         Rotate(data.end, start, teta);
