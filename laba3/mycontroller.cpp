@@ -10,8 +10,9 @@
 
 #define MIN_PAR 10
 #define LEN 300
-Text_Error LineEditError;
+#define MAX_PIXEL 100
 
+Text_Error LineEditError;
 
 MyController::MyController(QWidget *parent) :
     QWidget(parent),
@@ -122,6 +123,22 @@ ALGORITHM MyController::GetAlgorithm()
     std::cout << "oops\n";
     return STANDART;
 }
+bool MyController::ValidPoint(QPoint &p) {
+    double scale = 2 / data.sizePixel;
+    if(p.x() < 0 || p.x() >= scene.x_center * scale ||
+       p.y() < 0 || p.y() >= scene.y_center * scale)
+    {
+        QString mess = "Координаты точки должны быть неотрицательными целыми числами\n"
+                       "Для заданного размера пикселя максимальные координаты " +
+                QString::number(round(scene.x_center * scale)) + " " +
+                QString::number(round(scene.y_center * scale)) + "\n";
+        QErrorMessage errorMessage;
+        errorMessage.showMessage(mess);
+        errorMessage.exec();
+        return false;
+    }
+    return true;
+}
 
 void MyController::on_dwawlineButton_clicked()
 {
@@ -138,6 +155,11 @@ void MyController::on_dwawlineButton_clicked()
 
     data.start = QPoint(arr[0], arr[1]);
     data.end   = QPoint(arr[2], arr[3]);
+
+    if(!(ValidPoint(data.start) && ValidPoint(data.end))) {
+        delete[] arr;
+        return;
+    }
 
     if(ui->fonButton->isChecked()) {
         data.color = data.fon;
@@ -162,9 +184,15 @@ void MyController::on_sizePixelButton_clicked()
 
     if(LineEditError != NO_ER)
         return;
-    data.sizePixel = arr[0];
-    draw_Line(scene, data, CHANGE_SCALE);
-
+    if(arr[0] >= 1 && arr[0] <= MAX_PIXEL) {
+        data.sizePixel = arr[0];
+        draw_Line(scene, data, CHANGE_SCALE);
+    }
+    else {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Размер пикселя должен находится в пределах [1,100]\n");
+        errorMessage.exec();
+    }
     delete[] arr;
 }
 QString MyController::GetColor(QColor &color)

@@ -53,6 +53,7 @@ private slots:
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
+    bool ValidPoint(QPoint &p);
     ALGORITHM GetAlgorithm();
     tScene scene;
     tData data;
