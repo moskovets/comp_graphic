@@ -72,8 +72,8 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     double deltax = end.x() - start.x();
     double deltay = end.y() - start.y();
 
-    double dx = SIGN(deltax);
-    double dy = SIGN(deltay);
+    int dx = SIGN(deltax);
+    int dy = SIGN(deltay);
 
     double sx = fabs(deltax);
     double sy = fabs(deltay);
@@ -89,8 +89,8 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     double e = m - 0.5;
 
 
-    double x = start.x();
-    double y = start.y();
+    int x = start.x();
+    int y = start.y();
     for(int i = 1; i <= sx + 1; i++) {
         vec.push_back(tPoint(round(x), round(y), 1)); //can optim
         //qDebug() << round(x) << round(y);

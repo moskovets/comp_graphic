@@ -38,7 +38,7 @@ void tImage::printOnScene(tScene &scene)
 void tImage::addPixel(const tPoint &p, const QColor &color)
 {
     double inten = p.intensity * 255;
-    QColor c = QColor(color.red(), color.green(), color.blue(), (int) inten);
+    QColor c = QColor(color.red(), color.green(), color.blue(), (int) inten);  
     image.setPixelColor(QPoint(p.x, p.y), c);
 }
 
