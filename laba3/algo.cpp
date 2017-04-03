@@ -238,6 +238,67 @@ int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end
 
     return 0;
 }
+double mantissa(double a) {
+    return a - trunc(a);
+}
+int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+{
+    if(IsDegenerate(start, end)) {
+        return DegenerateAlgo(vec, start);
+    }
+    double x1 = start.x();
+    double y1 = start.y();
+    double x2 = end.x();
+    double y2 = end.y();
+
+    int obmen = 0;
+
+    if(fabs(y2 - y1) > fabs(x2 - x1)) {
+        obmen = 1;
+        swap(x1, y1);
+        swap(x2, y2);
+    }
+
+    if(x2 < x1) {
+        swap(x1, x2);
+        swap(y1, y2);
+    }
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+
+    double m = dy / dx;
+
+    double e = y1;
+    //x - int?
+
+    for(double x = x1; x < x2 - EPS; x += 1.0) {
+        if(obmen) {
+            vec.push_back(tPoint(round(e), round(x), 1-mantissa(e))); //can optim
+            vec.push_back(tPoint(round(e) - 1, round(x), mantissa(e))); //can optim
+        }
+        else {
+            vec.push_back(tPoint(round(x), round(e), 1-mantissa(e))); //can optim
+            vec.push_back(tPoint(round(x), round(e) - 1, mantissa(e))); //can optim
+        }
+        e += m;
+    }
+
+    if(obmen) {
+        vec.push_back(tPoint(y2, x2, 1));
+        vec.push_back(tPoint(y2 - 1, x2, 0));
+    }
+    else {
+        vec.push_back(tPoint(x2, y2, 1));
+        vec.push_back(tPoint(x2, y2 - 1, 0));
+    }
+
+    return 0;
+}
+
+
+
+
+
 #include <QGraphicsObject>
 int StandartAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
