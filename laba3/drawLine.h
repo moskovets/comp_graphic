@@ -31,7 +31,8 @@ class tImage {
         void changeFon(tScene &scene, const QColor &color);
         void changeScale(tScene &scene, int sizepixel);
         void drawLine(tScene &scene, const tLine &line);
-
+        void drawLine(tScene &scene, const QColor &c,
+                      const QPoint &start, const QPoint &end);
 
 };
 

@@ -294,19 +294,3 @@ int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 
     return 0;
 }
-
-
-
-
-
-#include <QGraphicsObject>
-int StandartAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
-{
-    return 0;
-    QGraphicsScene scene;
-    scene.setSceneRect(0, 0, max(start.x(), end.x()) + 1, max(start.y(), end.y()) + 1);
-    scene.addLine(QLineF(start, end));
-    //QGraphicsItem item;
-
-}
-

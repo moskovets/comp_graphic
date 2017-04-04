@@ -1,6 +1,7 @@
 #include <QPen>
 #include "drawLine.h"
 #include <QGraphicsItem>
+#include <QPainter>
 
 const QPen penBlack(Qt::black); // Задаём чёрную кисть
 
@@ -77,5 +78,16 @@ void tImage::drawLine(tScene &scene, const tLine &line)
     for(int i = 0; i < line.line.size(); i++) {
         this->addPixel(line.line[i], line.color);
     }
+    printOnScene(scene);
+}
+
+void tImage::drawLine(tScene &scene, const QColor &c,
+                      const QPoint &start, const QPoint &end)
+{
+    QPainter painter(&image);
+    painter.setPen(c);
+    painter.drawLine(start, end);
+    painter.end();
+
     printOnScene(scene);
 }
