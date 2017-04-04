@@ -37,9 +37,15 @@ void tImage::printOnScene(tScene &scene)
 
 void tImage::addPixel(const tPoint &p, const QColor &color)
 {
-    double inten = p.intensity * 255;
-    QColor c = QColor(color.red(), color.green(), color.blue(), (int) inten);  
-    image.setPixelColor(QPoint(p.x, p.y), c);
+    double i = p.intensity;
+    QColor fonColor = image.pixelColor(QPoint(p.x, p.y));
+    QColor res;
+    res.setGreen(color.green() * i + fonColor.green() * (1 - i));
+    res.setRed(color.red() * i + fonColor.red() * (1 - i));
+    res.setBlue(color.blue() * i + fonColor.blue() * (1 - i));
+
+    image.setPixelColor(QPoint(p.x, p.y), res);
+
 }
 
 tImage::tImage(tScene &scene, int sizepixel, const QColor &color)
