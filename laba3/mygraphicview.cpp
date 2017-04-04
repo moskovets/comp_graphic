@@ -2,8 +2,8 @@
 #include "ui_mygraphicview.h"
 #include <iostream>
 #include <QDebug>
-#define BORDERX 200
-#define BORDERY 170
+#define BORDERX 185
+#define BORDERY 160
 
 MyGraphicView::MyGraphicView(QWidget *parent) :
      QGraphicsView(parent),
