@@ -22,7 +22,8 @@ MyController::MyController(QWidget *parent) :
 
     par = parent;
     ui->setupUi(this);
-    Validator = new QRegExpValidator(QRegExp("^[+-]?[0-9]{0,5}(\\.|,|$)[0-9]{0,4}$"));
+//    Validator = new QRegExpValidator(QRegExp("^[+-]?[0-9]{0,5}(\\.|,|$)[0-9]{0,4}$"));
+    Validator = new QIntValidator(0, 1000);
     ui->dEdit->setValidator(Validator);
     ui->xstartEdit->setValidator(Validator);
     ui->xendEdit->setValidator(Validator);
@@ -124,9 +125,10 @@ ALGORITHM MyController::GetAlgorithm()
     return STANDART;
 }
 bool MyController::ValidPoint(QPoint &p) {
-    double scale = 2 / data.sizePixel;
-    if(p.x() < 0 || p.x() >= scene.x_center * scale ||
-       p.y() < 0 || p.y() >= scene.y_center * scale)
+    double scale = 2 / (double) data.sizePixel;
+    qDebug() << scale;
+    if(p.x() < 0 || p.x() > scene.x_center * scale ||
+       p.y() < 0 || p.y() > scene.y_center * scale)
     {
         QString mess = "Координаты точки должны быть неотрицательными целыми числами\n"
                        "Для заданного размера пикселя максимальные координаты " +
@@ -261,7 +263,13 @@ void MyController::on_dwawSunButton_clicked()
 
     if(LineEditError != NO_ER)
         return;
-
+    if(arr[0] < 1) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Угол должен быть Размер пикселя должен находится в пределах [1,100]\n");
+        errorMessage.exec();
+        delete[] arr;
+        return;
+    }
 
     if(ui->fonButton->isChecked()) {
         data.color = data.fon;

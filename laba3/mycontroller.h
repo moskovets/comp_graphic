@@ -60,7 +60,8 @@ private:
     QColor colorLine;
     Ui::MyController *ui;
     QWidget *par;
-    QRegExpValidator *Validator;
+//    QRegExpValidator *Validator;
+    QIntValidator *Validator;
 
 };
 
