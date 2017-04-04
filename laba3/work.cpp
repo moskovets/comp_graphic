@@ -69,21 +69,21 @@ int draw_Line(tAnaliz &ret, const tData &data, ALGORITHM alg)
 {
     tLine line;
 
+    int step = 1;
+
     switch(alg) {
 
     case STANDART:
         //TODO
         break;
+    case WU:
+        step = 2;
     case BR_DOUBLE:
     case BR_INT:
     case BR_SMOOTH:
     case CDA:
         draw_Algorithm(line.line, data, alg);
-        ret.max_step = AnalizMaxStep(line.line);
-        break;
-    case WU:
-        draw_Algorithm(line.line, data, alg);
-        ret.max_step = AnalizMaxStep(line.line, 2);
+        ret.max_step = AnalizMaxStep(line.line, step);
         break;
 
     default:
