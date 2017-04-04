@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     errors.cpp \
     work.cpp \
     drawLine.cpp \
-    algo.cpp
+    algo.cpp \
+    analizalgo.cpp
 
 HEADERS  += mainwindow.h \
     mygraphicview.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     drawLine.h \
     point.h \
     algo.h \
-    point.h
+    point.h \
+    analizalgo.h
 
 FORMS    += mainwindow.ui \
     mygraphicview.ui \

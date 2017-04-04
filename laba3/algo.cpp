@@ -7,6 +7,23 @@
 #define EPS 0.00001
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
+
+int AnalizMaxStep(vector<tPoint> &vec, int step)
+{
+    int res = 1;
+    int tmp = 1;
+    for(int i = step; i < vec.size(); i += step) {
+        if(vec[i].x == vec[i-step].x || vec[i].y == vec[i-step].y) {
+            tmp++;
+            if(tmp > res)
+                res = tmp;
+        }
+        else
+           tmp = 1;
+    }
+    return res;
+}
+
 int IsDegenerate(const QPoint &start, const QPoint &end)
 {
     if(start.x() == end.x() && start.y() == end.y())

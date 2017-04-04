@@ -23,7 +23,12 @@ struct tData {
     QColor color;
     QColor fon;
 };
+struct tAnaliz {
+    time_t time;
+    int max_step;
+};
 
 int draw_Line(tScene &scene, const tData &data, ALGORITHM alg);
+int draw_Line(tAnaliz &ret, const tData &data, ALGORITHM alg);
 
 #endif // WORK_H
