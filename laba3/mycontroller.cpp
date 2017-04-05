@@ -306,3 +306,7 @@ void MyController::on_dwawSunButton_clicked()
     delete[] arr;
 
 }
+
+
+
+

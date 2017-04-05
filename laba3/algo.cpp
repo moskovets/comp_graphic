@@ -57,7 +57,7 @@ int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
     double lx = fabs(dx);
     double ly = fabs(dy);
 
-    double l;
+    int l;
     if(lx > ly)
         l = lx;
     else
@@ -68,14 +68,13 @@ int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 
     double x = start.x();
     double y = start.y();
-    for(int i = 1; i <= int (l+1); i++) {
+    for(int i = 1; i <= l+1; i++) {
         vec.push_back(tPoint(round(x), round(y), 1));
         //qDebug() << x << y;
         x += dx;
         y += dy;
     }
     if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
-
         qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
         return 1;
     }
@@ -109,7 +108,7 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     int x = start.x();
     int y = start.y();
     for(int i = 1; i <= sx + 1; i++) {
-        vec.push_back(tPoint(round(x), round(y), 1)); //can optim
+        vec.push_back(tPoint(x, y, 1));
         //qDebug() << round(x) << round(y);
         if(e >= 0) {
             if(obmen)
@@ -141,8 +140,8 @@ int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     double deltax = end.x() - start.x();
     double deltay = end.y() - start.y();
 
-    double dx = SIGN(deltax);
-    double dy = SIGN(deltay);
+    int dx = SIGN(deltax);
+    int dy = SIGN(deltay);
 
     double sx = fabs(deltax);
     double sy = fabs(deltay);
@@ -161,24 +160,11 @@ int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     double w = I - m;
 
 
-    double x = start.x();
-    double y = start.y();
+    int x = start.x();
+    int y = start.y();
 
     for(int i = 0; i <= sx; i++) {
-        vec.push_back(tPoint(round(x), round(y), 1-e)); //can optim
-        //qDebug() << round(x) << round(y);
-       /* if(e < w) {
-            if(obmen)
-                y += dy;
-            else
-                x += dx;
-            e += m;
-        }
-        else if(e > w - EPS) {
-            y += dy;
-            x += dx;
-            e -= w;
-        }*/
+        vec.push_back(tPoint(x, y, 1-e)); //can optim
         if(e >= w) {
             if(obmen)
                 x += dx;
@@ -288,14 +274,14 @@ int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
     double e = y1;
     //x - int?
 
-    for(double x = x1; x < x2 - EPS; x += 1.0) {
+    for(int x = x1; x < x2; x++) {
         if(obmen) {
-            vec.push_back(tPoint(round(e), round(x), 1-mantissa(e))); //can optim
-            vec.push_back(tPoint(round(e) - 1, round(x), mantissa(e))); //can optim
+            vec.push_back(tPoint(round(e), x, 1-mantissa(e))); //can optim
+            vec.push_back(tPoint(round(e) - 1, x, mantissa(e))); //can optim
         }
         else {
-            vec.push_back(tPoint(round(x), round(e), 1-mantissa(e))); //can optim
-            vec.push_back(tPoint(round(x), round(e) - 1, mantissa(e))); //can optim
+            vec.push_back(tPoint(x, round(e), 1-mantissa(e))); //can optim
+            vec.push_back(tPoint(x, round(e) - 1, mantissa(e))); //can optim
         }
         e += m;
     }
