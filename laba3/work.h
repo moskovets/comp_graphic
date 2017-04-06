@@ -23,8 +23,10 @@ struct tData {
     QColor color;
     QColor fon;
 };
+
+typedef unsigned long long int tick_t;
 struct tAnaliz {
-    double time;
+    tick_t time;
     int max_step;
 };
 
