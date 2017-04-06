@@ -4,15 +4,17 @@
 #include <point.h>
 #include <qpoint.h>
 
+typedef unsigned long long tick_t;
+
 using namespace std;
 
 int AnalizMaxStep(vector<tPoint> &vec, int step = 1);
 
 int SomeAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
-double CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
-double BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
-double BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
-double BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
-double WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+tick_t CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+tick_t BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+tick_t BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+tick_t BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
+tick_t WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end);
 
 #endif // ALGO_H

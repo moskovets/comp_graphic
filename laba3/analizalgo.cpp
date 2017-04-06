@@ -47,7 +47,7 @@ void AnalizTime(ALGORITHM algo, ofstream &out)
     double len = LINE_LEN;
     double dteta = 1;
     int iter = 50;
-    double sum_time = 0;
+    tick_t sum_time = 0;
     tAnaliz res;
 
     QPoint start(LINE_LEN, LINE_LEN);
@@ -63,7 +63,7 @@ void AnalizTime(ALGORITHM algo, ofstream &out)
             data.end = end;
             Rotate(data.end, start, teta);
             draw_Line(res, data, algo);
-            sum_time += (double)res.time;
+            sum_time += res.time;
             teta += dteta;
         }
     }
@@ -76,7 +76,7 @@ void AnalizTime(ALGORITHM algo, ofstream &out)
 
 void Analize()
 {
-    srand(time(0));
+    srand(0);
     ofstream out;
     out.open("results.txt");
     out << "Анализ времени работы\n";
