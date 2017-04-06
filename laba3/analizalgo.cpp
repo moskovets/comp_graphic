@@ -45,7 +45,6 @@ void AnalizStep(ALGORITHM algo, ofstream &out)
 void AnalizTime(ALGORITHM algo, ofstream &out)
 {
     double len = LINE_LEN;
-    double teta = 0;
     double dteta = 1;
     int iter = 50;
     double sum_time = 0;
@@ -58,8 +57,9 @@ void AnalizTime(ALGORITHM algo, ofstream &out)
     for(int i = 0; i < iter; i++) {
 
         QPoint end(LINE_LEN + LINE_LEN, LINE_LEN);
+        double teta = 0;
 
-        while(teta <= 360) {
+        while(teta < 360) {
             data.end = end;
             Rotate(data.end, start, teta);
             draw_Line(res, data, algo);
@@ -68,6 +68,7 @@ void AnalizTime(ALGORITHM algo, ofstream &out)
         }
     }
     sum_time /= iter;
+    sum_time /= 360;
 
     out << sum_time << endl;
 }
