@@ -2,7 +2,7 @@
 #include "QGraphicsItem"
 #include "drawLine.h"
 #include "algo.h"
-int draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
+double draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
 {
     switch(alg) {
     case CDA:
@@ -70,7 +70,7 @@ int draw_Line(tAnaliz &ret, const tData &data, ALGORITHM alg)
     tLine line;
 
     int step = 1;
-    time_t t1, t2;
+    //time_t t1, t2;
 
     switch(alg) {
 
@@ -83,10 +83,10 @@ int draw_Line(tAnaliz &ret, const tData &data, ALGORITHM alg)
     case BR_INT:
     case BR_SMOOTH:
     case CDA:
-        t1 = clock();
-        draw_Algorithm(line.line, data, alg);
-        t2 = clock();
-        ret.time = t2 - t1;
+        //t1 = clock();
+        ret.time = draw_Algorithm(line.line, data, alg);
+        //t2 = clock();
+        //ret.time = t2 - t1;
         ret.max_step = AnalizMaxStep(line.line, step);
         break;
    default:

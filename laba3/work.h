@@ -24,7 +24,7 @@ struct tData {
     QColor fon;
 };
 struct tAnaliz {
-    time_t time;
+    double time;
     int max_step;
 };
 

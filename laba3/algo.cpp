@@ -4,9 +4,21 @@
 #include <QImage>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <ctime>
 #define EPS 0.00001
 #define SIGN(x) ((int) (x > 0) - (x < 0))
+typedef unsigned long long tick_t;
 
+tick_t tick(void)
+{
+    tick_t d;
+    __asm__ __volatile__
+    (
+        "rdtsc"
+        : "=A" (d)
+    );
+    return d;
+}
 
 int AnalizMaxStep(vector<tPoint> &vec, int step)
 {
@@ -46,11 +58,14 @@ int SomeAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
     k += 30;
 }
 
-int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+double CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
+    tick_t res_time = 0;
+    tick_t t2, t1 = tick();
+
     double dx = end.x() - start.x();
     double dy = end.y() - start.y();
 
@@ -65,26 +80,36 @@ int CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 
     dx /= l;
     dy /= l;
+    res_time = 0;
 
     double x = start.x();
     double y = start.y();
     for(int i = 1; i <= l+1; i++) {
+        t2 = tick();
+        res_time += t2 - t1;
         vec.push_back(tPoint(round(x), round(y), 1));
+        t1 = tick();
         //qDebug() << x << y;
         x += dx;
         y += dy;
     }
+    t2 = tick();
+    res_time += t2 - t1;
+
     if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
         qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
-        return 1;
+        return -1;
     }
-    return 0;
+    return res_time;
 }
-int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+double BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
+    tick_t res_time = 0;
+    tick_t t2, t1 = tick();
+
     double deltax = end.x() - start.x();
     double deltay = end.y() - start.y();
 
@@ -104,11 +129,15 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
     double m = sy / sx;
     double e = m - 0.5;
 
+    res_time = 0;
 
     int x = start.x();
     int y = start.y();
     for(int i = 1; i <= sx + 1; i++) {
+        t2 = tick();
+        res_time += t2 - t1;
         vec.push_back(tPoint(x, y, 1));
+        t1 = tick();
         //qDebug() << round(x) << round(y);
         if(e >= 0) {
             if(obmen)
@@ -124,19 +153,24 @@ int BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
             x += dx;
         e += m;
     }
+    t2 = tick();
+    res_time += t2 - t1;
+
     if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
 
         qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
-        return 1;
+        return -1;
     }
 
-    return 0;
+    return res_time;
 }
-int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+double BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
+    tick_t res_time = 0;
+    tick_t t2, t1 = tick();
     double deltax = end.x() - start.x();
     double deltay = end.y() - start.y();
 
@@ -162,9 +196,13 @@ int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
 
     int x = start.x();
     int y = start.y();
+    res_time = 0;
 
     for(int i = 0; i <= sx; i++) {
+        t2 = tick();
+        res_time += t2 - t1;
         vec.push_back(tPoint(x, y, 1-e)); //can optim
+        t1 = tick();
         if(e >= w) {
             if(obmen)
                 x += dx;
@@ -179,20 +217,24 @@ int BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &
         e += m;
 
     }
+    t2 = tick();
+    res_time += t2 - t1;
     if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
 
         qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
-        return 1;
+        return -1;
     }
-
-    return 0;
+    return res_time;
 }
 
-int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+double BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
+    tick_t res_time = 0;
+    tick_t t2, t1 = tick();
+
     int deltax = end.x() - start.x();
     int deltay = end.y() - start.y();
 
@@ -212,12 +254,16 @@ int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end
     int e = 2*sy - sx;
     int d2x = 2*sx;
     int d2y = 2*sy;
+    res_time = 0;
 
 
     int x = start.x();
     int y = start.y();
     for(int i = 1; i <= sx + 1; i++) {
+        t2 = tick();
+        res_time += t2 - t1;
         vec.push_back(tPoint(x, y, 1));
+        t1 = tick();
         //qDebug() << round(x) << round(y);
         if(e >= 0) {
             if(obmen)
@@ -233,22 +279,26 @@ int BresenhamIntAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end
             x += dx;
         e += d2y;
     }
+    t2 = tick();
+    res_time += t2 - t1;
     if(vec[vec.size() - 1].x != end.x() || vec[vec.size() - 1].y != end.y()) {
 
         qDebug() << "Мимо! :)" << vec[vec.size() - 1].x << vec[vec.size() - 1].y;
-        return 1;
+        return -1;
     }
-
-    return 0;
+    return res_time;
 }
 double mantissa(double a) {
     return a - trunc(a);
 }
-int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
+double WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 {
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
+    tick_t res_time = 0;
+    tick_t t2, t1 = tick();
+
     double x1 = start.x();
     double y1 = start.y();
     double x2 = end.x();
@@ -273,8 +323,10 @@ int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
 
     double e = y1;
     //x - int?
-
+    res_time = 0;
     for(int x = x1; x < x2; x++) {
+        t2 = tick();
+        res_time += t2 - t1;
         if(obmen) {
             vec.push_back(tPoint(round(e), x, 1-mantissa(e))); //can optim
             vec.push_back(tPoint(round(e) - 1, x, mantissa(e))); //can optim
@@ -283,8 +335,11 @@ int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
             vec.push_back(tPoint(x, round(e), 1-mantissa(e))); //can optim
             vec.push_back(tPoint(x, round(e) - 1, mantissa(e))); //can optim
         }
+        t1 = tick();
         e += m;
     }
+    t2 = tick();
+    res_time += t2 - t1;
 
     if(obmen) {
         vec.push_back(tPoint(y2, x2, 1));
@@ -295,5 +350,5 @@ int WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
         vec.push_back(tPoint(x2, y2 - 1, 0));
     }
 
-    return 0;
+    return res_time;
 }
