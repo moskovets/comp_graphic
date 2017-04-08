@@ -21,7 +21,7 @@ double draw_Algorithm(vector<tPoint> &vec, const tData &data, ALGORITHM alg)
         return WuAlgo(vec, data.start, data.end);
         break;
     default:
-        SomeAlgo(vec, data.start, data.end);
+        return -1;
     }
     return 0;
 }

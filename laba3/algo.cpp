@@ -23,7 +23,7 @@ int AnalizMaxStep(vector<tPoint> &vec, int step)
 {
     int res = 1;
     int tmp = 1;
-    for(int i = step; i < vec.size(); i += step) {
+    for(unsigned int i = step; i < vec.size(); i += step) {
         if(vec[i].x == vec[i-step].x || vec[i].y == vec[i-step].y) {
             tmp++;
             if(tmp > res)
@@ -46,15 +46,6 @@ int DegenerateAlgo(vector<tPoint> &vec, const QPoint &p)
 {
     vec.push_back(tPoint(p.x(), p.y(), 1));
     return 0;
-}
-
-int SomeAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
-{
-    static int k = 0;
-    for(int i = 0; i < 20; i++) {
-        vec.push_back(tPoint(i+k, i+k, 1));
-    }
-    k += 30;
 }
 
 tick_t CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
@@ -89,8 +80,7 @@ tick_t CdaAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
         xi = round(x);
         yi = round(y);
         res_time += tick() - t1;
-        vec.push_back(tPoint(x, y, 1));
-        // vec.push_back(tPoint(round(x), round(y), 1)); FUCK
+        vec.push_back(tPoint(xi, yi, 1));
         t1 = tick();
         //qDebug() << x << y;
         x += dx;
@@ -109,8 +99,8 @@ tick_t BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoin
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
-    int deltax = end.x() - start.x(); // Err not double
-    int deltay = end.y() - start.y(); // Err not double
+    int deltax = end.x() - start.x();
+    int deltay = end.y() - start.y();
 
     tick_t res_time = 0;
     tick_t t1 = tick();
@@ -118,8 +108,8 @@ tick_t BresenhamDoubleAlgo(vector<tPoint> &vec, const QPoint &start, const QPoin
     int dx = SIGN(deltax);
     int dy = SIGN(deltay);
 
-    int sx = fabs(deltax); // Err not double
-    int sy = fabs(deltay); // Err not double
+    int sx = fabs(deltax);
+    int sy = fabs(deltay);
 
     int obmen = 0;
 
@@ -169,8 +159,8 @@ tick_t BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoin
     if(IsDegenerate(start, end)) {
         return DegenerateAlgo(vec, start);
     }
-    int deltax = end.x() - start.x(); // Err not double
-    int deltay = end.y() - start.y(); // Err not double
+    int deltax = end.x() - start.x();
+    int deltay = end.y() - start.y();
 
     tick_t res_time = 0;
     tick_t t1 = tick();
@@ -178,8 +168,8 @@ tick_t BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoin
     int dx = SIGN(deltax);
     int dy = SIGN(deltay);
 
-    int sx = fabs(deltax);  // Err not double
-    int sy = fabs(deltay);  // Err not double
+    int sx = fabs(deltax);
+    int sy = fabs(deltay);
 
     int obmen = 0;
 
@@ -203,7 +193,7 @@ tick_t BresenhamSmoothAlgo(vector<tPoint> &vec, const QPoint &start, const QPoin
     for(int i = 0; i <= sx; i++) {
         tmp = 1 - e;
         res_time += tick() - t1;
-        vec.push_back(tPoint(x, y, tmp)); //can optim
+        vec.push_back(tPoint(x, y, tmp));
         t1 = tick();
         if(e >= w) {
             if(obmen)
@@ -316,24 +306,32 @@ tick_t WuAlgo(vector<tPoint> &vec, const QPoint &start, const QPoint &end)
         swap(x1, x2);
         swap(y1, y2);
     }
-    int dx = x2 - x1; // Err not double
-    int dy = y2 - y1; // Err not double
+    int dx = x2 - x1;
+    int dy = y2 - y1;
 
     double m = double(dy) / dx;
 
     double e = y1;
-    //x - int?
+    int re = 0;
+    int re1 = 0;
+    int me = 0;
+    int me1 = 0;
     res_time = 0;
     for(int x = x1; x < x2; x++) {
+        re = round(e);
+        re1 = re - 1;
+        me = mantissa(e);
+        me1 = 1 - me;
+
         res_time += tick() - t1;
-        // FUCK!
+
         if(obmen) {
-            vec.push_back(tPoint(round(e), x, 1-mantissa(e))); //can optim
-            vec.push_back(tPoint(round(e) - 1, x, mantissa(e))); //can optim
+            vec.push_back(tPoint(re, x, me1));
+            vec.push_back(tPoint(re1, x, me));
         }
         else {
-            vec.push_back(tPoint(x, round(e), 1-mantissa(e))); //can optim
-            vec.push_back(tPoint(x, round(e) - 1, mantissa(e))); //can optim
+            vec.push_back(tPoint(x, re, me1));
+            vec.push_back(tPoint(x, re1, me));
         }
         t1 = tick();
         e += m;
