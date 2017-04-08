@@ -2,7 +2,7 @@
 #define MYCONTROLLER_H
 
 #include "my_scene.h"
-#include "drawLine.h"
+#include "CImage.h"
 
 
 #include <QWidget>

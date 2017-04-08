@@ -17,16 +17,16 @@ SOURCES += main.cpp\
     mygraphicview.cpp \
     mycontroller.cpp \
     errors.cpp \
-    drawLine.cpp
+    CImage.cpp
 
 HEADERS  += mainwindow.h \
     mygraphicview.h \
     mycontroller.h \
     my_scene.h \
     errors.h \
-    drawLine.h \
     point.h \
-    point.h
+    point.h \
+    CImage.h
 
 FORMS    += mainwindow.ui \
     mygraphicview.ui \
