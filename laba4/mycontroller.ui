@@ -216,7 +216,7 @@
         <string>0</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="dwawellipseButton">
+      <widget class="QPushButton" name="drawellipseButton">
        <property name="geometry">
         <rect>
          <x>4</x>
@@ -235,7 +235,7 @@
         <string>Нарисовать</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="dwawSunButton">
+      <widget class="QPushButton" name="drawSunButton">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -604,6 +604,9 @@
        </property>
        <property name="text">
         <string>Окружность</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QRadioButton" name="ellipseButton">
