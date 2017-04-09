@@ -59,16 +59,29 @@ class CImage {
         void addPixel(const tPoint &p,
                       const QColor &color);
     public:
-        CImage() {} //todo
+        CImage(); //todo
         CImage(int w, int h, int sizepixel); //todo
         CImage(tScene &scene, int sizepixel, const QColor &color);
         CImage(tScene &scene, tPaintParam &param);
         void changeFon(tScene &scene, const QColor &color);
         void changeScale(tScene &scene, int sizepixel);
 
+        double algoBresenham(tScene &scene, const tDataEllipse &data);
+        double algoMidPoint (tScene &scene, const tDataEllipse &data);
+        double algoCanonEq  (tScene &scene, const tDataEllipse &data);
+        double algoParamEq  (tScene &scene, const tDataEllipse &data);
+        double algoStandart (tScene &scene, const tDataEllipse &data);
+
+        double algoBresenham(tScene &scene, const tDataCircle &data);
+        double algoMidPoint (tScene &scene, const tDataCircle &data);
+        double algoCanonEq  (tScene &scene, const tDataCircle &data);
+        double algoParamEq  (tScene &scene, const tDataCircle &data);
+        double algoStandart (tScene &scene, const tDataCircle &data);
+
         double draw_Algorithm(tScene &scene, const tDataEllipse &data, ALGORITHM alg);
         double draw_Algorithm(tScene &scene, const tDataCircle &data,  ALGORITHM alg);
 
 };
+
 
 #endif // CIMAGE_H
