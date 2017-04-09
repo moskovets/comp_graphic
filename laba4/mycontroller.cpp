@@ -30,7 +30,8 @@ MyController::MyController(QWidget *parent) :
     ui->yEdit->setValidator(Validator);
     ui->rxEdit->setValidator(Validator);
     ui->ryEdit->setValidator(Validator);
-    ui->rstartEdit->setValidator(Validator);
+    ui->rxstartEdit->setValidator(Validator);
+    ui->rystartEdit->setValidator(Validator);
     ui->nEdit->setValidator(Validator);
     ui->sizeEdit->setValidator(Validator);
 
@@ -280,9 +281,11 @@ void MyController::on_drawellipseButton_clicked()
 void MyController::on_ellipseButton_clicked()
 {
     ui->ryEdit->setDisabled(false);
+    ui->rystartEdit->setDisabled(false);
 }
 
 void MyController::on_circleButton_clicked()
 {
     ui->ryEdit->setDisabled(true);
+    ui->rystartEdit->setDisabled(true);
 }

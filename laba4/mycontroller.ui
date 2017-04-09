@@ -144,8 +144,8 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>210</x>
-         <y>60</y>
+         <x>213</x>
+         <y>77</y>
          <width>41</width>
          <height>21</height>
         </rect>
@@ -156,7 +156,7 @@
         </font>
        </property>
        <property name="text">
-        <string>ΔR</string>
+        <string>ΔR_x</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_7">
@@ -207,7 +207,7 @@
        <property name="geometry">
         <rect>
          <x>270</x>
-         <y>60</y>
+         <y>77</y>
          <width>61</width>
          <height>21</height>
         </rect>
@@ -272,11 +272,11 @@
         <string>Ry</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="rstartEdit">
+      <widget class="QLineEdit" name="rxstartEdit">
        <property name="geometry">
         <rect>
          <x>270</x>
-         <y>30</y>
+         <y>28</y>
          <width>61</width>
          <height>21</height>
         </rect>
@@ -288,8 +288,8 @@
       <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
-         <x>210</x>
-         <y>90</y>
+         <x>219</x>
+         <y>103</y>
          <width>41</width>
          <height>21</height>
         </rect>
@@ -306,9 +306,9 @@
       <widget class="QLabel" name="label_8">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>30</y>
-         <width>81</width>
+         <x>219</x>
+         <y>29</y>
+         <width>31</width>
          <height>21</height>
         </rect>
        </property>
@@ -318,14 +318,45 @@
         </font>
        </property>
        <property name="text">
-        <string>R_start[x]</string>
+        <string>Rx</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="nEdit">
        <property name="geometry">
         <rect>
          <x>270</x>
-         <y>90</y>
+         <y>103</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>219</x>
+         <y>52</y>
+         <width>31</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Ry</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="rystartEdit">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>53</y>
          <width>61</width>
          <height>21</height>
         </rect>
