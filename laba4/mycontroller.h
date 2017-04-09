@@ -53,6 +53,8 @@ private slots:
 
     void on_circleButton_clicked();
 
+    void on_drawSunButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);

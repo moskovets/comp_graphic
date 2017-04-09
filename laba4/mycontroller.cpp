@@ -289,3 +289,49 @@ void MyController::on_circleButton_clicked()
     ui->ryEdit->setDisabled(true);
     ui->rystartEdit->setDisabled(true);
 }
+
+void MyController::on_drawSunButton_clicked()
+{
+    vector<QLineEdit*> edits;
+    edits.push_back(ui->rxstartEdit);
+    edits.push_back(ui->rystartEdit);
+    edits.push_back(ui->drEdit);
+    edits.push_back(ui->nEdit);
+
+    double *arr = GetData(edits);
+
+    if(LineEditError != NO_ER)
+        return;
+
+    if(ui->fonButton->isChecked()) {
+        data.color = data.fon;
+    }
+    else {
+        data.color = colorLine;
+    }
+    QPoint center(scene.x_center / (double)data.sizePixel, scene.y_center /  (double)data.sizePixel);
+
+    int x = arr[0];
+    double y = arr[1];
+    int dx = arr[2];
+    double dy = 0;
+    if(x != 0)
+        dy = (double) y / x * dx;
+
+    for(int i = 0; i < arr[3]; i++) {
+
+        if(ui->ellipseButton->isChecked()) {
+            drawEllipse(center, x, round(y));
+        }
+
+        if(ui->circleButton->isChecked()) {
+            drawCircle(center, x);
+        }
+        y += dy;
+        x += dx;
+    }
+
+
+    delete[] arr;
+
+}
