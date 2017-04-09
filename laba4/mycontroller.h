@@ -49,6 +49,10 @@ private slots:
 
     void on_drawellipseButton_clicked();
 
+    void on_ellipseButton_clicked();
+
+    void on_circleButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);

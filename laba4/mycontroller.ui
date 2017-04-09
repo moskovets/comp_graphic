@@ -522,18 +522,6 @@
         <string>Задать</string>
        </property>
       </widget>
-      <zorder>linelabel</zorder>
-      <zorder>label_12</zorder>
-      <zorder>label_13</zorder>
-      <zorder>fonlabel</zorder>
-      <zorder>label_15</zorder>
-      <zorder>sizeEdit</zorder>
-      <zorder>foncolorButton</zorder>
-      <zorder>linecolorButton</zorder>
-      <zorder>fonButton</zorder>
-      <zorder>sizePixelButton</zorder>
-      <zorder>groupBox_3</zorder>
-      <zorder>groupBox</zorder>
      </widget>
     </item>
     <item>
@@ -606,7 +594,7 @@
         <string>Окружность</string>
        </property>
        <property name="checked">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QRadioButton" name="ellipseButton">
@@ -620,6 +608,9 @@
        </property>
        <property name="text">
         <string>Эллипс</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>

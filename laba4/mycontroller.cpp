@@ -276,3 +276,13 @@ void MyController::on_drawellipseButton_clicked()
 
     delete[] arr;
 }
+
+void MyController::on_ellipseButton_clicked()
+{
+    ui->ryEdit->setDisabled(false);
+}
+
+void MyController::on_circleButton_clicked()
+{
+    ui->ryEdit->setDisabled(true);
+}
