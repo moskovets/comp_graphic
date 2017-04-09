@@ -95,7 +95,11 @@ double CImage::algoParamEq(tScene &scene, const tDataEllipse &data)
 
 double CImage::algoStandart(tScene &scene, const tDataEllipse &data)
 {
-
+    QPainter painter(&image);
+    painter.setPen(data.param.color);
+    painter.drawEllipse(data.center, data.rx, data.ry);
+    painter.end();
+    printOnScene(scene);
 }
 
 double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
@@ -120,7 +124,11 @@ double CImage::algoParamEq(tScene &scene, const tDataCircle &data)
 
 double CImage::algoStandart(tScene &scene, const tDataCircle &data)
 {
-
+    tDataEllipse new_data;
+    new_data.param = data.param;
+    new_data.center = data.center;
+    new_data.rx = new_data.ry = data.radius;
+    return algoStandart(scene, new_data);
 }
 
 
