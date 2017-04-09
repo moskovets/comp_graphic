@@ -54,7 +54,7 @@ private:
     ALGORITHM GetAlgorithm();
     tScene scene;
     tPaintParam  data;
-    tImage image;
+    CImage image;
     Ui::MyController *ui;
     QWidget *par;
 //    QRegExpValidator *Validator;

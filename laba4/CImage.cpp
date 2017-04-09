@@ -16,7 +16,7 @@ tick_t tick(void)
     return d;
 }
 
-void tImage::printOnScene(tScene &scene)
+void CImage::printOnScene(tScene &scene)
 {
     QImage image_tmp = image.scaled(QSize(image.width() * scale,
                        image.height() * scale));
@@ -26,7 +26,7 @@ void tImage::printOnScene(tScene &scene)
     scene.scene->addPixmap(pixmap);
 }
 
-void tImage::addPixel(const tPoint &p, const QColor &color)
+void CImage::addPixel(const tPoint &p, const QColor &color)
 {
     double i = p.intensity;
     QColor fonColor = image.pixelColor(QPoint(p.x, p.y));
@@ -39,7 +39,7 @@ void tImage::addPixel(const tPoint &p, const QColor &color)
 
 }
 
-tImage::tImage(tScene &scene, int sizepixel, const QColor &color)
+CImage::CImage(tScene &scene, int sizepixel, const QColor &color)
 {
     image = QImage((int)scene.scene->width() / sizepixel, (int)scene.scene->height() / sizepixel, QImage::Format_ARGB32);
     image.fill(color);
@@ -47,15 +47,23 @@ tImage::tImage(tScene &scene, int sizepixel, const QColor &color)
     scale = sizepixel;
     printOnScene(scene);
 }
+CImage::CImage(tScene &scene, tPaintParam &param)
+{
+    fon = param.fon;
+    scale = param.sizePixel;
+    image = QImage((int)scene.scene->width() / scale, (int)scene.scene->height() / scale, QImage::Format_ARGB32);
+    image.fill(fon);
+    printOnScene(scene);
+}
 
-void tImage::changeFon(tScene &scene, const QColor &color)
+void CImage::changeFon(tScene &scene, const QColor &color)
 {
     image.fill(color);
     fon = color;
     printOnScene(scene);
 }
 
-void tImage::changeScale(tScene &scene, int sizepixel)
+void CImage::changeScale(tScene &scene, int sizepixel)
 {
     image = QImage((int)scene.scene->width() / sizepixel, (int)scene.scene->height() / sizepixel, QImage::Format_RGB888);
     image.fill(fon);

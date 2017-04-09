@@ -43,7 +43,7 @@ void MyController::GetScene(tScene *scene1)
     this->scene.x_center = scene1->x_center;
     this->scene.y_center = scene1->y_center;
     this->scene.scene = scene1->scene;
-    image = tImage(scene, data.sizePixel, data.fon);
+    image = CImage(scene, data);
 
 }
 
@@ -206,7 +206,7 @@ void MyController::on_linecolorButton_clicked()
 
 void MyController::on_clearButton_clicked()
 {
-    image = tImage(scene, data.sizePixel, data.fon);
+    image = CImage(scene, data);
 }
 void Rotate(QPoint &p, QPoint center, double angle)
 {

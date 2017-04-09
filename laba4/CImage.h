@@ -50,7 +50,7 @@ struct tAnaliz {
     int max_step;
 };
 
-class tImage {
+class CImage {
     private:
         QImage image;
         QColor fon;
@@ -59,9 +59,10 @@ class tImage {
         void addPixel(const tPoint &p,
                       const QColor &color);
     public:
-        tImage() {} //todo
-        tImage(int w, int h, int sizepixel); //todo
-        tImage(tScene &scene, int sizepixel, const QColor &color); // add from param
+        CImage() {} //todo
+        CImage(int w, int h, int sizepixel); //todo
+        CImage(tScene &scene, int sizepixel, const QColor &color);
+        CImage(tScene &scene, tPaintParam &param);
         void changeFon(tScene &scene, const QColor &color);
         void changeScale(tScene &scene, int sizepixel);
 
