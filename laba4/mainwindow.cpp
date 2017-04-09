@@ -8,8 +8,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(1200, 700);
+    //QHBoxLayout *mainLayout = new QHBoxLayout;
+    ui->centralWidget->setLayout(ui->mainLayout);
+    //QTabWidget *tab = new QTabWidget();
+    //mainLayout->addWidget(tab);
     QHBoxLayout *layout = new QHBoxLayout;
-    ui->centralWidget->setLayout(layout);
+    //tab->addTab(layout, "draw");
+    ui->draw->setLayout(layout);
     this->setWindowTitle("Лабораторная работа №4");
 
     myPicture   = new MyGraphicView();
