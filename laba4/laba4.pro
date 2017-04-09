@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += widgets printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,7 +18,9 @@ SOURCES += main.cpp\
     mygraphicview.cpp \
     mycontroller.cpp \
     errors.cpp \
-    CImage.cpp
+    CImage.cpp \
+    mytimeanaliz.cpp \
+    qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     mygraphicview.h \
@@ -26,7 +29,9 @@ HEADERS  += mainwindow.h \
     errors.h \
     point.h \
     point.h \
-    CImage.h
+    CImage.h \
+    mytimeanaliz.h \
+    qcustomplot.h
 
 FORMS    += mainwindow.ui \
     mygraphicview.ui \

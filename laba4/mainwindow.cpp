@@ -27,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(myPicture, SIGNAL(SendScene(tScene*)),
             this, SLOT(SendingScene(tScene*)));
     myPicture->Connect();
+
+
+    QHBoxLayout *layout2 = new QHBoxLayout;
+    ui->analiz->setLayout(layout2);
+    myTimeanaliz = new MyTimeanaliz;
+    layout2->addWidget(myTimeanaliz);
 }
 void MainWindow::SendingScene(tScene* my_scene)
 {
@@ -38,5 +44,6 @@ MainWindow::~MainWindow()
 {
     delete myPicture;
     delete myController;
+    delete myTimeanaliz;
     delete ui;
 }

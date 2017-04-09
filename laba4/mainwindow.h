@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mycontroller.h"
+#include "mytimeanaliz.h"
 #include <mygraphicview.h>
 
 
@@ -25,6 +26,7 @@ private:
     Ui::MainWindow  *ui;
     MyGraphicView   *myPicture;     // Наш кастомный виджет
     MyController    *myController;
+    MyTimeanaliz    *myTimeanaliz;
 };
 
 
