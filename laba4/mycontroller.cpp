@@ -8,9 +8,10 @@
 #include <QColorDialog>
 #include <QDebug>
 
-#define MIN_PAR 10
-#define LEN 300
-#define MAX_PIXEL 100
+#define MIN_PAR    10
+#define LEN        300
+#define MAX_PIXEL  100
+#define MAX_RADIUS 100
 
 Text_Error LineEditError;
 
@@ -35,6 +36,7 @@ MyController::MyController(QWidget *parent) :
 
     data.fon = QColor(255, 255, 255); //фон белый
     data.color = QColor(0, 0, 0); //отрезок черный
+    colorLine = data.color;
     data.sizePixel = 1;
 
 }
@@ -126,6 +128,7 @@ ALGORITHM MyController::GetAlgorithm()
         return STANDART;
     }
 }
+
 bool MyController::ValidPoint(QPoint &p) {
     double scale = 2 / (double) data.sizePixel;
     qDebug() << scale;
@@ -202,12 +205,14 @@ void MyController::on_linecolorButton_clicked()
     }
     ui->linelabel->setStyleSheet("background-color: " + GetColor(color));
     data.color = color;
+    colorLine = color;
 }
 
 void MyController::on_clearButton_clicked()
 {
     image = CImage(scene, data);
 }
+
 void Rotate(QPoint &p, QPoint center, double angle)
 {
     angle *= M_PI / 180;
@@ -216,8 +221,58 @@ void Rotate(QPoint &p, QPoint center, double angle)
     p.setX(center.x() + round((double)(buff.x() - center.x())*cos(angle) - (double)(buff.y() - center.y())*sin(angle)));
     p.setY(center.y() + round((double)(buff.x() - center.x())*sin(angle) +  (double)(buff.y() - center.y())*cos(angle)));
 }
+void MyController::drawEllipse(QPoint &center, double rx, double ry)
+{
+    tDataEllipse dataEllipse;
+    dataEllipse.center = center;
+    dataEllipse.param = this->data;
+    dataEllipse.rx = rx;
+    dataEllipse.ry = ry;
+    image.draw_Algorithm(scene, dataEllipse, GetAlgorithm());
+}
 
+void MyController::drawCircle(QPoint &center, double r)
+{
+    tDataCircle dataCircle;
+    dataCircle.center = center;
+    dataCircle.param = this->data;
+    dataCircle.radius = r;
+    image.draw_Algorithm(scene, dataCircle, GetAlgorithm());
+}
 
+void MyController::on_drawellipseButton_clicked()
+{
+    vector<QLineEdit*> edits;
+    edits.push_back(ui->xEdit);
+    edits.push_back(ui->yEdit);
+    edits.push_back(ui->rxEdit);
+    edits.push_back(ui->ryEdit);
 
+    double *arr = GetData(edits);
 
+    if(LineEditError != NO_ER)
+        return;
 
+    if(ui->fonButton->isChecked()) {
+        data.color = data.fon;
+    }
+    else {
+        data.color = colorLine;
+    }
+
+    QPoint center = QPoint(arr[0], arr[1]);
+
+    if(!(ValidPoint(center))) {
+        delete[] arr;
+        return;
+    }
+    if(ui->ellipseButton->isChecked()) {
+        drawEllipse(center, arr[2], arr[3]);
+    }
+
+    if(ui->circleButton->isChecked()) {
+        drawCircle(center, arr[2]);
+    }
+
+    delete[] arr;
+}

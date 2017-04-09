@@ -47,16 +47,21 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void on_drawellipseButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
     bool ValidPoint(QPoint &p);
     ALGORITHM GetAlgorithm();
+    void drawEllipse(QPoint &center, double rx, double ry);
+    void drawCircle(QPoint &center,  double r);
     tScene scene;
     tPaintParam  data;
     CImage image;
     Ui::MyController *ui;
     QWidget *par;
+    QColor colorLine;
 //    QRegExpValidator *Validator;
     QIntValidator *Validator;
 

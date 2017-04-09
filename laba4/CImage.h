@@ -32,8 +32,8 @@ struct tPaintParam {
 
 struct tDataEllipse {
     QPoint center;
-    int a;
-    int b;
+    int rx;
+    int ry;
     tPaintParam param;
 };
 
