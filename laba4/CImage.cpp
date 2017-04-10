@@ -81,7 +81,63 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
 
 double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
 {
+/*    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+    int rx2 = data.rx * data.rx;
+    int ry2 = data.ry * data.ry;
+    int r2y2 = 2 * ry2;
+    int r2x2 = 2 * rx2;
+    int rdel2 = rx2 / sqrt(rx2 + ry2);
+
+    int x = 0;
+    int y = data.ry;
+
+    int f = 0;
+    int df = ry2;
+
+    int delta = -r2x2 * y;
+
+    for(x = 0; x <= rdel2; x += 1) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+        if(f > 0) {
+            y -= 1;
+            delta += r2x2;
+            f += delta;
+        }
+        df += r2y2;
+        f  += df;
+    }
+    delta = r2y2 * x;
+    f += -ry2 * (x + 0.75) - rx2 * (y - 0.75);
+    df = -r2x2 * y + rx2;
+    for(; y >= 0; y -= 1) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+        if(f < 0) {
+            x += 1;
+            delta -= r2y2;
+            f += delta;
+        }
+        df += r2x2;
+        f  += df;
+    }
+    printOnScene(scene);*/
 }
 
 double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
@@ -173,7 +229,57 @@ double CImage::algoStandart(tScene &scene, const tDataEllipse &data)
 
 double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+
+    int x = 0, y = data.radius;
+
+    int d = 2 * (1 - data.radius);
+    int d1, d2;
+
+    while(y >= 0) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+        if(d < 0) {
+            d1 = 2 * d + 2 * y - 1;
+            if(d1 > 0) {
+                y -= 1;
+                x += 1;
+                d += 2 *(x - y + 1);
+            }
+            else if(d1 < 0) {
+                x += 1;
+                d += 2 * x + 1;
+            }
+        }
+        else if(d == 0) {
+            x += 1;
+            y -= 1;
+            d += 2 *(x - y + 1);
+        }
+        else {
+            d2 = 2 * d + 2 * x - 1;
+            if(d2 < 0) {
+                y -= 1;
+                x += 1;
+                d += 2 *(x - y + 1);
+            }
+            else if(d2 > 0) {
+                y -= 1;
+                d += - 2 * y + 1;
+            }
+        }
+    } //end while
+    printOnScene(scene);
 }
 
 double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
