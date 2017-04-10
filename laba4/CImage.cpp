@@ -86,6 +86,48 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
 
 double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
+
+    int xr;
+    int yr;
+    int rx2 = data.rx * data.rx;
+    int ry2 = data.ry * data.ry;
+    int rdel2 = round(rx2 / sqrt(rx2 + ry2));
+
+    double m = (double) data.ry / data.rx;
+
+    int x = 0, y = 0;
+
+    for(x = 0; x <= rdel2; x++) {
+        y = round(sqrt(rx2 - x*x) * m);
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+
+    rdel2 = round(ry2 / sqrt(rx2 + ry2));
+    m = 1 / m;
+
+    for(y = 0; y <= rdel2; y++) {
+        x = round(sqrt(ry2 - y*y) * m);
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+    printOnScene(scene);
 
 }
 
