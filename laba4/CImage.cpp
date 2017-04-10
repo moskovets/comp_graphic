@@ -2,6 +2,7 @@
 #include "CImage.h"
 #include <QGraphicsItem>
 #include <QPainter>
+#include <math.h>
 #define EPS 0.00001
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
@@ -114,7 +115,41 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
 
 double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+    int r2 = data.radius * data.radius;
+    int rdel2 = round(data.radius / sqrt(2));
+    int x = 0, y = 0;
+
+    for(x = 0; x <= rdel2; x++) {
+        y = round(sqrt(r2 - x*x));
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+
+    for(y = 0; y <= rdel2; y++) {
+        x = round(sqrt(r2 - y*y));
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+    printOnScene(scene);
 }
 
 double CImage::algoParamEq(tScene &scene, const tDataCircle &data)
