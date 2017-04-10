@@ -130,10 +130,36 @@ double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
     printOnScene(scene);
 
 }
-
+//можно использовать и для алгоритма построения окружности...потом
 double CImage::algoParamEq(tScene &scene, const tDataEllipse &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+    double rx = data.rx;
+    double ry = data.ry;
+    double dt = 1 / max(rx, ry);
+    double tend = M_PI_2 + EPS;
+    int x = 0, y = 0;
+
+
+    for(double t = 0; t <= tend; t += dt) {
+        y = round(ry * sin(t));
+        x = round(rx * cos(t));
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+
+    printOnScene(scene);
 }
 
 double CImage::algoStandart(tScene &scene, const tDataEllipse &data)
