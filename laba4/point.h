@@ -5,13 +5,11 @@ struct tPoint {
     int x;
     int y;
     double intensity;
-    tPoint(int a, int b, double i) {
+    tPoint(int a, int b, double i = 1) {
         x = a;
         y = b;
         intensity = i;
     }
-
-
 };
 
 #endif // POINT_H
