@@ -3,7 +3,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <math.h>
-#define EPS 0.00001
+#define EPS 0.1
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
 tick_t tick(void)
@@ -154,7 +154,32 @@ double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
 
 double CImage::algoParamEq(tScene &scene, const tDataCircle &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+    double r = data.radius;
+    double dt = 1 / r;
+    double tend = M_PI_2 + EPS;
+    int x = 0, y = 0;
+
+
+    for(double t = 0; t <= tend; t += dt) {
+        y = round(r * sin(t));
+        x = round(r * cos(t));
+
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+    }
+
+    printOnScene(scene);
 }
 
 double CImage::algoStandart(tScene &scene, const tDataCircle &data)
