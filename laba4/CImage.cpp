@@ -76,12 +76,69 @@ void CImage::changeScale(tScene &scene, int sizepixel)
 
 double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
+
+    int xr;
+    int yr;
+
+    int x = 0, y = data.ry;
+
+    int rx2 = data.rx * data.rx;
+    int ry2 = data.ry * data.ry;
+
+
+    //int d = 2 * (1 - data.radius);
+    int d = 4 * ry2 + rx2 * (2 * y - 1) * (2 * y - 1) - 4 * ry2 * rx2;
+
+    int rdel2 = round(ry2 / sqrt(rx2 + ry2));
+    while(y >= rdel2) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+            if(d <= 0) {
+                x += 1;
+                d += 4 * ry2*(2*x + 3);
+            }
+            else {
+                x += 1;
+                y -= 1;
+                d += 4 * ry2*(2*x + 3) - 8 * rx2 * (y -1);
+            }
+    } //end while
+    d = ry2 * (2 * x + 1) * (2 * x + 1) + 4 * rx2 * (y - 1) * (y - 1) - 4 * ry2 * rx2;
+
+    while(y >= 0) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+            if(d > 0) {
+                y -= 1;
+                d += - 4 * rx2 * (2*y -3);
+            }
+            else {
+                x += 1;
+                y -= 1;
+                d += 8 * ry2*(x + 1) - 4 * rx2 * (2*y -3);
+            }
+    } //end while
+    printOnScene(scene);
 
 }
 
 double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
 {
-/*    int cx = data.center.x();
+    int cx = data.center.x();
     int cy = data.center.y();
 
     int xr;
@@ -131,13 +188,13 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
 
         if(f < 0) {
             x += 1;
-            delta -= r2y2;
+            delta += r2y2;
             f += delta;
         }
         df += r2x2;
         f  += df;
     }
-    printOnScene(scene);*/
+    printOnScene(scene);
 }
 
 double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
@@ -256,7 +313,7 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
                 x += 1;
                 d += 2 *(x - y + 1);
             }
-            else if(d1 < 0) {
+            else {
                 x += 1;
                 d += 2 * x + 1;
             }
@@ -273,7 +330,7 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
                 x += 1;
                 d += 2 *(x - y + 1);
             }
-            else if(d2 > 0) {
+            else {
                 y -= 1;
                 d += - 2 * y + 1;
             }
@@ -284,7 +341,62 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
 
 double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
 {
+    int cx = data.center.x();
+    int cy = data.center.y();
 
+    int xr;
+    int yr;
+    int r2 = data.radius * data.radius;
+    int r22 = 2 * r2;
+    int rdel2 = round(data.radius / sqrt(2));
+
+    int x = 0;
+    int y = data.radius;
+
+    int f = 0;
+    int df = r2;
+
+    int delta = -r22 * y;
+
+    while(x <= rdel2) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+
+        x += 1;
+        if(f > 0) {
+            y -= 1;
+            delta += r22;
+            f += delta;
+        }
+        df += r22;
+        f  += df;
+    }
+    delta = r22 * x;
+    f += - r2 * (x + y);
+    df = -r22 * y + r2;
+    while(y >= 0) {
+        xr = x + cx;
+        yr = y + cy;
+
+        addPixel(tPoint(xr, yr), data.param.color);
+        addPixel(tPoint(cx - x, yr), data.param.color);
+        addPixel(tPoint(xr, cy - y), data.param.color);
+        addPixel(tPoint(cx - x, cy - y), data.param.color);
+        y -= 1;
+        if(f < 0) {
+            x += 1;
+            delta += r22;
+            f += delta;
+        }
+        df += r22;
+        f  += df;
+    }
+    printOnScene(scene);
 }
 
 double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
