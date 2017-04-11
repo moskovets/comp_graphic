@@ -12,7 +12,7 @@ public:
     explicit MyTimeanaliz(QWidget *parent = 0);
 private:
     CImage image;
-    QCustomPlot* diagram;
+    QCustomPlot* customPlot;
     double AnalizTime(tScene &scene, int R, ALGORITHM algo);
 
     void Analiz();
