@@ -81,40 +81,18 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
     int cx = data.center.x();
     int cy = data.center.y();
 
+    int rx2 = data.rx * data.rx;
+    int ry2 = data.ry * data.ry;
+    int r2y2 = 2 * ry2;
+    int r2x2 = 2 * rx2;
+
     int xr;
     int yr;
 
     int x = 0, y = data.ry;
 
-    int rx2 = data.rx * data.rx;
-    int ry2 = data.ry * data.ry;
-
-
-    //int d = 2 * (1 - data.radius);
-    int d = 4 * ry2 + rx2 * (2 * y - 1) * (2 * y - 1) - 4 * ry2 * rx2;
-
-    int rdel2 = round(ry2 / sqrt(rx2 + ry2));
-    while(y >= rdel2) {
-        xr = x + cx;
-        yr = y + cy;
-        res_time += tick() - t1;
-        addPixel(tPoint(xr, yr), data.param.color);
-        addPixel(tPoint(cx - x, yr), data.param.color);
-        addPixel(tPoint(xr, cy - y), data.param.color);
-        addPixel(tPoint(cx - x, cy - y), data.param.color);
-        t1 = tick();
-
-            if(d <= 0) {
-                x += 1;
-                d += 4 * ry2*(2*x + 3);
-            }
-            else {
-                x += 1;
-                y -= 1;
-                d += 4 * ry2*(2*x + 3) - 8 * rx2 * (y -1);
-            }
-    } //end while
-    d = ry2 * (2 * x + 1) * (2 * x + 1) + 4 * rx2 * (y - 1) * (y - 1) - 4 * ry2 * rx2;
+    int d = rx2 + ry2 - r2x2 * y;
+    int d1, d2;
 
     while(y >= 0) {
         xr = x + cx;
@@ -126,15 +104,35 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
         addPixel(tPoint(cx - x, cy - y), data.param.color);
         t1 = tick();
 
-            if(d > 0) {
+        if(d < 0) {
+            d1 = 2 * d + r2x2 * y - 1;
+            if(d1 > 0) {
                 y -= 1;
-                d += - 4 * rx2 * (2*y -3);
+                x += 1;
+                d += r2y2 * x + ry2 + rx2 - r2x2 * y;
             }
             else {
                 x += 1;
-                y -= 1;
-                d += 8 * ry2*(x + 1) - 4 * rx2 * (2*y -3);
+                d += r2y2 * x + ry2;
             }
+        }
+        else if(d == 0) {
+            x += 1;
+            y -= 1;
+            d += r2y2 * x + ry2 + rx2 - r2x2 * y;
+        }
+        else {
+            d2 = 2 * d - r2y2 * x - 1;
+            if(d2 < 0) {
+                y -= 1;
+                x += 1;
+                d += r2y2 * x + ry2 + rx2 - r2x2 * y;
+            }
+            else {
+                y -= 1;
+                d += rx2 - r2x2 * y;
+            }
+        }
     } //end while
     res_time += tick() - t1;
 
@@ -281,8 +279,8 @@ double CImage::algoParamEq(tScene &scene, const tDataEllipse &data)
 
 
     for(double t = 0; t <= tend; t += dt) {
-        y = round(ry * sin(t));
-        x = round(rx * cos(t));
+        y = int(ry * sin(t) + 0.5);
+        x = int(rx * cos(t) + 0.5);
 
         xr = x + cx;
         yr = y + cy;
@@ -355,7 +353,7 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
             d += 2 *(x - y + 1);
         }
         else {
-            d2 = 2 * d + 2 * x - 1;
+            d2 = 2 * d - 2 * x - 1;
             if(d2 < 0) {
                 y -= 1;
                 x += 1;
@@ -435,6 +433,7 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
         f  += df;
     }
     res_time += tick() - t1;
+    addPixel(tPoint(rdel2 + cy, rdel2 + cx), Qt::red);
 
     printOnScene(scene);
     return res_time;
