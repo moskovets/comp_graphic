@@ -76,6 +76,8 @@ void CImage::changeScale(tScene &scene, int sizepixel)
 
 double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -95,11 +97,12 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
     while(y >= rdel2) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
             if(d <= 0) {
                 x += 1;
@@ -116,11 +119,12 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
     while(y >= 0) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
             if(d > 0) {
                 y -= 1;
@@ -132,12 +136,17 @@ double CImage::algoBresenham(tScene &scene, const tDataEllipse &data)
                 d += 8 * ry2*(x + 1) - 4 * rx2 * (2*y -3);
             }
     } //end while
+    res_time += tick() - t1;
+
     printOnScene(scene);
+    return res_time;
 
 }
 
 double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -160,11 +169,12 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
     for(x = 0; x <= rdel2; x += 1) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
         if(f > 0) {
             y -= 1;
@@ -180,11 +190,12 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
     for(; y >= 0; y -= 1) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
         if(f < 0) {
             x += 1;
@@ -194,11 +205,16 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
         df += r2x2;
         f  += df;
     }
+    res_time += tick() - t1;
+
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -217,11 +233,12 @@ double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
 
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
     }
 
@@ -233,19 +250,24 @@ double CImage::algoCanonEq(tScene &scene, const tDataEllipse &data)
 
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
     }
+    res_time += tick() - t1;
     printOnScene(scene);
+    return res_time;
 
 }
 //можно использовать и для алгоритма построения окружности...потом
 double CImage::algoParamEq(tScene &scene, const tDataEllipse &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -264,28 +286,36 @@ double CImage::algoParamEq(tScene &scene, const tDataEllipse &data)
 
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
-
+        t1 = tick();
     }
 
+    res_time += tick() - t1;
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoStandart(tScene &scene, const tDataEllipse &data)
 {
     QPainter painter(&image);
     painter.setPen(data.param.color);
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     painter.drawEllipse(data.center, data.rx, data.ry);
+    res_time += tick() - t1;
     painter.end();
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -300,11 +330,12 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
     while(y >= 0) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
         if(d < 0) {
             d1 = 2 * d + 2 * y - 1;
@@ -336,11 +367,16 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
             }
         }
     } //end while
+    res_time += tick() - t1;
+
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -361,11 +397,12 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
     while(x <= rdel2) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
         x += 1;
         if(f > 0) {
@@ -382,11 +419,12 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
     while(y >= 0) {
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
         y -= 1;
         if(f < 0) {
             x += 1;
@@ -396,11 +434,16 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
         df += r22;
         f  += df;
     }
+    res_time += tick() - t1;
+
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -415,11 +458,12 @@ double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
 
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
     }
 
@@ -428,18 +472,23 @@ double CImage::algoCanonEq(tScene &scene, const tDataCircle &data)
 
         xr = x + cx;
         yr = y + cy;
-
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
+        t1 = tick();
 
     }
+    res_time += tick() - t1;
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoParamEq(tScene &scene, const tDataCircle &data)
 {
+    tick_t res_time = 0;
+    tick_t t1 = tick();
     int cx = data.center.x();
     int cy = data.center.y();
 
@@ -458,14 +507,16 @@ double CImage::algoParamEq(tScene &scene, const tDataCircle &data)
         xr = x + cx;
         yr = y + cy;
 
+        res_time += tick() - t1;
         addPixel(tPoint(xr, yr), data.param.color);
         addPixel(tPoint(cx - x, yr), data.param.color);
         addPixel(tPoint(xr, cy - y), data.param.color);
         addPixel(tPoint(cx - x, cy - y), data.param.color);
-
+        t1 = tick();
     }
-
+    res_time += tick() - t1;
     printOnScene(scene);
+    return res_time;
 }
 
 double CImage::algoStandart(tScene &scene, const tDataCircle &data)
