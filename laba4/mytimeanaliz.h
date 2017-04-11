@@ -13,6 +13,7 @@ public:
 private:
     CImage image;
     QCustomPlot* diagram;
+    double AnalizTime(tScene &scene, int R, ALGORITHM algo);
 
     void Analiz();
 signals:
