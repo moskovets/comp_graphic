@@ -159,8 +159,6 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
     int x = 0;
     int y = data.ry;
 
-    //int f = 0;
-    //int df = ry2;
     int df = 0;
     int f = (ry2 - rx2 * y + 0.25 * rx2 + 0.5);
 
@@ -176,17 +174,15 @@ double CImage::algoMidPoint(tScene &scene, const tDataEllipse &data)
         t1 = tick();
         if(f >= 0) {
             y -= 1;
-            //delta = -r2x2 * (y);
             delta += r2x2;
             f += delta;
         }
         df += r2y2;;
-        //df = ry2 * (2 * (x) + 1);
         f  += df + ry2;
     }
     delta = r2y2 * x;
     f += -ry2 * (x + 0.75) - rx2 * (y - 0.75);
-    df = -r2x2 * y;// + rx2;
+    df = -r2x2 * y;
     for(; y >= 0; y -= 1) {
         xr = x + cx;
         yr = y + cy;
@@ -489,8 +485,8 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
     int x = 0;
     int y = data.radius;
 
-    int f = 0;
-    int df = r2;
+    int f = (r2 - r2 * y + 0.25 * r2 + 0.5);
+    int df = 0; //r2;
 
     int delta = -r22 * y;
 
@@ -505,18 +501,18 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
         t1 = tick();
 
         x += 1;
-        if(f > 0) {
+        if(f >= 0) {
             y -= 1;
             delta += r22;
             f += delta;
         }
         df += r22;
         //df = r2y2 * x
-        f  += df;
+        f  += df + r2;
     }
     delta = r22 * x;
     f += - r2 * (x + y);
-    df = -r22 * y + r2;
+    df = -r22 * y;// + r2;
     while(y >= 0) {
         xr = x + cx;
         yr = y + cy;
@@ -533,10 +529,10 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
             f += delta;
         }
         df += r22;
-        f  += df;
+        f  += df + r2;//
     }
     res_time += tick() - t1;
-    addPixel(tPoint(rdel2 + cy, rdel2 + cx), Qt::red);
+    //addPixel(tPoint(rdel2 + cy, rdel2 + cx), Qt::red);
 
     printOnScene(scene);
     return res_time;
