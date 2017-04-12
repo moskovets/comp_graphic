@@ -40,6 +40,7 @@ MyController::MyController(QWidget *parent) :
     colorLine = data.color;
     data.sizePixel = 1;
 
+
 }
 void MyController::GetScene(tScene *scene1)
 {
@@ -331,7 +332,5 @@ void MyController::on_drawSunButton_clicked()
         x += dx;
     }
 
-
     delete[] arr;
-
 }
