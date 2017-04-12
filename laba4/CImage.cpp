@@ -371,106 +371,6 @@ double CImage::algoBresenham(tScene &scene, const tDataCircle &data)
 
 double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
 {
-/*    tick_t res_time = 0;
-    tick_t t1 = tick();
-    int cx = data.center.x();
-    int cy = data.center.y();
-
-    int xr;
-    int yr;
-
-    int x = 0;
-    int y = data.radius;
-
-    int d = 0;
-
-    while(y >= 0) {
-        xr = x + cx;
-        yr = y + cy;
-        res_time += tick() - t1;
-        addPixel(tPoint(xr, yr), data.param.color);
-        addPixel(tPoint(cx - x, yr), data.param.color);
-        addPixel(tPoint(xr, cy - y), data.param.color);
-        addPixel(tPoint(cx - x, cy - y), data.param.color);
-        t1 = tick();
-
-        if(d < 0) {
-            x += 1;
-            d += x;
-        }
-            y -= 1;
-            d -= y;
-
-    }
-    res_time += tick() - t1;
-    printOnScene(scene);
-    return res_time;
-*/
-/*    tick_t res_time = 0;
-    tick_t t1 = tick();
-    int cx = data.center.x();
-    int cy = data.center.y();
-
-    int xr;
-    int yr;
-    int r2 = data.radius * data.radius;
-    int r22 = 2 * r2;
-    int rdel2 = round(data.radius / sqrt(2));
-
-    int x = 0;
-    int y = data.radius;
-
-    int f = 0;
-    int df = r2;
-
-    int delta = -r22 * y;
-
-    while(x <= rdel2) {
-        xr = x + cx;
-        yr = y + cy;
-        res_time += tick() - t1;
-        addPixel(tPoint(xr, yr), data.param.color);
-        addPixel(tPoint(cx - x, yr), data.param.color);
-        addPixel(tPoint(xr, cy - y), data.param.color);
-        addPixel(tPoint(cx - x, cy - y), data.param.color);
-        t1 = tick();
-
-        x += 1;
-        if(f > 0) {
-            y -= 1;
-            delta += r22;
-            f += delta;
-        }
-        df += r22;
-        f  += df;
-    }
-    delta = r22 * x;
-    f += - r2 * (x + y);
-    df = -r22 * y + r2;
-    while(y >= 0) {
-        xr = x + cx;
-        yr = y + cy;
-        res_time += tick() - t1;
-        addPixel(tPoint(xr, yr), data.param.color);
-        addPixel(tPoint(cx - x, yr), data.param.color);
-        addPixel(tPoint(xr, cy - y), data.param.color);
-        addPixel(tPoint(cx - x, cy - y), data.param.color);
-        t1 = tick();
-        y -= 1;
-        if(f < 0) {
-            x += 1;
-            delta += r22;
-            f += delta;
-        }
-        df += r22;
-        f  += df;
-    }
-    res_time += tick() - t1;
-    addPixel(tPoint(rdel2 + cy, rdel2 + cx), Qt::red);
-
-    printOnScene(scene);
-    return res_time;*/
-
     tick_t res_time = 0;
     tick_t t1 = tick();
     int cx = data.center.x();
@@ -486,7 +386,7 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
     int y = data.radius;
 
     int f = (r2 - r2 * y + 0.25 * r2 + 0.5);
-    int df = 0; //r2;
+    int df = 0;
 
     int delta = -r22 * y;
 
@@ -507,12 +407,11 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
             f += delta;
         }
         df += r22;
-        //df = r2y2 * x
         f  += df + r2;
     }
     delta = r22 * x;
     f += - r2 * (x + y);
-    df = -r22 * y;// + r2;
+    df = -r22 * y;
     while(y >= 0) {
         xr = x + cx;
         yr = y + cy;
@@ -532,7 +431,6 @@ double CImage::algoMidPoint(tScene &scene, const tDataCircle &data)
         f  += df + r2;//
     }
     res_time += tick() - t1;
-    //addPixel(tPoint(rdel2 + cy, rdel2 + cx), Qt::red);
 
     printOnScene(scene);
     return res_time;
