@@ -14,9 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         paint.cpp \
-    paintscene.cpp
+    paintscene.cpp \
+    mainwindow.cpp
 
 HEADERS  += paint.h \
-    paintscene.h
+    paintscene.h \
+    mainwindow.h
 
-FORMS    += paint.ui
+FORMS    += paint.ui \
+    mainwindow.ui
