@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 class paintScene : public QGraphicsScene
@@ -28,7 +29,6 @@ private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-
     void repaintPolynom();
 
 

@@ -1,11 +1,10 @@
 #include "paintscene.h"
-
+#include <QDebug>
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     //this->setMouseTracking(true);
     paintFlag = false;
     previousPolynom = 0;
-
 }
 
 paintScene::~paintScene()
@@ -17,13 +16,22 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(paintFlag) {
         if(event->button() == Qt::LeftButton) {
-            // Рисуем финальное ребро
+            QPointF newPoint(event->scenePos().x(), event->scenePos().y());
+            if(event->modifiers() == Qt::ShiftModifier) {
+                if(fabs(event->scenePos().x() - previousVertex.x()) <=
+                   fabs(event->scenePos().y() - previousVertex.y())) {
+                    newPoint.setX(previousVertex.x());
+                }
+                else {
+                    newPoint.setY(previousVertex.y());
+                }
+            }
             addLine(previousVertex.x(),
                     previousVertex.y(),
-                    event->scenePos().x(),
-                    event->scenePos().y(),
+                    newPoint.x(),
+                    newPoint.y(),
                     QPen(Qt::black,1,Qt::SolidLine));
-            previousVertex = event->scenePos();
+            previousVertex = newPoint;
             polynom.push_back(previousVertex);
         }
         if(event->button() == Qt::RightButton) {
@@ -53,7 +61,7 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void paintScene::repaintPolynom()
 {
-    for(int i = 0; i < polynom.size() - 1; i++) {
+    for(unsigned int i = 0; i < polynom.size() - 1; i++) {
         addLine(polynom[i].x(),
                 polynom[i].y(),
                 polynom[i + 1].x(),
