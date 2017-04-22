@@ -2,6 +2,9 @@
 
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
+    //this->setMouseTracking(true);
+    paintFlag = false;
+    previousPolynom = 0;
 
 }
 
@@ -12,25 +15,49 @@ paintScene::~paintScene()
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // При нажатии кнопки мыши отрисовываем эллипс
-    addEllipse(event->scenePos().x() - 5,
-               event->scenePos().y() - 5,
-               10,
-               10,
-               QPen(Qt::NoPen),
-               QBrush(Qt::red));
-    // Сохраняем координаты точки нажатия
-    previousPoint = event->scenePos();
+    if(paintFlag) {
+        if(event->button() == Qt::LeftButton) {
+            // Рисуем финальное ребро
+            addLine(previousVertex.x(),
+                    previousVertex.y(),
+                    event->scenePos().x(),
+                    event->scenePos().y(),
+                    QPen(Qt::black,1,Qt::SolidLine));
+            previousVertex = event->scenePos();
+            polynom.push_back(previousVertex);
+        }
+        if(event->button() == Qt::RightButton) {
+            // Рисуем финальное ребро
+            addLine(previousVertex.x(),
+                    previousVertex.y(),
+                    polynom[previousPolynom].x(),
+                    polynom[previousPolynom].y(),
+                    QPen(Qt::black,1,Qt::SolidLine));
+            previousVertex = event->scenePos();
+            paintFlag = false;
+        }
+    }
+    else {
+        if(event->button() == Qt::LeftButton) {
+            paintFlag = true;
+            previousVertex = event->scenePos();
+            polynom.push_back(previousVertex);
+            previousPolynom = polynom.size() - 1;
+        }
+    }
 }
 
 void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    // Отрисовываем линии с использованием предыдущей координаты
-    addLine(previousPoint.x(),
-            previousPoint.y(),
-            event->scenePos().x(),
-            event->scenePos().y(),
-            QPen(Qt::red,10,Qt::SolidLine,Qt::RoundCap));
-    // Обновляем данные о предыдущей координате
-    previousPoint = event->scenePos();
+}
+
+void paintScene::repaintPolynom()
+{
+    for(int i = 0; i < polynom.size() - 1; i++) {
+        addLine(polynom[i].x(),
+                polynom[i].y(),
+                polynom[i + 1].x(),
+                polynom[i + 1].y(),
+                QPen(Qt::black,1,Qt::SolidLine));
+    }
 }
