@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(myPicture);
     centralWidget()->setMouseTracking(true);
 
-    //myController   = new MyController();
-    //layout->addWidget(myController);
-    //myController->setFixedWidth(347); //magic :)
+    myController   = new MyController();
+    layout->addWidget(myController);
+    myController->setFixedWidth(276); //magic :)
 
     //QObject::connect(myPicture, SIGNAL(SendScene(tScene*)),
     //        this, SLOT(SendingScene(tScene*)));
@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete myPicture;
-//    delete myController;
+    delete myController;
 //    delete myTimeanaliz;
     delete ui;
 }

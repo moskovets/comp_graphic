@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "paint.h"
+#include "mycontroller.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +22,7 @@ private slots:
 private:
     Ui::MainWindow  *ui;
     Paint   *myPicture;     // Наш кастомный виджет
-    //MyController    *myController;
+    MyController    *myController;
     //MyTimeanaliz    *myTimeanaliz;
 };
 

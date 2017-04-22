@@ -15,11 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         paint.cpp \
     paintscene.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mycontroller.cpp
 
 HEADERS  += paint.h \
     paintscene.h \
-    mainwindow.h
+    mainwindow.h \
+    mycontroller.h
 
 FORMS    += paint.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    mycontroller.ui
