@@ -14,6 +14,7 @@ paintScene::~paintScene()
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    //qDebug() << this->height();
     if(paintFlag) {
         if(event->button() == Qt::LeftButton) {
             QPointF newPoint(event->scenePos().x(), event->scenePos().y());

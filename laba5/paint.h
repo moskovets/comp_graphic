@@ -6,6 +6,7 @@
 #include <QResizeEvent>
 
 #include <paintscene.h>
+//#include "my_scene.h"
 
 namespace Ui {
 class Paint;
@@ -18,6 +19,10 @@ class Paint : public QWidget
 public:
     explicit Paint(QWidget *parent = 0);
     ~Paint();
+    void Connect();
+
+    signals:
+    void SendScene(paintScene* my_scene);
 
 private:
     Ui::Paint *ui;
@@ -34,6 +39,7 @@ private:
 
 private slots:
     void slotTimer();
+
 };
 
 #endif // PAINT_H

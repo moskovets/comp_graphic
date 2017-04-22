@@ -16,6 +16,7 @@
 #include <string>
 #include <stdio.h>
 #include <vector>
+#include <paintscene.h>
 
 using namespace std;
 enum Text_Error { EMPTY, E_SYMBOL, NO_ER };
@@ -32,9 +33,9 @@ class MyController : public QWidget
 public:
     explicit MyController(QWidget *parent = 0);
     ~MyController();
-    //void GetScene(tScene *scene);
+    void GetScene(paintScene *scene);
 signals:
-    //void SceneChange(QGraphicsScene *scene);
+    void SceneChange(QGraphicsScene *scene);
 private slots:
 
 
@@ -55,7 +56,7 @@ private:
     //ALGORITHM GetAlgorithm();
     void drawEllipse(QPoint &center, double rx, double ry);
     void drawCircle(QPoint &center,  double r);
-    //tScene scene;
+    paintScene *scene;
     //tPaintParam  data;
     //CImage image;
     Ui::MyController *ui;

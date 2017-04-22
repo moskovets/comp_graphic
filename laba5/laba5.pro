@@ -21,7 +21,8 @@ SOURCES += main.cpp\
 HEADERS  += paint.h \
     paintscene.h \
     mainwindow.h \
-    mycontroller.h
+    mycontroller.h \
+    my_scene.h
 
 FORMS    += paint.ui \
     mainwindow.ui \

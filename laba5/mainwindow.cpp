@@ -23,13 +23,17 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(myPicture);
     centralWidget()->setMouseTracking(true);
 
+
     myController   = new MyController();
     layout->addWidget(myController);
     myController->setFixedWidth(276); //magic :)
 
-    //QObject::connect(myPicture, SIGNAL(SendScene(tScene*)),
-    //        this, SLOT(SendingScene(tScene*)));
-    //myPicture->Connect();
+    //qDebug() << "main_constr:" << myPicture->height();
+
+    QObject::connect(myPicture, SIGNAL(SendScene(paintScene*)),
+            this, SLOT(SendingScene(paintScene*)));
+
+    myPicture->Connect();
 
 
     /*QHBoxLayout *layout2 = new QHBoxLayout;
@@ -37,11 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
     myTimeanaliz = new MyTimeanaliz;
     layout2->addWidget(myTimeanaliz);*/
 }
-/*void MainWindow::SendingScene(tScene* my_scene)
+void MainWindow::SendingScene(paintScene* my_scene)
 {
-    std::cout << "window:" << my_scene->x_center << endl;
+    std::cout << "window:" << my_scene->sceneRect().height() << endl;
     myController->GetScene(my_scene);
-}*/
+}
 
 MainWindow::~MainWindow()
 {

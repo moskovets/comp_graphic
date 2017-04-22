@@ -7,6 +7,7 @@
 #include <string.h>
 #include <QColorDialog>
 #include <QDebug>
+#include "my_scene.h"
 
 #define MIN_PAR    10
 #define LEN        300
@@ -28,6 +29,10 @@ MyController::MyController(QWidget *parent) :
     ui->yEdit->setValidator(Validator);
     ui->timeEdit->setValidator(Validator);
 }
+void MyController::GetScene(paintScene *scene1)
+{
+    this->scene = scene1;
+ }
 
 MyController::~MyController()
 {
@@ -125,6 +130,8 @@ void MyController::on_linecolorButton_clicked()
 
 void MyController::on_clearButton_clicked()
 {
+    qDebug() << "clear:" << scene->height();
+    scene->clear();
     //TODO
 }
 

@@ -18,7 +18,7 @@ public:
     ~MainWindow();
 
 private slots:
-    //void SendingScene(tScene *my_scene);
+    void SendingScene(paintScene *my_scene);
 private:
     Ui::MainWindow  *ui;
     Paint   *myPicture;     // Наш кастомный виджет
