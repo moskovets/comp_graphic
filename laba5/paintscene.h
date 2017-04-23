@@ -17,21 +17,22 @@ class paintScene : public QGraphicsScene
 public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
+    void repaintPolynom();
 
     vector<QPointF> polynom;
+    vector<pair<int,int>> edges;
     bool paintFlag;
     QColor colorLine = Qt::black;
 
 private:
     QPointF     previousPoint;      // Координаты предыдущей точки
-    QPointF  previousVertex;
-    int previousPolynom;
+    QPointF     previousVertex;
+    int         previousPolynom;
 
 private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void repaintPolynom();
 
 
 };

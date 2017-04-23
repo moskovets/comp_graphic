@@ -28,7 +28,6 @@ MyController::MyController(QWidget *parent) :
     ui->xEdit->setValidator(Validator);
     ui->yEdit->setValidator(Validator);
     ui->timeEdit->setValidator(Validator);
-    scene->colorLine = Qt::black;
 }
 void MyController::GetScene(paintScene *scene1)
 {
@@ -133,7 +132,7 @@ void MyController::on_clearButton_clicked()
 {
     qDebug() << "clear:" << scene->height();
     scene->clear();
-    scene->polynom.clear();
+    scene->repaintPolynom();
     scene->paintFlag = false;
 }
 
@@ -200,4 +199,12 @@ void MyController::on_timeButton_clicked()
 void MyController::on_brushButton_clicked()
 {
 
+}
+
+void MyController::on_clearallButton_clicked()
+{
+    scene->clear();
+    scene->polynom.clear();
+    scene->edges.clear();
+    scene->paintFlag = false;
 }

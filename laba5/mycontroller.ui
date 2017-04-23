@@ -150,6 +150,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="brushButton">
+      <property name="text">
+       <string>Залить</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="minimumSize">
        <size>
@@ -322,16 +329,6 @@
         <string>Задать</string>
        </property>
       </widget>
-      <zorder>linelabel</zorder>
-      <zorder>label_12</zorder>
-      <zorder>label_13</zorder>
-      <zorder>fonlabel</zorder>
-      <zorder>label_15</zorder>
-      <zorder>timeEdit</zorder>
-      <zorder>foncolorButton</zorder>
-      <zorder>linecolorButton</zorder>
-      <zorder>timeButton</zorder>
-      <zorder>groupBox</zorder>
      </widget>
     </item>
     <item>
@@ -382,7 +379,14 @@
        </size>
       </property>
       <property name="text">
-       <string>Очистить</string>
+       <string>Очистить (заливку)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="clearallButton">
+      <property name="text">
+       <string>Очистить все</string>
       </property>
      </widget>
     </item>

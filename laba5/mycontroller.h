@@ -49,6 +49,10 @@ private slots:
 
     void on_timeButton_clicked();
 
+    void on_brushButton_clicked();
+
+    void on_clearallButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);

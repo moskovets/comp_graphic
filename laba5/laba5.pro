@@ -16,13 +16,15 @@ SOURCES += main.cpp\
         paint.cpp \
     paintscene.cpp \
     mainwindow.cpp \
-    mycontroller.cpp
+    mycontroller.cpp \
+    algo.cpp
 
 HEADERS  += paint.h \
     paintscene.h \
     mainwindow.h \
     mycontroller.h \
-    my_scene.h
+    my_scene.h \
+    algo.h
 
 FORMS    += paint.ui \
     mainwindow.ui \
