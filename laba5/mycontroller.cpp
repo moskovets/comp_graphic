@@ -8,7 +8,7 @@
 #include <QColorDialog>
 #include <QDebug>
 #include "my_scene.h"
-
+#include "algo.h"
 #define MIN_PAR    10
 #define LEN        300
 #define MAX_TIME  100
@@ -198,7 +198,7 @@ void MyController::on_timeButton_clicked()
 
 void MyController::on_brushButton_clicked()
 {
-
+    SimpleAlgo(scene, colorBrush, timePause);
 }
 
 void MyController::on_clearallButton_clicked()
