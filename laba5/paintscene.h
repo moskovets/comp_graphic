@@ -18,11 +18,13 @@ public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
 
+    vector<QPointF> polynom;
+    bool paintFlag;
+    QColor colorLine = Qt::black;
+
 private:
     QPointF     previousPoint;      // Координаты предыдущей точки
-    vector<QPointF> polynom;
     QPointF  previousVertex;
-    bool paintFlag;
     int previousPolynom;
 
 private:

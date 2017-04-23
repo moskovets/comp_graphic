@@ -31,7 +31,7 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                     previousVertex.y(),
                     newPoint.x(),
                     newPoint.y(),
-                    QPen(Qt::black,1,Qt::SolidLine));
+                    QPen(colorLine,1,Qt::SolidLine));
             previousVertex = newPoint;
             polynom.push_back(previousVertex);
         }
@@ -41,7 +41,7 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                     previousVertex.y(),
                     polynom[previousPolynom].x(),
                     polynom[previousPolynom].y(),
-                    QPen(Qt::black,1,Qt::SolidLine));
+                    QPen(colorLine,1,Qt::SolidLine));
             previousVertex = event->scenePos();
             paintFlag = false;
         }
@@ -67,6 +67,6 @@ void paintScene::repaintPolynom()
                 polynom[i].y(),
                 polynom[i + 1].x(),
                 polynom[i + 1].y(),
-                QPen(Qt::black,1,Qt::SolidLine));
+                QPen(colorLine,1,Qt::SolidLine));
     }
 }

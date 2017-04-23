@@ -5,8 +5,7 @@
 
 struct tScene {
     paintScene *scene = NULL;
-    double x_center;
-    double y_center;
+    vector<QPointF> *poly;
 };
 
 #endif // MY_SCENE_H
