@@ -72,3 +72,32 @@ void paintScene::repaintPolynom()
                 QPen(colorLine,1,Qt::SolidLine));
     }
 }
+#include <QPainter>
+#include <QTime>
+#include <QCoreApplication>
+
+void paintScene::sleepFeature()
+{
+    QTime end = QTime::currentTime().addMSecs(10);
+    while(QTime::currentTime() < end) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+
+
+    //QList<QRectF> l;
+    //l.append(this->sceneRect());
+    //this->changed(l);
+/*    QImage image(this->width(), this->height(), QImage::Format_ARGB32);
+    image.fill(NULL);
+    QPainter painter(&image);
+
+    this->render(&painter);
+    QPixmap pixmap;
+    pixmap.convertFromImage(image);
+
+    this->clear();
+
+    this->addPixmap(pixmap);
+*/
+    return;
+}

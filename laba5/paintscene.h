@@ -18,6 +18,7 @@ public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
     void repaintPolynom();
+    void sleepFeature();
 
     vector<QPointF> polynom;
     vector<pair<int,int>> edges;

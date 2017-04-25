@@ -107,9 +107,9 @@ int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const v
                 swap(x1, x2);
                 flagSwap = true;
             }
-            x = x1 + m;
-            y = y1 + 1;
             m = (x2 - x1) / (y2 - y1);
+            y = y1 + 1;
+            x = x1 + m;
             for(; y < y2; y += 1) {
                 vect.push_back(tPoint(round(x), round(y)));
                 x += m;
@@ -162,8 +162,8 @@ bool MyCompare(tPoint a, tPoint b) {
 void DrawLine(paintScene *scene, tPoint &a, tPoint &b, const QColor &colorBrush, int timePause)
 {
     scene->addLine(a.x, a.y, b.x, b.y, QPen(colorBrush, 1));
-
-    Sleeper::msleep(1);
+    scene->sleepFeature();
+    //Sleeper::msleep(5);
 }
 
 int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
@@ -176,6 +176,7 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
 
 
     for(int i = 0; i < points.size(); i += 2) {
+
         DrawLine(scene, points[i], points[i+1], colorBrush, timePause);
         //scene->addLine(points[i].x, points[i].y, points[i+1].x, points[i+1].y, QPen(colorBrush, 1));
 
