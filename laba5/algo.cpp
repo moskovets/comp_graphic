@@ -112,6 +112,36 @@ bool CheckLok1(const vector<QPointF> &polynom, const vector<pair<int,int>> &edge
 
 }
 
+bool CheckLok_horisont(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int i1, int i2, int i_edge)
+{
+    int dy1, dy2;
+    int p1 = -1, p2 = -1;
+    int new_index;
+
+    for(int j = 0; j < edges.size(); j++) {
+        if(j != i_edge) {
+            if(edges[j].first == i1) {
+                p1 = edges[j].second;
+            }
+            else if(edges[j].second == i1) {
+                p1 = edges[j].first;
+            }
+            if(edges[j].first == i2) {
+                p2 = edges[j].second;
+            }
+            else if(edges[j].second == i2) {
+                p2 = edges[j].first;
+            }
+        }
+    }
+
+    dy1 = polynom[i1].y() - polynom[p1].y();
+
+    dy2 = polynom[p2].y() - polynom[i1].y();
+    return dy2 * dy1 < 0;
+
+}
+
 int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const vector<pair<int,int>> &edges)
 {
     double x1, x2, y1, y2;
@@ -128,7 +158,8 @@ int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const v
         y2 = polynom[edges[i].second].y();
         if(y1 == y2) {
             vect.push_back(tPoint(x1, y1));
-            vect.push_back(tPoint(x2, y2));
+            if(CheckLok_horisont(polynom, edges, edges[i].first, edges[i].second, i))
+                vect.push_back(tPoint(x2, y2));
         }
         else {
             if(y1 > y2) {
@@ -163,7 +194,7 @@ bool MyCompare(tPoint a, tPoint b) {
     if(a.y > b.y) {
         return true;
     }
-    if(a.y == b.y && a.x < a.y) {
+    if(a.y == b.y && a.x < b.x) {
         return true;
     }
     return false;
@@ -181,7 +212,6 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
 
     FindPairPoints(points, scene->polynom, scene->edges);
     std::sort(points.begin(), points.end(), MyCompare);
-
 
 
     for(int i = 0; i < points.size(); i += 2) {
