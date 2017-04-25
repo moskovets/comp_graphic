@@ -83,6 +83,35 @@ bool CheckLok(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges
 
 }
 
+bool CheckLok1(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int i)
+{
+    int dy1, dy2;
+    int p1 = -1, p2 = -1;
+    int new_index;
+
+    for(int j = 0; j < edges.size(); j++) {
+        if(edges[j].first == i) {
+            if(p1 == -1)
+                p1 = edges[j].second;
+            else
+                p2 = edges[j].second;
+        }
+        else if(edges[j].second == i) {
+            if(p1 == -1)
+                p1 = edges[j].first;
+            else
+                p2 = edges[j].first;
+        }
+    }
+
+    dy1 = polynom[i].y() - polynom[p1].y();
+
+
+    dy2 = polynom[p2].y() - polynom[i].y();
+    return dy2 * dy1 < 0;
+
+}
+
 int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const vector<pair<int,int>> &edges)
 {
     double x1, x2, y1, y2;
@@ -114,39 +143,19 @@ int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const v
                 vect.push_back(tPoint(round(x), round(y)));
                 x += m;
             }
-            // check for lok max or min
-
-            if(!vertex[edges[i].first] && CheckLok(polynom, edges, edges[i].first, i))
-            {
-                if(flagSwap)
-                    vect.push_back(tPoint(x2, y2));
-                else
-                    vect.push_back(tPoint(x1, y1));
-            }
-            if(!vertex[edges[i].second] && CheckLok(polynom, edges, edges[i].second, i))
-            {
-                if(flagSwap)
-                    vect.push_back(tPoint(x1, y1));
-                else
-                    vect.push_back(tPoint(x2, y2));
-            }
-            if(!vertex[edges[i].first])
-            {
-                if(flagSwap)
-                    vect.push_back(tPoint(x2, y2));
-                else
-                    vect.push_back(tPoint(x1, y1));
-                vertex[edges[i].first] = true;
-            }
-            if(!vertex[edges[i].second])
-            {
-                if(flagSwap)
-                    vect.push_back(tPoint(x1, y1));
-                else
-                    vect.push_back(tPoint(x2, y2));
-                vertex[edges[i].second] = true;
-            }
         }
+
+    }
+    for(unsigned i = 0; i < polynom.size(); i++) {
+            // check for lok max or min
+        x1 = polynom[i].x();
+        y1 = polynom[i].y();
+
+        if(CheckLok1(polynom, edges, i))
+        {
+            vect.push_back(tPoint(x1, y1));
+        }
+        vect.push_back(tPoint(x1, y1));
     }
 
 }
