@@ -202,8 +202,9 @@ bool MyCompare(tPoint a, tPoint b) {
 void DrawLine(paintScene *scene, tPoint &a, tPoint &b, const QColor &colorBrush, int timePause)
 {
     scene->addLine(a.x, a.y, b.x, b.y, QPen(colorBrush, 1));
-    scene->sleepFeature();
-    //Sleeper::msleep(5);
+    if(timePause != 0) {
+        scene->sleepFeature(timePause);
+    }
 }
 
 int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)

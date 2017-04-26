@@ -203,6 +203,7 @@ void MyController::on_timeButton_clicked()
 void MyController::on_brushButton_clicked()
 {
     SimpleAlgo(scene, colorBrush, timePause);
+    scene->repaintPolynom();
 }
 
 void MyController::on_clearallButton_clicked()

@@ -18,7 +18,7 @@ public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
     void repaintPolynom();
-    void sleepFeature();
+    void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
 
     vector<QPointF> polynom;

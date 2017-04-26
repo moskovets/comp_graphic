@@ -35,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     myPicture->Connect();
 
-
     /*QHBoxLayout *layout2 = new QHBoxLayout;
     ui->analiz->setLayout(layout2);
     myTimeanaliz = new MyTimeanaliz;
