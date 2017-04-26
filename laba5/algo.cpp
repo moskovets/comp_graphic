@@ -1,6 +1,8 @@
 #include "algo.h"
 #include <vector>
 #include <QThread>
+#include "paintscene.h"
+
 class Sleeper: public QThread
 {
 public:
@@ -75,7 +77,7 @@ bool CheckLok(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges
 
 }
 
-bool CheckLok1(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int i)
+bool CheckLok2(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int i)
 {
     int dy1, dy2;
     int p1 = -1, p2 = -1;
@@ -102,8 +104,20 @@ bool CheckLok1(const vector<QPointF> &polynom, const vector<pair<int,int>> &edge
     return dy2 * dy1 < 0;
 
 }
+bool CheckLok1(const vector<tVertex> &polynom, const vector<pair<int,int>> &edges, int i)
+{
+    int dy1, dy2;
+    int p1 = -1, p2 = -1;
+    p1 = polynom[i].next;
+    p2 = polynom[i].prev;
 
-bool CheckLok_horisont(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int i1, int i2, int i_edge)
+    dy1 = polynom[i].p.y() - polynom[p1].p.y();
+    dy2 = polynom[p2].p.y() - polynom[i].p.y();
+
+    return dy2 * dy1 < 0;
+}
+
+bool CheckLok_horisont(const vector<tVertex> &polynom, const vector<pair<int,int>> &edges, int i1, int i2, int i_edge)
 {
     int dy1, dy2;
     int p1 = -1, p2 = -1;
@@ -125,24 +139,25 @@ bool CheckLok_horisont(const vector<QPointF> &polynom, const vector<pair<int,int
         }
     }
 
-    dy1 = polynom[i1].y() - polynom[p1].y();
+    dy1 = polynom[i1].p.y() - polynom[p1].p.y();
 
-    dy2 = polynom[p2].y() - polynom[i1].y();
+    dy2 = polynom[p2].p.y() - polynom[i1].p.y();
     return dy2 * dy1 < 0;
 
 }
 
-int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const vector<pair<int,int>> &edges)
+int FindPairPoints(vector<tPoint> &vect, const vector<tVertex> &polynom, const vector<pair<int,int>> &edges)
 {
     double x1, x2, y1, y2;
     double x, y;
     double m;
+
     for(unsigned int i = 0; i < edges.size(); i++)
     {
-        x1 = polynom[edges[i].first].x();
-        x2 = polynom[edges[i].second].x();
-        y1 = polynom[edges[i].first].y();
-        y2 = polynom[edges[i].second].y();
+        x1 = polynom[edges[i].first].p.x();
+        x2 = polynom[edges[i].second].p.x();
+        y1 = polynom[edges[i].first].p.y();
+        y2 = polynom[edges[i].second].p.y();
         if(y1 == y2) {
             vect.push_back(tPoint(x1, y1));
             if(CheckLok_horisont(polynom, edges, edges[i].first, edges[i].second, i))
@@ -165,8 +180,8 @@ int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const v
     }
     for(unsigned i = 0; i < polynom.size(); i++) {
             // check for lok max or min
-        x1 = polynom[i].x();
-        y1 = polynom[i].y();
+        x1 = polynom[i].p.x();
+        y1 = polynom[i].p.y();
 
         if(CheckLok1(polynom, edges, i))
         {

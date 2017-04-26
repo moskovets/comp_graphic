@@ -8,6 +8,22 @@
 #include <vector>
 #include <math.h>
 
+struct tVertex {
+    QPointF p;
+    int next = -1;
+    int prev = -1;
+    tVertex(const QPointF &a) {
+        p = a;
+    }
+    tVertex(const QPointF &a, int pr, int n = -1) {
+        p = a;
+        next = n;
+        prev = pr;
+    }
+
+};
+
+
 using namespace std;
 class paintScene : public QGraphicsScene
 {
@@ -21,7 +37,7 @@ public:
     void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
 
-    vector<QPointF> polynom;
+    vector<tVertex> polynom;
     vector<pair<int,int>> edges;
     bool paintFlag;
     QColor colorLine = Qt::black;
