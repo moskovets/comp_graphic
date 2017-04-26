@@ -1,8 +1,11 @@
 #include "paintscene.h"
+#include <QPainter>
+#include <QTime>
+#include <QCoreApplication>
 #include <QDebug>
+
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
-    //this->setMouseTracking(true);
     paintFlag = false;
     previousPolynom = 0;
 }
@@ -14,7 +17,6 @@ paintScene::~paintScene()
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    //qDebug() << this->height();
     if(paintFlag) {
         if(event->button() == Qt::LeftButton) {
             QPointF newPoint(event->scenePos().x(), event->scenePos().y());
@@ -72,9 +74,6 @@ void paintScene::repaintPolynom()
                 QPen(colorLine,1,Qt::SolidLine));
     }
 }
-#include <QPainter>
-#include <QTime>
-#include <QCoreApplication>
 
 void paintScene::sleepFeature(int time)
 {
@@ -82,23 +81,6 @@ void paintScene::sleepFeature(int time)
     while(QTime::currentTime() < end) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
-
-
-    //QList<QRectF> l;
-    //l.append(this->sceneRect());
-    //this->changed(l);
-/*    QImage image(this->width(), this->height(), QImage::Format_ARGB32);
-    image.fill(NULL);
-    QPainter painter(&image);
-
-    this->render(&painter);
-    QPixmap pixmap;
-    pixmap.convertFromImage(image);
-
-    this->clear();
-
-    this->addPixmap(pixmap);
-*/
     return;
 }
 

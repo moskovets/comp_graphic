@@ -18,14 +18,6 @@ struct tPoint {
         y = y1;
     }
 };
-struct tPair {
-    tPoint first;
-    tPoint second;
-/*    tPair(int x1, int y1, int x2, int y2) {
-        first  = tPoint(x1, y1);
-        second = tPoint(x2, y2);
-    }*/
-};
 
 bool CheckLok(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges, int index, int i)
 {
@@ -66,7 +58,7 @@ bool CheckLok(const vector<QPointF> &polynom, const vector<pair<int,int>> &edges
     }*/
 
     if(new_index == -1) {
-        for(int j = 0; j < edges.size(); j++) {
+        for(unsigned int j = 0; j < edges.size(); j++) {
             if(j != i) {
                 if(edges[j].first == index) {
                     new_index = edges[j].second;
@@ -87,9 +79,8 @@ bool CheckLok1(const vector<QPointF> &polynom, const vector<pair<int,int>> &edge
 {
     int dy1, dy2;
     int p1 = -1, p2 = -1;
-    int new_index;
 
-    for(int j = 0; j < edges.size(); j++) {
+    for(unsigned int j = 0; j < edges.size(); j++) {
         if(edges[j].first == i) {
             if(p1 == -1)
                 p1 = edges[j].second;
@@ -116,9 +107,8 @@ bool CheckLok_horisont(const vector<QPointF> &polynom, const vector<pair<int,int
 {
     int dy1, dy2;
     int p1 = -1, p2 = -1;
-    int new_index;
 
-    for(int j = 0; j < edges.size(); j++) {
+    for(unsigned int j = 0; j < edges.size(); j++) {
         if(j != i_edge) {
             if(edges[j].first == i1) {
                 p1 = edges[j].second;
@@ -145,11 +135,8 @@ bool CheckLok_horisont(const vector<QPointF> &polynom, const vector<pair<int,int
 int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const vector<pair<int,int>> &edges)
 {
     double x1, x2, y1, y2;
-    bool vertex[polynom.size()];
-    for(int i = 0; i < polynom.size(); i++) { vertex[i] = false; }
     double x, y;
     double m;
-    bool flagSwap = false;
     for(unsigned int i = 0; i < edges.size(); i++)
     {
         x1 = polynom[edges[i].first].x();
@@ -165,7 +152,6 @@ int FindPairPoints(vector<tPoint> &vect, const vector<QPointF> &polynom, const v
             if(y1 > y2) {
                 swap(y1, y2);
                 swap(x1, x2);
-                flagSwap = true;
             }
             m = (x2 - x1) / (y2 - y1);
             y = y1 + 1;
@@ -215,11 +201,8 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
     std::sort(points.begin(), points.end(), MyCompare);
 
 
-    for(int i = 0; i < points.size(); i += 2) {
-
+    for(unsigned int i = 0; i < points.size(); i += 2) {
         DrawLine(scene, points[i], points[i+1], colorBrush, timePause);
-        //scene->addLine(points[i].x, points[i].y, points[i+1].x, points[i+1].y, QPen(colorBrush, 1));
-
     }
     return 0;
 

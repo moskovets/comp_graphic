@@ -26,9 +26,6 @@
     <layout class="QVBoxLayout" name="mainLayout">
      <item>
       <widget class="QTabWidget" name="tabWidget">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -39,7 +36,7 @@
        </widget>
        <widget class="QWidget" name="analiz">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <attribute name="title">
          <string>Анализ времени работы</string>

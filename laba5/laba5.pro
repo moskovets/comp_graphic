@@ -23,7 +23,6 @@ HEADERS  += paint.h \
     paintscene.h \
     mainwindow.h \
     mycontroller.h \
-    my_scene.h \
     algo.h
 
 FORMS    += paint.ui \
