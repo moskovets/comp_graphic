@@ -19,6 +19,7 @@ public:
     ~paintScene();
     void repaintPolynom();
     void sleepFeature();
+    void addPoint(QPoint &newPoint);
 
     vector<QPointF> polynom;
     vector<pair<int,int>> edges;

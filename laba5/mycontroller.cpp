@@ -11,7 +11,7 @@
 #include "algo.h"
 #define MIN_PAR    10
 #define LEN        300
-#define MAX_TIME  100
+#define MAX_TIME   100
 
 Text_Error LineEditError;
 
@@ -28,6 +28,11 @@ MyController::MyController(QWidget *parent) :
     ui->xEdit->setValidator(Validator);
     ui->yEdit->setValidator(Validator);
     ui->timeEdit->setValidator(Validator);
+    QColor color = Qt::green;
+    ui->fonlabel->setStyleSheet("background-color: " + GetColor(color));
+    colorBrush = color;
+    timePause = 0;
+
 }
 void MyController::GetScene(paintScene *scene1)
 {
@@ -154,26 +159,25 @@ void MyController::on_drawButton_clicked()
         delete[] arr;
         return;
     }
+    scene->addPoint(newPoint);
 
     delete[] arr;
 
 }
 
 bool MyController::ValidPoint(QPoint &p) {
-/*    double scale = 2 / (double) data.sizePixel;
-    qDebug() << scale;
-    if(p.x() < 0 || p.x() > scene.x_center * scale ||
-       p.y() < 0 || p.y() > scene.y_center * scale)
+    if(p.x() < 0 || p.x() > scene->width() ||
+       p.y() < 0 || p.y() > scene->height())
     {
         QString mess = "Координаты точки должны быть неотрицательными целыми числами\n"
-                       "Для заданного размера пикселя максимальные координаты " +
-                QString::number(round(scene.x_center * scale)) + " " +
-                QString::number(round(scene.y_center * scale)) + "\n";
+                       "максимальные координаты " +
+                QString::number(round(scene->width())) + " " +
+                QString::number(round(scene->height())) + "\n";
         QErrorMessage errorMessage;
         errorMessage.showMessage(mess);
         errorMessage.exec();
         return false;
-    }*/
+    }
     return true;
 }
 void MyController::on_timeButton_clicked()

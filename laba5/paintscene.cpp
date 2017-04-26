@@ -101,3 +101,24 @@ void paintScene::sleepFeature()
 */
     return;
 }
+
+void paintScene::addPoint(QPoint &newPoint)
+{
+    if(paintFlag) {
+        addLine(previousVertex.x(),
+                previousVertex.y(),
+                newPoint.x(),
+                newPoint.y(),
+                QPen(colorLine,1,Qt::SolidLine));
+        previousVertex = newPoint;
+        edges.push_back(pair<int,int>(polynom.size() - 1, polynom.size()));
+        polynom.push_back(previousVertex);
+    }
+    else {
+        paintFlag = true;
+        previousVertex = newPoint;
+        polynom.push_back(previousVertex);
+        previousPolynom = polynom.size() - 1;
+    }
+
+}
