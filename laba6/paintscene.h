@@ -38,7 +38,7 @@ public:
     SCENE_STATUS status;
 
 private:
-    //QPointF     previousPoint;      // Координаты предыдущей точки
+    QPointF     previousPoint;      // Координаты предыдущей точки
     QPoint     previousVertex;
     QPoint     startVertex;
     //int         previousPolynom;
@@ -48,6 +48,7 @@ private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
     void PolynomPressEvent(QGraphicsSceneMouseEvent * event);
     void PixelPressEvent(QGraphicsSceneMouseEvent * event);

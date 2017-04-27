@@ -8,10 +8,10 @@ Paint::Paint(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setMouseTracking(true);
+    //this->setMouseTracking(true);
     scene = new paintScene();       // Инициализируем графическую сцену
     ui->graphicsView->setScene(scene);  // Устанавливаем графическую сцену
-    ui->graphicsView->setMouseTracking(true);
+    //ui->graphicsView->setMouseTracking(true);
 
     timer = new QTimer();       // Инициализируем таймер
     connect(timer, &QTimer::timeout, this, &Paint::slotTimer);

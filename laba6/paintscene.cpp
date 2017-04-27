@@ -7,6 +7,7 @@
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
+    status = ADD_PAINT;
 }
 
 paintScene::~paintScene()
@@ -28,6 +29,28 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if(status == ADD_PAINT) {
+        QPoint newPoint(event->scenePos().x(), event->scenePos().y());
+        if(paintFlag) {
+            addLine(previousPoint.x(),
+                    previousPoint.y(),
+                    newPoint.x(),
+                    newPoint.y(),
+                    QPen(colorLine,1,Qt::SolidLine));
+            previousPoint = newPoint;
+        }
+        else {
+            previousPoint = newPoint;
+            paintFlag = true;
+        }
+    }
+}
+
+void paintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(status == ADD_PAINT) {
+        paintFlag = false;
+    }
 }
 
 void paintScene::PolynomPressEvent(QGraphicsSceneMouseEvent *event)
@@ -79,6 +102,8 @@ void paintScene::PixelPressEvent(QGraphicsSceneMouseEvent *event)
 
 void paintScene::PaintPressEvent(QGraphicsSceneMouseEvent *event)
 {
+    previousPoint = QPoint(event->scenePos().x(), event->scenePos().y());
+    paintFlag = true;
 
 }
 

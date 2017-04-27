@@ -13,11 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->draw->setLayout(layout);
     this->setWindowTitle("Лабораторная работа №6");
 
-    this->setMouseTracking(true);
+    //this->setMouseTracking(true);
 
     myPicture   = new Paint();
     layout->addWidget(myPicture);
-    centralWidget()->setMouseTracking(true);
+    //centralWidget()->setMouseTracking(true);
 
 
     myController   = new MyController();
