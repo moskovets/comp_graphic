@@ -7,7 +7,7 @@
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
-    status = ADD_PAINT;
+    status = ADD_POLYNOM;
 }
 
 paintScene::~paintScene()
@@ -20,10 +20,13 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     switch(status) {
     case ADD_POLYNOM:
         PolynomPressEvent(event);
+        break;
     case ADD_PAINT:
         PaintPressEvent(event);
+        break;
     case ADD_PIXEL:
         PixelPressEvent(event);
+        break;
     }
 }
 
@@ -81,8 +84,9 @@ void paintScene::PolynomPressEvent(QGraphicsSceneMouseEvent *event)
                     startVertex.x(),
                     startVertex.y(),
                     QPen(colorLine,1,Qt::SolidLine));
-            previousVertex = QPoint(event->scenePos().x(), event->scenePos().y());
+            //previousVertex = QPoint(event->scenePos().x(), event->scenePos().y());
             paintFlag = false;
+            qDebug();
         }
     }
     else {
@@ -97,7 +101,8 @@ void paintScene::PolynomPressEvent(QGraphicsSceneMouseEvent *event)
 
 void paintScene::PixelPressEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    pixel = QPoint(event->scenePos().x(), event->scenePos().y());
+    qDebug() << pixel;
 }
 
 void paintScene::PaintPressEvent(QGraphicsSceneMouseEvent *event)
