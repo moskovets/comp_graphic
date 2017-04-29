@@ -21,6 +21,7 @@ void paintScene::Save()
     image.fill(NULL);
     QPainter painter(&image);
     this->render(&painter);
+    currentImage = QImage(image);
 }
 
 void paintScene::ShowPreviousScene()
@@ -30,6 +31,7 @@ void paintScene::ShowPreviousScene()
     this->clear();
     this->addPixmap(pixmap);
 }
+
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -155,16 +157,35 @@ void paintScene::addPoint(QPoint &newPoint)
 }
 QColor paintScene::getPixelColor(const QPoint &p)
 {
-
+    return currentImage.pixelColor(p);
 }
 
 void paintScene::ChangeStatus(SCENE_STATUS st)
 {
     status = st;
     if(st == NO_ACT) {
-        image = QImage(this->width(), this->height(), QImage::Format_ARGB32);
-        image.fill(NULL);
-        QPainter painter(&image);
-        this->render(&painter);
+        this->Save();
     }
+}
+
+void paintScene::addPixelImage(const QPoint &p, const QColor &color)
+{
+    currentImage.setPixelColor(p, color);
+    printCurrentImage();
+}
+
+void paintScene::addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color)
+{
+    QPainter painter(&currentImage);
+    painter.setPen(color);
+    painter.drawLine(p1, p2);
+    printCurrentImage();
+}
+
+void paintScene::printCurrentImage()
+{
+    QPixmap pixmap;
+    pixmap.convertFromImage(currentImage);
+    this->clear();
+    this->addPixmap(pixmap);
 }

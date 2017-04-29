@@ -31,20 +31,24 @@ public:
     void addPoint(QPoint &newPoint);
     QColor getPixelColor(const QPoint &p);
     void ChangeStatus(SCENE_STATUS st);
+    void addPixelImage(const QPoint &p, const QColor &color);
+    void addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color);
+    void printCurrentImage();
 
-    bool paintFlag;
+    bool   paintFlag;
     QColor colorLine = Qt::black;
     QPoint pixel;
 
+private:
     SCENE_STATUS status;
+    QPoint       previousPoint;      // Координаты предыдущей точки
+    QPoint       previousVertex;
+    QPoint       startVertex;
+    QImage       image;
+    QImage       currentImage;
 
 private:
-    QPoint      previousPoint;      // Координаты предыдущей точки
-    QPoint      previousVertex;
-    QPoint      startVertex;
-    QImage      image;
 
-private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
