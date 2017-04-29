@@ -150,6 +150,65 @@
      </widget>
     </item>
     <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Ввод данных</string>
+      </property>
+      <widget class="QRadioButton" name="polynomButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>171</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Многоугольник</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="lineButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>45</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Произвольная линия</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="pixelButton">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>69</y>
+         <width>161</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Затравочный пиксель</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="currPixelLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>211</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Текущий пиксель:</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="brushButton">
       <property name="text">
        <string>Залить</string>
