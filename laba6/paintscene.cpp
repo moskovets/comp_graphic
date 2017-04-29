@@ -133,6 +133,7 @@ void paintScene::PixelPressEvent(QGraphicsSceneMouseEvent *event)
 {
     pixel = QPoint(event->scenePos().x(), event->scenePos().y());
     qDebug() << pixel;
+    emit NewPixel();
 }
 
 void paintScene::PaintPressEvent(QGraphicsSceneMouseEvent *event)

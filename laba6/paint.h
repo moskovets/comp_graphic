@@ -23,6 +23,7 @@ public:
 
     signals:
     void SendScene(paintScene* my_scene);
+    void NewPixel();
 
 private:
     Ui::Paint *ui;
@@ -39,6 +40,7 @@ private:
 
 private slots:
     void slotTimer();
+    void changeScenePixel();
 
 };
 

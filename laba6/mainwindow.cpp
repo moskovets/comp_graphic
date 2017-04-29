@@ -27,12 +27,21 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(myPicture, SIGNAL(SendScene(paintScene*)),
             this, SLOT(SendingScene(paintScene*)));
 
+    QObject::connect(myPicture, SIGNAL(NewPixel()),
+                     this, SLOT(ChangePixel()));
+
     myPicture->Connect();
 }
 void MainWindow::SendingScene(paintScene* my_scene)
 {
     std::cout << "window:" << my_scene->sceneRect().height() << endl;
     myController->GetScene(my_scene);
+}
+
+void MainWindow::ChangePixel()
+{
+    //std::cout << "pixel:\n";
+    myController->ShowPixel();
 }
 
 MainWindow::~MainWindow()

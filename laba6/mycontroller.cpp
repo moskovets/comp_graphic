@@ -37,7 +37,12 @@ MyController::MyController(QWidget *parent) :
 void MyController::GetScene(paintScene *scene1)
 {
     this->scene = scene1;
- }
+}
+
+void MyController::ShowPixel()
+{
+    qDebug() << "connecting\n";
+}
 
 MyController::~MyController()
 {

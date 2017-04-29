@@ -40,6 +40,9 @@ public:
     QColor colorLine = Qt::black;
     QPoint pixel;
 
+signals:
+    void NewPixel();
+
 private:
     SCENE_STATUS status;
     QPoint       previousPoint;      // Координаты предыдущей точки

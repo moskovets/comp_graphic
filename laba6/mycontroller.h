@@ -34,8 +34,9 @@ public:
     explicit MyController(QWidget *parent = 0);
     ~MyController();
     void GetScene(paintScene *scene);
+    void ShowPixel();
 signals:
-    void SceneChange(QGraphicsScene *scene);
+    //void SceneChange(QGraphicsScene *scene);
 private slots:
 
 
