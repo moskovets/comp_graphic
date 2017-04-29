@@ -61,6 +61,7 @@ private slots:
     void on_pixelButton_pressed();
 
 private:
+    //QString str;
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
     bool ValidPoint(QPoint &p);

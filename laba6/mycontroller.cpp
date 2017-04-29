@@ -41,7 +41,10 @@ void MyController::GetScene(paintScene *scene1)
 
 void MyController::ShowPixel()
 {
-    qDebug() << "connecting\n";
+    QString str = "Текущий пиксель: (" + QString::number(scene->pixel.x())
+                + ", " + QString::number(scene->pixel.y()) + ')';
+    qDebug() << str;
+    ui->currPixelLabel->setText(str);
 }
 
 MyController::~MyController()
