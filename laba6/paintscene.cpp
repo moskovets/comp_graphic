@@ -32,6 +32,7 @@ void paintScene::ShowPreviousScene()
     pixmap.convertFromImage(image);
     this->clear();
     this->addPixmap(pixmap);
+    paintFlag = false;
 }
 
 
@@ -205,4 +206,5 @@ void paintScene::clearAll()
 {
     clear();
     Save();
+    paintFlag = false;
 }
