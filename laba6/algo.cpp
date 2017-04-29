@@ -41,6 +41,7 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
     int xright, xleft;
     st.push(tPoint(scene->pixel));
     while(!st.empty()) {
+
         zt = st.top();
         //qDebug() << zt.x << zt.y;
         st.pop();
@@ -60,8 +61,8 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
         }
         xleft = tmp.x + 1;
         FindNewPixels(scene, colorBrush, st, xleft, xright, zt.y - 1);
-        //xleft = 0;
         FindNewPixels(scene, colorBrush, st, xleft, xright, zt.y + 1);
     }
+    scene->printCurrentImage();
     return 0;
 }
