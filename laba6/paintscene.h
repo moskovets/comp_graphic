@@ -34,6 +34,7 @@ public:
     void addPixelImage(const QPoint &p, const QColor &color);
     void addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color);
     void printCurrentImage();
+    void clearAll();
 
     bool   paintFlag;
     QColor colorLine = Qt::black;
@@ -53,6 +54,7 @@ private:
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 
     void PolynomPressEvent(QGraphicsSceneMouseEvent * event);
     void PixelPressEvent(QGraphicsSceneMouseEvent * event);

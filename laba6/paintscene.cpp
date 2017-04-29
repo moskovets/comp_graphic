@@ -4,6 +4,8 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QWidget>
+#include <QKeyEvent>
+
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
@@ -71,6 +73,15 @@ void paintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if(status == ADD_PAINT) {
         paintFlag = false;
+    }
+}
+
+void paintScene::keyPressEvent(QKeyEvent *event)
+{
+    if(status == ADD_POLYNOM) {
+        if(event->key() == Qt::Key_Escape) {
+            paintFlag = false;
+        }
     }
 }
 
@@ -188,4 +199,10 @@ void paintScene::printCurrentImage()
     pixmap.convertFromImage(currentImage);
     this->clear();
     this->addPixmap(pixmap);
+}
+
+void paintScene::clearAll()
+{
+    clear();
+    Save();
 }
