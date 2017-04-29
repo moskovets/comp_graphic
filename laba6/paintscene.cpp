@@ -3,7 +3,7 @@
 #include <QTime>
 #include <QCoreApplication>
 #include <QDebug>
-
+#include <QWidget>
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
@@ -13,6 +13,22 @@ paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 paintScene::~paintScene()
 {
 
+}
+
+void paintScene::Save()
+{
+    image = QImage(this->width(), this->height(), QImage::Format_ARGB32);
+    image.fill(NULL);
+    QPainter painter(&image);
+    this->render(&painter);
+}
+
+void paintScene::ShowPreviousScene()
+{
+    QPixmap pixmap;
+    pixmap.convertFromImage(image);
+    this->clear();
+    this->addPixmap(pixmap);
 }
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -135,5 +151,20 @@ void paintScene::addPoint(QPoint &newPoint)
         paintFlag = true;
         previousVertex = newPoint;
         startVertex = newPoint;
+    }
+}
+QColor paintScene::getPixelColor(const QPoint &p)
+{
+
+}
+
+void paintScene::ChangeStatus(SCENE_STATUS st)
+{
+    status = st;
+    if(st == NO_ACT) {
+        image = QImage(this->width(), this->height(), QImage::Format_ARGB32);
+        image.fill(NULL);
+        QPainter painter(&image);
+        this->render(&painter);
     }
 }

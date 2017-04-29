@@ -16,6 +16,7 @@ enum SCENE_STATUS {
 };
 
 using namespace std;
+
 class paintScene : public QGraphicsScene
 {
 
@@ -28,9 +29,9 @@ public:
     void ShowPreviousScene();
     void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
+    QColor getPixelColor(const QPoint &p);
+    void ChangeStatus(SCENE_STATUS st);
 
-    //vector<QPointF> polynom;
-    //vector<pair<int,int>> edges;
     bool paintFlag;
     QColor colorLine = Qt::black;
     QPoint pixel;
@@ -38,10 +39,9 @@ public:
     SCENE_STATUS status;
 
 private:
-    QPointF     previousPoint;      // Координаты предыдущей точки
-    QPoint     previousVertex;
-    QPoint     startVertex;
-    //int         previousPolynom;
+    QPoint      previousPoint;      // Координаты предыдущей точки
+    QPoint      previousVertex;
+    QPoint      startVertex;
     QImage      image;
 
 private:
