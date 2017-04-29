@@ -33,7 +33,7 @@ void FindNewPixels(paintScene *scene, const QColor &colorBrush,
 
 }
 
-int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
+int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
 {
     stack<tPoint> st;
     tPoint tmp, zt;

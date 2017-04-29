@@ -201,6 +201,7 @@ void MyController::on_timeButton_clicked()
         return;
     if(arr[0] >= 0 && arr[0] <= MAX_TIME) {
         timePause = arr[0];
+        scene->timePause = arr[0];
     }
     else {
         QErrorMessage errorMessage;
@@ -213,7 +214,7 @@ void MyController::on_timeButton_clicked()
 void MyController::on_brushButton_clicked()
 {
     scene->Save();
-    SimpleAlgo(scene, colorBrush, timePause);
+    SimpleAlgo(scene, colorBrush);
 }
 
 void MyController::on_clearallButton_clicked()

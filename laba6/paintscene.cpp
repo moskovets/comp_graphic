@@ -196,6 +196,7 @@ void paintScene::addPixelImage(const tPoint &p, const QColor &color)
     if(cury != p.y) {
         printCurrentImage();
         cury = p.y;
+        sleepFeature(timePause);
     }
 }
 void paintScene::addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color)

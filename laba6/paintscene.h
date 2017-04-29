@@ -57,6 +57,7 @@ public:
     bool   paintFlag;
     QColor colorLine = Qt::black;
     QPoint pixel;
+    int    timePause = 0;
 
 signals:
     void NewPixel();
