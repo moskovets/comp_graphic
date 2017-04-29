@@ -53,6 +53,12 @@ private slots:
 
     void on_clearallButton_clicked();
 
+    void on_polynomButton_pressed();
+
+    void on_lineButton_pressed();
+
+    void on_pixelButton_pressed();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);

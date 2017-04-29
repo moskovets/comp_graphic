@@ -136,9 +136,7 @@ void MyController::on_linecolorButton_clicked()
 void MyController::on_clearButton_clicked()
 {
     qDebug() << "clear:" << scene->height();
-    scene->clear();
-    //scene->repaintPolynom();
-    scene->paintFlag = false;
+    scene->ShowPreviousScene();
 }
 
 
@@ -159,8 +157,12 @@ void MyController::on_drawButton_clicked()
         delete[] arr;
         return;
     }
-    scene->addPoint(newPoint);
-
+    if(ui->polynomButton->isChecked()) {
+        scene->addPoint(newPoint);
+    }
+    if(ui->pixelButton->isChecked()) {
+        scene->pixel = newPoint;
+    }
     delete[] arr;
 
 }
@@ -202,14 +204,29 @@ void MyController::on_timeButton_clicked()
 
 void MyController::on_brushButton_clicked()
 {
+    scene->Save();
     SimpleAlgo(scene, colorBrush, timePause);
-    //scene->repaintPolynom();
 }
 
 void MyController::on_clearallButton_clicked()
 {
-    scene->clear();
-    //scene->polynom.clear();
-    //scene->edges.clear();
-    scene->paintFlag = false;
+    scene->clearAll();
+}
+
+void MyController::on_polynomButton_pressed()
+{
+    scene->ChangeStatus(ADD_POLYNOM);
+    ui->addVertexBox->setEnabled(true);
+}
+
+void MyController::on_lineButton_pressed()
+{
+    scene->ChangeStatus(ADD_PAINT);
+    ui->addVertexBox->setDisabled(true);
+}
+
+void MyController::on_pixelButton_pressed()
+{
+    scene->ChangeStatus(ADD_PIXEL);
+    ui->addVertexBox->setEnabled(true);
 }
