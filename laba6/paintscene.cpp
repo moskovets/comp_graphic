@@ -172,7 +172,10 @@ QColor paintScene::getPixelColor(const QPoint &p)
 {
     return currentImage.pixelColor(p);
 }
-
+QColor paintScene::getPixelColor(const tPoint &p)
+{
+    return currentImage.pixelColor(p.x, p.y);
+}
 void paintScene::ChangeStatus(SCENE_STATUS st)
 {
     status = st;
@@ -187,6 +190,14 @@ void paintScene::addPixelImage(const QPoint &p, const QColor &color)
     printCurrentImage();
 }
 
+void paintScene::addPixelImage(const tPoint &p, const QColor &color)
+{
+    currentImage.setPixelColor(p.x, p.y, color);
+    if(cury != p.y) {
+        printCurrentImage();
+        cury = p.y;
+    }
+}
 void paintScene::addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color)
 {
     QPainter painter(&currentImage);

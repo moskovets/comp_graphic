@@ -14,6 +14,22 @@ enum SCENE_STATUS {
     ADD_PIXEL,    //добавление затравочного пиксля
     NO_ACT        //бездействовать
 };
+struct tPoint {
+    int x;
+    int y;
+    tPoint(QPoint &p) {
+        x = p.x();
+        y = p.y();
+    }
+    tPoint(int x1, int y1) {
+        x = x1;
+        y = y1;
+    }
+    tPoint() {
+        x = y = 0;
+    }
+
+};
 
 using namespace std;
 
@@ -30,8 +46,10 @@ public:
     void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
     QColor getPixelColor(const QPoint &p);
+    QColor getPixelColor(const tPoint &p);
     void ChangeStatus(SCENE_STATUS st);
     void addPixelImage(const QPoint &p, const QColor &color);
+    void addPixelImage(const tPoint &p, const QColor &color);
     void addLineImage(const QPoint &p1, const QPoint &p2, const QColor &color);
     void printCurrentImage();
     void clearAll();
@@ -50,6 +68,7 @@ private:
     QPoint       startVertex;
     QImage       image;
     QImage       currentImage;
+    int cury = 0;
 
 private:
 
