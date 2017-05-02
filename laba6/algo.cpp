@@ -55,6 +55,7 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
         }
         xright = tmp.x - 1;
         tmp = zt;
+        tmp.x--;
         while(scene->getPixelColor(tmp) != scene->colorLine) {
             scene->addPixelImage(tmp, colorBrush);
             tmp.x--;
