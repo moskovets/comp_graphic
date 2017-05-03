@@ -208,7 +208,7 @@ void DrawLine(paintScene *scene, tPoint a, tPoint b, const QColor &colorBrush, i
     }
 }
 
-int SimpleAlgo1(paintScene *scene, const QColor &colorBrush, int timePause)
+int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
 {
     vector<tPoint> points;
 
@@ -228,6 +228,7 @@ int SimpleAlgo1(paintScene *scene, const QColor &colorBrush, int timePause)
     return 0;
 
 }
+/*
 struct tNode {
     int n_max;
     double x;
@@ -401,3 +402,4 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
     return 0;
 
 }
+*/
