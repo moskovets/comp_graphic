@@ -174,6 +174,10 @@ QColor paintScene::getPixelColor(const QPoint &p)
 }
 QColor paintScene::getPixelColor(const tPoint &p)
 {
+    if(p.x <= 0 || p.x >= image.width() || p.y <= 0 || p.y >= image.height())
+    {
+        return colorLine;
+    }
     return currentImage.pixelColor(p.x, p.y);
 }
 void paintScene::ChangeStatus(SCENE_STATUS st)
