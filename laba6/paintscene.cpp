@@ -138,8 +138,21 @@ void paintScene::PixelPressEvent(QGraphicsSceneMouseEvent *event)
 
 void paintScene::PaintPressEvent(QGraphicsSceneMouseEvent *event)
 {
-    previousPoint = QPoint(event->scenePos().x(), event->scenePos().y());
-    paintFlag = true;
+    if(event->button() == Qt::RightButton) {
+            // Рисуем финальное ребро
+            addLine(previousPoint.x(),
+                    previousPoint.y(),
+                    startVertex.x(),
+                    startVertex.y(),
+                    QPen(colorLine,1,Qt::SolidLine));
+            //previousVertex = QPoint(event->scenePos().x(), event->scenePos().y());
+            paintFlag = false;
+    }
+    else {
+        previousPoint = QPoint(event->scenePos().x(), event->scenePos().y());
+        startVertex = previousPoint;
+        paintFlag = true;
+    }
 
 }
 
