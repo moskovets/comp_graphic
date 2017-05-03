@@ -200,7 +200,7 @@ bool MyCompare(tPoint a, tPoint b) {
     }
     return false;
 }
-void DrawLine(paintScene *scene, tPoint &a, tPoint &b, const QColor &colorBrush, int timePause)
+void DrawLine(paintScene *scene, tPoint a, tPoint b, const QColor &colorBrush, int timePause)
 {
     scene->addLine(a.x, a.y, b.x, b.y, QPen(colorBrush, 1));
     if(timePause != 0) {
@@ -208,17 +208,196 @@ void DrawLine(paintScene *scene, tPoint &a, tPoint &b, const QColor &colorBrush,
     }
 }
 
-int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
+int SimpleAlgo1(paintScene *scene, const QColor &colorBrush, int timePause)
 {
     vector<tPoint> points;
 
     FindPairPoints(points, scene->polynom, scene->edges);
     std::sort(points.begin(), points.end(), MyCompare);
 
-
+    int y = -1;
     for(unsigned int i = 0; i < points.size(); i += 2) {
-        DrawLine(scene, points[i], points[i+1], colorBrush, timePause);
+        if(points[i].y == y) {
+           DrawLine(scene, points[i], points[i+1], colorBrush, 0);
+        }
+        else {
+            DrawLine(scene, points[i], points[i+1], colorBrush, timePause);
+            y = points[i].y;
+        }
     }
+    return 0;
+
+}
+struct tNode {
+    int n_max;
+    double x;
+    double dx;
+    int dy;
+    tNode *next = nullptr;
+    tNode() {}
+    tNode(int n, double x0, double dx0, int dy0) {
+        n_max = n;
+        x = x0;
+        dx = dx0;
+        dy = dy0;
+        next = nullptr;
+    }
+};
+
+class ListEdges
+{
+public:
+    ListEdges() {
+
+    }
+    void add(tNode *node) {
+        if(size == 0) {
+            list = node;
+            size++;
+        }
+        else {
+            tNode* prevNode = list;
+            tNode* tmp = list;
+            if(node->n_max >= list->n_max) {
+                node->next = list;
+                list = node;
+                size++;
+                return;
+            }
+            tmp = tmp->next;
+            while(tmp) {
+                if(tmp->n_max >= prevNode->n_max) {
+                    prevNode->next = node;
+                    node->next = tmp;
+                    break;
+                }
+                prevNode = tmp;
+                tmp = tmp->next;
+            }
+            if(!node->next) {
+                prevNode->next = node;
+            }
+            size++;
+        }
+    }
+    void correct(int tmpy) {
+        tNode* tmp = list;
+        tNode* prev = list;
+        while(tmp) {
+            if(tmp->n_max < tmpy) { break; }
+            tmp->x += tmp->dx;
+            tmp->n_max--;
+            tmp->dy -= 1;
+            if(tmp->dy < 0) {
+                if(tmp == prev) {
+                    prev = tmp->next;
+                    //delete tmp;
+                    tmp = prev;
+                }
+                else {
+                    prev->next = tmp->next;
+                    //delete tmp;
+                    tmp = nullptr;
+                }
+            }
+            if(tmp)
+               tmp = tmp->next;
+        }
+    }
+    void form(vector <int> &tmpx, int tmpy) {
+        tNode* tmp = list;
+        while(tmp) {
+            if(tmp->n_max < tmpy) { break; }
+            tmpx.push_back(tmp->x);
+            tmp = tmp->next;
+        }
+    }
+
+    void print() {
+        tNode* tmp = list;
+        while(tmp) {
+            qDebug() << tmp->n_max << tmp->x << tmp->dx << tmp->dy;
+            tmp = tmp->next;
+        }
+    }
+
+    bool empty()
+    {
+        return !list;
+    }
+
+
+
+    int size = 0;
+    tNode* list = nullptr;
+};
+int Algo(const vector<tVertex> &polynom, const vector<pair<int,int>> &edges,
+            paintScene *scene, const QColor &colorBrush, int timePause)
+{
+    ListEdges mylist;
+    vector<tPoint> points;
+    tNode *node = nullptr;
+    double x1, x2, y1, y2;
+    double m;
+
+    for(unsigned int i = 0; i < edges.size(); i++)
+    {
+        x1 = polynom[edges[i].first].p.x();
+        x2 = polynom[edges[i].second].p.x();
+        y1 = polynom[edges[i].first].p.y();
+        y2 = polynom[edges[i].second].p.y();
+        if(y1 == y2) {
+            node = new tNode(y1, x1, 0, 1);
+            mylist.add(node);
+            if(CheckLok_horisont(polynom, edges, edges[i].first, edges[i].second, i)) {
+                node = new tNode(y2, x2, 0, 1);
+                mylist.add(node);
+            }
+        }
+        else {
+            bool swapflag = false;
+            if(y1 > y2) {
+                swap(y1, y2);
+                swap(x1, x2);
+                swapflag = true;
+            }
+            m = (x2 - x1) / (y2 - y1);
+           // int flagLok;
+            if(CheckLok1(polynom, edges, edges[i].first)) {
+                if(swapflag) {
+                    node = new tNode(y2, x2, 0, 1);
+                }
+                else {
+                    node = new tNode(y1, x1, 0, 1);
+                }
+                mylist.add(node);
+            }
+            node = new tNode(y2, x2, -m, y2 - y1 + 1);
+            mylist.add(node);
+        }
+    }
+    mylist.print();
+    //return 0;
+
+
+    vector <int> tmpx;
+    int tmpy;
+    while(!mylist.empty()) {
+        tmpy = mylist.list->n_max;
+        mylist.form(tmpx, tmpy);
+        mylist.correct(tmpy);
+        for(unsigned int i = 0; i < tmpx.size(); i += 2) {
+            DrawLine(scene, tPoint(round(tmpx[i]), tmpy), tPoint(round(tmpx[i+1]), tmpy), colorBrush, timePause);
+        }
+        tmpx.clear();
+    }
+    return 0;
+
+}
+
+int SimpleAlgo(paintScene *scene, const QColor &colorBrush, int timePause)
+{
+    Algo(scene->polynom, scene->edges, scene, colorBrush, timePause);
     return 0;
 
 }

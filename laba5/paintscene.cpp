@@ -86,7 +86,7 @@ void paintScene::sleepFeature(int time)
     while(QTime::currentTime() < end) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
-    this->repaintPolynom();
+    //this->repaintPolynom();
     return;
 }
 
