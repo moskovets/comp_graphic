@@ -285,7 +285,7 @@
         <string>Задать</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="rectButton">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -301,7 +301,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="segmentButton">
        <property name="geometry">
         <rect>
          <x>20</x>

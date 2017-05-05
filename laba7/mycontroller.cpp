@@ -189,3 +189,13 @@ void MyController::on_clearallButton_clicked()
 {
     scene->clearAll();
 }
+
+void MyController::on_rectButton_pressed()
+{
+    scene->SetStatus(ADD_RECT_FIRST);
+}
+
+void MyController::on_segmentButton_pressed()
+{
+    scene->SetStatus(ADD_SEGMENT_FIRST);
+}

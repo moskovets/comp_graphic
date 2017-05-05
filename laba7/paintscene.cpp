@@ -7,7 +7,7 @@
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
-    status = ADD_SEGMENT_FIRST;
+    status = ADD_RECT_FIRST;
     rectExist = false;
 }
 
@@ -19,16 +19,18 @@ paintScene::~paintScene()
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QPoint newPoint = QPoint(event->scenePos().x(), event->scenePos().y());
-    if(status == ADD_RECT_FIRST || status == ADD_SEGMENT_FIRST) {
+    if(status == ADD_SEGMENT_FIRST) {
+        paintFlag = true;
+        previousPoint = firstVertex = newPoint;
+        status = ADD_SEGMENT_SECOND;
+    }
+    else if(status == ADD_RECT_FIRST) {
         if(rectExist) {
             this->addMyRect(polynom.first, polynom.second, Qt::white);
         }
         paintFlag = true;
         previousPoint = firstVertex = newPoint;
-        if(status == ADD_RECT_FIRST)
-            status = ADD_RECT_SECOND;
-        if(status == ADD_SEGMENT_FIRST)
-            status = ADD_SEGMENT_SECOND;
+        status = ADD_RECT_SECOND;
         rectExist = false;
     }
     else if(status == ADD_RECT_SECOND) {
@@ -109,6 +111,7 @@ void paintScene::clearAll()
     this->clear();
     paintFlag = false;
     rectExist = false;
+    segments.clear();
 }
 
 void paintScene::repaintScene()
