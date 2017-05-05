@@ -29,7 +29,7 @@ void Paint::slotTimer()
      * от размеров окна
      * */
     timer->stop();
-    scene->repaintPolynom();
+    scene->repaintScene();
     scene->setSceneRect(0,0, ui->graphicsView->width() - 20, ui->graphicsView->height() - 20);
     timer->start(TIMER_TIME);
 }
