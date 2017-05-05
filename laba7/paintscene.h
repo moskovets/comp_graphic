@@ -1,0 +1,62 @@
+#ifndef PAINTSCENE_H
+#define PAINTSCENE_H
+
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+#include <QTimer>
+#include <QDebug>
+#include <vector>
+#include <math.h>
+
+
+struct tPoint {
+    int x;
+    int y;
+    tPoint(int x1, int y1) {
+        x = x1;
+        y = y1;
+    }
+};
+
+enum SCENE_STATUS {
+    ADD_RECT_FIRST,  //добавление первой вершины прямоугольника
+    ADD_RECT_SECOND,    //добавление второй вершины
+    ADD_SEGMENT_FIRST,    // добавление отрезка
+    ADD_SEGMENT_SECOND,    // добавление отрезка
+    NO_ACT        //бездействовать
+};
+
+using namespace std;
+class paintScene : public QGraphicsScene
+{
+
+    Q_OBJECT
+
+public:
+    explicit paintScene(QObject *parent = 0);
+    ~paintScene();
+    void repaintPolynom();
+    void sleepFeature(int time);
+    void addPoint(QPoint &newPoint);
+    void SetStatus(SCENE_STATUS st);
+
+    QRect polynom;
+    vector<pair<tPoint,tPoint>> segments;
+    bool paintFlag;
+    QColor colorLine = Qt::black;
+    QColor colorRect = Qt::black;
+
+private:
+    SCENE_STATUS status;
+    QPoint     previousPoint;      // Координаты предыдущей точки
+    QPoint     firstVertex;
+
+private:
+    // Для рисования используем события мыши
+    void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+
+
+};
+
+#endif // PAINTSCENE_H
