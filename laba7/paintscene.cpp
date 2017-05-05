@@ -7,7 +7,7 @@
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
-    status = ADD_RECT_FIRST;
+    status = ADD_SEGMENT_FIRST;
     rectExist = false;
 }
 
@@ -41,11 +41,20 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         status = ADD_RECT_FIRST;
     }
     else if(status == ADD_SEGMENT_SECOND) {
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - firstVertex.x) <=
+               fabs(event->scenePos().y() - firstVertex.y))
+            {
+                newPoint.setX(firstVertex.x);
+            }
+            else {
+                newPoint.setY(firstVertex.y);
+            }
+        }
         paintFlag = false;
         this->addMyLine(firstVertex, previousPoint, Qt::white);
         this->addMyLine(firstVertex, newPoint, colorLine);
         segments.push_back(pair<tPoint, tPoint>(firstVertex, newPoint));
-        //TODO Shift
         this->repaintScene();
         status = ADD_SEGMENT_FIRST;
     }
@@ -62,11 +71,20 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
     else if(status == ADD_SEGMENT_SECOND) {
         QPoint newPoint = QPoint(event->scenePos().x(), event->scenePos().y());
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - firstVertex.x) <=
+               fabs(event->scenePos().y() - firstVertex.y))
+            {
+                newPoint.setX(firstVertex.x);
+            }
+            else {
+                newPoint.setY(firstVertex.y);
+            }
+        }
         this->addMyLine(firstVertex, previousPoint, Qt::white);
         this->addMyLine(firstVertex, newPoint, colorLine);
         this->repaintScene();
         previousPoint = newPoint;
-        //TODO Shift
     }
 }
 
