@@ -104,6 +104,13 @@ void paintScene::addMyRect(tPoint a, tPoint b, const QColor &color)
     this->addLine(b.x, a.y, b.x, b.y, QPen(color, 1, Qt::SolidLine));
 }
 
+void paintScene::clearAll()
+{
+    this->clear();
+    paintFlag = false;
+    rectExist = false;
+}
+
 void paintScene::repaintScene()
 {
     for(size_t i = 0; i < segments.size(); i++) {
@@ -127,4 +134,9 @@ void paintScene::sleepFeature(int time)
 void paintScene::addPoint(QPoint &newPoint)
 {
     //TODO
+}
+
+void paintScene::SetStatus(SCENE_STATUS st)
+{
+    status = st;
 }

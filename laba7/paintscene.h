@@ -47,7 +47,7 @@ public:
     void addMyLine(tPoint a, tPoint b, const QColor &color);
     void addMyLine(QPoint a, QPoint b, const QColor &color);
     void addMyRect(tPoint a, tPoint b, const QColor &color);
-
+    void clearAll();
 
     pair<tPoint, tPoint> polynom;
     vector<pair<tPoint,tPoint>> segments;
