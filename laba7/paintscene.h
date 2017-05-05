@@ -16,6 +16,10 @@ struct tPoint {
         x = x1;
         y = y1;
     }
+    tPoint(QPoint a) {
+        x = a.x();
+        y = a.y();
+    }
 };
 
 enum SCENE_STATUS {
@@ -35,12 +39,15 @@ class paintScene : public QGraphicsScene
 public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
-    void repaintPolynom();
+    void repaintScene();
     void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
     void SetStatus(SCENE_STATUS st);
+    void addMyLine(tPoint a, tPoint b, const QColor &color);
+    void addMyLine(QPoint a, QPoint b, const QColor &color);
 
-    QRect polynom;
+
+    QRectF polynom;
     vector<pair<tPoint,tPoint>> segments;
     bool paintFlag;
     QColor colorLine = Qt::black;
@@ -50,6 +57,8 @@ private:
     SCENE_STATUS status;
     QPoint     previousPoint;      // Координаты предыдущей точки
     QPoint     firstVertex;
+
+    bool       rectExist;
 
 private:
     // Для рисования используем события мыши
