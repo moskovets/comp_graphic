@@ -5,6 +5,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
 #include <QDebug>
+#include <QCursor>
 #include <vector>
 #include <math.h>
 
@@ -28,6 +29,9 @@ enum SCENE_STATUS {
     ADD_POLYNOM_SECOND,    //добавление второй вершины
     ADD_SEGMENT_FIRST,    // добавление отрезка
     ADD_SEGMENT_SECOND,    // добавление отрезка
+    CHOOSE_SIDE,
+    ADD_SEGMENT_PARAL_FIRST,
+    ADD_SEGMENT_PARAL_SECOND,
     NO_ACT        //бездействовать
 };
 
@@ -56,6 +60,9 @@ public:
     bool paintFlag;
     QColor colorLine = Qt::black;
     QColor colorPolynom = Qt::black;
+
+    signals:
+    void ChangeCursor(QCursor &c);
 
 private:
     SCENE_STATUS status;

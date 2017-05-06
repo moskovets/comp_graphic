@@ -7,8 +7,8 @@
 #include <string.h>
 #include <QColorDialog>
 #include <QDebug>
-//#include "my_scene.h"
 #include "algo.h"
+
 #define MIN_PAR    10
 #define LEN        300
 #define MAX_TIME   100

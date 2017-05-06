@@ -13,6 +13,9 @@ Paint::Paint(QWidget *parent) :
     ui->graphicsView->setScene(scene);  // Устанавливаем графическую сцену
     ui->graphicsView->setMouseTracking(true);
 
+    QObject::connect(scene, SIGNAL(ChangeCursor(QCursor&)),
+            this, SLOT(ChangeCursor(QCursor&)));
+
     timer = new QTimer();       // Инициализируем таймер
     connect(timer, &QTimer::timeout, this, &Paint::slotTimer);
     timer->start(TIMER_TIME);          // Запускаем таймер
@@ -32,6 +35,11 @@ void Paint::slotTimer()
     //scene->repaintScene();
     scene->setSceneRect(0,0, ui->graphicsView->width() - 20, ui->graphicsView->height() - 20);
     timer->start(TIMER_TIME);
+}
+
+void Paint::ChangeCursor(QCursor &c)
+{
+    this->setCursor(c);
 }
 
 void Paint::resizeEvent(QResizeEvent *event)

@@ -39,7 +39,7 @@ private:
 
 private slots:
     void slotTimer();
-
+    void ChangeCursor(QCursor &c);
 };
 
 #endif // PAINT_H

@@ -203,4 +203,8 @@ void paintScene::addPoint(QPoint &nP)
 void paintScene::SetStatus(SCENE_STATUS st)
 {
     status = st;
+    if(st == CHOOSE_SIDE) {
+        QCursor c = Qt::OpenHandCursor;
+        emit ChangeCursor(c);
+    }
 }
