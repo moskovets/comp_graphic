@@ -71,12 +71,17 @@ private:
 
     bool       polynomExist;
 
+    pair<tPoint, tPoint> nearSide;
 private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
+    void paralPress(QGraphicsSceneMouseEvent * event);
+    void paralMove(QGraphicsSceneMouseEvent * event);
 
+    void findNearSide(tPoint &p);
+    void calculateParalPoint(const tPoint &start, tPoint &p);
 };
 
 #endif // PAINTSCENE_H

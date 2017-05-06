@@ -212,6 +212,15 @@ void MyController::on_segmentButton_pressed()
 
 void MyController::on_segmParalButton_pressed()
 {
-    scene->SetStatus(CHOOSE_SIDE);
-    ui->addVertexBox->setDisabled(true);
+    if(!scene->IsExist()) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Отсекатель не задан!");
+        errorMessage.exec();
+        ui->rectButton->setChecked(true);
+        ui->rectButton->pressed();
+    }
+    else {
+        scene->SetStatus(CHOOSE_SIDE);
+        ui->addVertexBox->setDisabled(true);
+    }
 }

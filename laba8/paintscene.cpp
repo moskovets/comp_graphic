@@ -18,12 +18,17 @@ paintScene::~paintScene()
 
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
     if(paintFlag == false) {
         this->clear();
         this->repaintScene();
     }
     paintFlag = true;
+    if(status == CHOOSE_SIDE || status == ADD_SEGMENT_PARAL_FIRST ||
+       status == ADD_SEGMENT_PARAL_SECOND) {
+        paralPress(event);
+        return;
+    }
+    tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
     if(status == ADD_SEGMENT_FIRST) {
         previousPoint = firstVertex = newPoint;
         status = ADD_SEGMENT_SECOND;
@@ -70,10 +75,15 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         this->repaintScene();
         status = ADD_SEGMENT_FIRST;
     }
+
 }
 
 void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if(status == ADD_SEGMENT_PARAL_SECOND) {
+        paralMove(event);
+        return;
+    }
     if(status == ADD_POLYNOM_SECOND) {
         tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
         this->addMyPolynom(previousPoint, Qt::white);
@@ -98,6 +108,55 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         this->repaintScene();
         previousPoint = newPoint;
     }
+}
+
+void paintScene::paralPress(QGraphicsSceneMouseEvent *event)
+{
+    tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+    if(status == CHOOSE_SIDE) {
+        QCursor c = Qt::ClosedHandCursor;
+        emit ChangeCursor(c);
+        findNearSide(newPoint);
+        status = ADD_SEGMENT_PARAL_FIRST;
+        c = Qt::ArrowCursor;
+        emit ChangeCursor(c);
+    }
+    else if(status == ADD_SEGMENT_PARAL_FIRST) {
+        previousPoint = firstVertex = newPoint;
+        status = ADD_SEGMENT_PARAL_SECOND;
+    }
+    else if(status == ADD_SEGMENT_PARAL_SECOND) {
+        calculateParalPoint(firstVertex, newPoint);
+        this->addMyLine(firstVertex, previousPoint, Qt::white);
+        this->addMyLine(firstVertex, newPoint, colorLine);
+        segments.push_back(pair<tPoint, tPoint>(firstVertex, newPoint));
+        this->repaintScene();
+        status = CHOOSE_SIDE;
+        QCursor c = Qt::OpenHandCursor;
+        emit ChangeCursor(c);
+    }
+}
+
+void paintScene::paralMove(QGraphicsSceneMouseEvent *event)
+{
+    if(status == ADD_SEGMENT_PARAL_SECOND) {
+        tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+        calculateParalPoint(firstVertex, newPoint);
+        this->addMyLine(firstVertex, previousPoint, Qt::white);
+        this->addMyLine(firstVertex, newPoint, colorLine);
+        this->repaintScene();
+        previousPoint = newPoint;
+    }
+}
+
+void paintScene::findNearSide(tPoint &p)
+{
+    nearSide = pair<tPoint, tPoint>(polynom[0], polynom[1]);
+}
+
+void paintScene::calculateParalPoint(const tPoint &start, tPoint &p)
+{
+
 }
 
 void paintScene::addMyLine(tPoint &a, tPoint &b, const QColor &color, int width)
