@@ -114,11 +114,9 @@ void paintScene::paralPress(QGraphicsSceneMouseEvent *event)
 {
     tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
     if(status == CHOOSE_SIDE) {
-        QCursor c = Qt::ClosedHandCursor;
-        emit ChangeCursor(c);
         findNearSide(newPoint);
         status = ADD_SEGMENT_PARAL_FIRST;
-        c = Qt::ArrowCursor;
+        QCursor c = Qt::ArrowCursor;
         emit ChangeCursor(c);
     }
     else if(status == ADD_SEGMENT_PARAL_FIRST) {
@@ -148,10 +146,38 @@ void paintScene::paralMove(QGraphicsSceneMouseEvent *event)
         previousPoint = newPoint;
     }
 }
+double distanse(tPoint &a, tPoint &b) {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+int findDistanse(tPoint &a, tPoint &b, tPoint &p) {
+    double ab, bp, ap;
+    ab = distanse(a, b);
+    bp = distanse(p, b);
+    ap = distanse(a, p);
+    if(bp * bp + ab * ab < ap * ap) {
+        return bp;
+    }
+    if(bp * bp > ab * ab + ap * ap) {
+        return ap;
+    }
+    double d = fabs((b.y - a.y) * p.x - (b.x - a.x) * p.y + b.x * a.y - b.y * a.x) / ab;
+    return d;
+}
 
 void paintScene::findNearSide(tPoint &p)
 {
-    nearSide = pair<tPoint, tPoint>(polynom[0], polynom[1]);
+    int minside = 0;
+    int mindistance = findDistanse(polynom[0], polynom[1], p);
+    int n = polynom.size() - 1;
+    for(int i = 0; i < n; i++) {
+        int tmp = findDistanse(polynom[i], polynom[i+1], p);
+        if(tmp < mindistance) {
+            mindistance = tmp;
+            minside = i;
+        }
+    }
+    nearSide = pair<tPoint, tPoint>(polynom[minside], polynom[minside + 1]);
 }
 
 void paintScene::calculateParalPoint(const tPoint &s, tPoint &p)
