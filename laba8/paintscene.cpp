@@ -154,9 +154,15 @@ void paintScene::findNearSide(tPoint &p)
     nearSide = pair<tPoint, tPoint>(polynom[0], polynom[1]);
 }
 
-void paintScene::calculateParalPoint(const tPoint &start, tPoint &p)
+void paintScene::calculateParalPoint(const tPoint &s, tPoint &p)
 {
-
+    if(nearSide.first.x == nearSide.second.x) {
+        p.x = s.x;
+        return;
+    }
+    double k = (nearSide.first.y - nearSide.second.y) / (double)
+               (nearSide.first.x - nearSide.second.x);
+    p.y = round((p.x - s.x) * k) + s.y;
 }
 
 void paintScene::addMyLine(tPoint &a, tPoint &b, const QColor &color, int width)
