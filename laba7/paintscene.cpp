@@ -19,8 +19,12 @@ paintScene::~paintScene()
 void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QPoint newPoint = QPoint(event->scenePos().x(), event->scenePos().y());
+    if(paintFlag == false) {
+        this->clear();
+        this->repaintScene();
+    }
+    paintFlag = true;
     if(status == ADD_SEGMENT_FIRST) {
-        paintFlag = true;
         previousPoint = firstVertex = newPoint;
         status = ADD_SEGMENT_SECOND;
     }
@@ -28,14 +32,12 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if(rectExist) {
             this->addMyRect(polynom.first, polynom.second, Qt::white);
         }
-        paintFlag = true;
         previousPoint = firstVertex = newPoint;
         status = ADD_RECT_SECOND;
         rectExist = false;
     }
     else if(status == ADD_RECT_SECOND) {
         rectExist = true;
-        paintFlag = false;
         this->addMyRect(firstVertex, previousPoint, Qt::white);
         this->addMyRect(firstVertex, newPoint, colorRect);
         polynom = pair<tPoint, tPoint>(firstVertex, newPoint);
@@ -53,7 +55,6 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 newPoint.setY(firstVertex.y);
             }
         }
-        paintFlag = false;
         this->addMyLine(firstVertex, previousPoint, Qt::white);
         this->addMyLine(firstVertex, newPoint, colorLine);
         segments.push_back(pair<tPoint, tPoint>(firstVertex, newPoint));
@@ -136,8 +137,12 @@ void paintScene::sleepFeature(int time)
 
 void paintScene::addPoint(QPoint &newPoint)
 {
+    if(paintFlag == false) {
+        this->clear();
+        this->repaintScene();
+    }
+    paintFlag = true;
     if(status == ADD_SEGMENT_FIRST) {
-        paintFlag = true;
         previousPoint = firstVertex = newPoint;
         status = ADD_SEGMENT_SECOND;
     }
@@ -145,14 +150,12 @@ void paintScene::addPoint(QPoint &newPoint)
         if(rectExist) {
             this->addMyRect(polynom.first, polynom.second, Qt::white);
         }
-        paintFlag = true;
         previousPoint = firstVertex = newPoint;
         status = ADD_RECT_SECOND;
         rectExist = false;
     }
     else if(status == ADD_RECT_SECOND) {
         rectExist = true;
-        paintFlag = false;
         this->addMyRect(firstVertex, previousPoint, Qt::white);
         this->addMyRect(firstVertex, newPoint, colorRect);
         polynom = pair<tPoint, tPoint>(firstVertex, newPoint);
@@ -160,7 +163,6 @@ void paintScene::addPoint(QPoint &newPoint)
         status = ADD_RECT_FIRST;
     }
     else if(status == ADD_SEGMENT_SECOND) {
-        paintFlag = false;
         this->addMyLine(firstVertex, previousPoint, Qt::white);
         this->addMyLine(firstVertex, newPoint, colorLine);
         segments.push_back(pair<tPoint, tPoint>(firstVertex, newPoint));

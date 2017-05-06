@@ -183,6 +183,7 @@ bool MyController::ValidPoint(QPoint &p) {
 void MyController::on_brushButton_clicked()
 {
     SimpleAlgo(scene, colorBrush);
+    scene->paintFlag = false;
 }
 
 void MyController::on_clearallButton_clicked()
