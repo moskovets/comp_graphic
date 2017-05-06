@@ -182,8 +182,15 @@ bool MyController::ValidPoint(QPoint &p) {
 
 void MyController::on_brushButton_clicked()
 {
-    SimpleAlgo(scene, colorBrush);
-    scene->paintFlag = false;
+    if(!scene->IsExist()) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Отсекатель не задан!");
+        errorMessage.exec();
+    }
+    else {
+        SimpleAlgo(scene, colorBrush);
+        scene->paintFlag = false;
+    }
 }
 
 void MyController::on_clearallButton_clicked()

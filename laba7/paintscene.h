@@ -48,6 +48,7 @@ public:
     void addMyLine(QPoint a, QPoint b, const QColor &color, int width = 1);
     void addMyRect(tPoint a, tPoint b, const QColor &color);
     void clearAll();
+    bool IsExist();
 
     pair<tPoint, tPoint> polynom;
     vector<pair<tPoint,tPoint>> segments;

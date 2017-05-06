@@ -8,9 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(1200, 700);
-    ui->centralWidget->setLayout(ui->mainLayout);
+
     QHBoxLayout *layout = new QHBoxLayout;
-    ui->draw->setLayout(layout);
+    ui->centralWidget->setLayout(layout);
     this->setWindowTitle("Лабораторная работа №7");
 
     this->setMouseTracking(true);

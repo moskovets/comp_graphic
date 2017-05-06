@@ -115,6 +115,11 @@ void paintScene::clearAll()
     segments.clear();
 }
 
+bool paintScene::IsExist()
+{
+    return rectExist;
+}
+
 void paintScene::repaintScene()
 {
     for(size_t i = 0; i < segments.size(); i++) {
