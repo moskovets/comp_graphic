@@ -201,14 +201,17 @@ void MyController::on_clearallButton_clicked()
 void MyController::on_rectButton_pressed()
 {
     scene->SetStatus(ADD_POLYNOM_FIRST);
+    ui->addVertexBox->setEnabled(true);
 }
 
 void MyController::on_segmentButton_pressed()
 {
     scene->SetStatus(ADD_SEGMENT_FIRST);
+    ui->addVertexBox->setEnabled(true);
 }
 
 void MyController::on_segmParalButton_pressed()
 {
     scene->SetStatus(CHOOSE_SIDE);
+    ui->addVertexBox->setDisabled(true);
 }
