@@ -39,7 +39,8 @@ struct tSegment {
         p2 = b;
     }
 };
-int SegmentVisible(const tCut &rect, const tPoint &p1, const tPoint &p2, int &t1i, int &t2i, int i) {
+int SegmentVisible(const tCut &rect, const tPoint &p1, const tPoint &p2, int &t1i, int &t2i, int i)
+{
     int t[2][5] = { 0 };
     tPoint points[2] = { p1, p2 };
     int s[2] = { 0 };
@@ -65,7 +66,8 @@ int SegmentVisible(const tCut &rect, const tPoint &p1, const tPoint &p2, int &t1
     return 0; // visible part
 }
 
-int CutSegment(const tCut &rect, tPoint &p1, tPoint &p2, bool &visible) {
+int CutSegment(const tCut &rect, tPoint &p1, tPoint &p2, bool &visible)
+{
     short int fl = 0;
     double m = 0;
     if(p1.x == p2.x) {
@@ -80,8 +82,6 @@ int CutSegment(const tCut &rect, tPoint &p1, tPoint &p2, bool &visible) {
     int tmp, t1, t2;
     for(int i = 1; i <= 4; i++) {
         tmp = SegmentVisible(rect, p1, p2, t1, t2, i);
-        //qDebug() << "\n" << i << tmp << t1 << t2;
-
         if(tmp == 1) {
             visible = true;
             return 0;
@@ -122,20 +122,11 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
     rect.yt = max(scene->polynom.first.y, scene->polynom.second.y);
     rect.yb = min(scene->polynom.first.y, scene->polynom.second.y);
     bool visible = true;
-    qDebug();
     for(unsigned int i = 0; i < scene->segments.size(); i++) {
         tSegment s(scene->segments[i].first, scene->segments[i].second);
-        qDebug() << s.p1.x << s.p1.y << s.p2.x << s.p2.y;
-        int t1, t2;
-        int tmp = SegmentVisible(rect, s.p1, s.p2, t1, t2, 0);
-        qDebug() << tmp;
         CutSegment(rect, s.p1, s.p2, visible);
-        if(visible) {
-            scene->addMyLine(s.p1, s.p2, colorBrush);
-            qDebug() << "visible: ";
-            qDebug() << s.p1.x << s.p1.y << s.p2.x << s.p2.y;
-
-        }
+        if(visible)
+            scene->addMyLine(s.p1, s.p2, colorBrush, 3);
     }
     return 0;
 }

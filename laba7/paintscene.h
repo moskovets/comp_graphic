@@ -44,8 +44,8 @@ public:
     void sleepFeature(int time);
     void addPoint(QPoint &newPoint);
     void SetStatus(SCENE_STATUS st);
-    void addMyLine(tPoint a, tPoint b, const QColor &color);
-    void addMyLine(QPoint a, QPoint b, const QColor &color);
+    void addMyLine(tPoint a, tPoint b, const QColor &color, int width = 1);
+    void addMyLine(QPoint a, QPoint b, const QColor &color, int width = 1);
     void addMyRect(tPoint a, tPoint b, const QColor &color);
     void clearAll();
 

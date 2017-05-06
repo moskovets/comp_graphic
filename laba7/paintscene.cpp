@@ -90,13 +90,13 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void paintScene::addMyLine(tPoint a, tPoint b, const QColor &color)
+void paintScene::addMyLine(tPoint a, tPoint b, const QColor &color, int width)
 {
-    this->addLine(a.x, a.y, b.x, b.y, QPen(color, 1, Qt::SolidLine));
+    this->addLine(a.x, a.y, b.x, b.y, QPen(color, width, Qt::SolidLine));
 }
-void paintScene::addMyLine(QPoint a, QPoint b, const QColor &color)
+void paintScene::addMyLine(QPoint a, QPoint b, const QColor &color, int width)
 {
-    this->addLine(a.x(), a.y(), b.x(), b.y(), QPen(color, 1, Qt::SolidLine));
+    this->addLine(a.x(), a.y(), b.x(), b.y(), QPen(color, width, Qt::SolidLine));
 }
 void paintScene::addMyRect(tPoint a, tPoint b, const QColor &color)
 {
