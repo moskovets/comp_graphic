@@ -188,6 +188,7 @@ void paintScene::addPoint(QPoint &nP)
         this->addMyPolynom(previousPoint, Qt::white);
         this->addMyPolynom(newPoint, colorPolynom);
         polynom.push_back(newPoint);
+        previousPoint = newPoint;
         this->repaintScene();
     }
     else if(status == ADD_SEGMENT_SECOND) {
