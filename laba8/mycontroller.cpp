@@ -188,13 +188,12 @@ void MyController::on_brushButton_clicked()
         errorMessage.exec();
     }
     else {
-        if(IsConvexPolygon(scene->polynom) != 1) {
+        if(SimpleAlgo(scene, colorBrush) == 1) {
             QErrorMessage errorMessage;
             errorMessage.showMessage("Отсекатель не выпуклый!");
             errorMessage.exec();
         }
         else {
-            SimpleAlgo(scene, colorBrush);
             scene->paintFlag = false;
         }
     }
