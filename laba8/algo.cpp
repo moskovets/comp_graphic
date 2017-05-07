@@ -51,7 +51,7 @@ int IsConvexPolygon(vector<tPoint> &polynom) {
         VectorMult(a, b, tmp);
         if(res == 0)
             res = SIGN(tmp.z);
-        if(res != SIGN(tmp.z)) {
+        if(tmp.z && res != SIGN(tmp.z)) {
             return 0;
         }
         a = b;
@@ -86,9 +86,9 @@ int CutSegment(vector<tPoint> &polynom, vector<tVector> &normVect, tPoint &p1, t
     double tbot = 0, ttop = 1;
     double t;
     D = tVector(p2, p1);
-    qDebug() << n;
+    //qDebug() << n;
     for(int i = 0; i < n; i++) {
-        W = tVector(p1, polynom[i]); //i+1???
+        W = tVector(p1, polynom[i]);
         Dsk = ScalarMult(D, normVect[i]);
         Wsk = ScalarMult(W, normVect[i]);
         if(Dsk == 0) {
@@ -97,7 +97,7 @@ int CutSegment(vector<tPoint> &polynom, vector<tVector> &normVect, tPoint &p1, t
         }
         else {
             t = -Wsk / (double) Dsk;
-            qDebug() << t << Dsk;
+            //qDebug() << t << Dsk;
             if(Dsk > 0) {
                 if(t > 1)
                     return 0;
@@ -114,12 +114,12 @@ int CutSegment(vector<tPoint> &polynom, vector<tVector> &normVect, tPoint &p1, t
             }
         }
     }
-    qDebug() << tbot << ttop;
+    //qDebug() << tbot << ttop;
     if(tbot <= ttop) {
         tPoint tmp = P(tbot, p1, p2);
         p2 = P(ttop, p1, p2);
         p1 = tmp;
-        qDebug() << "ok";
+        //qDebug() << "ok";
         visible = true;
     }
     return 0;

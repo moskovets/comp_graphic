@@ -45,6 +45,17 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     else if(status == ADD_POLYNOM_SECOND) {
         this->addMyPolynom(previousPoint, Qt::white);
+        int n = polynom.size() - 1;
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - polynom[n].x) <=
+               fabs(event->scenePos().y() - polynom[n].y))
+            {
+                newPoint.x = polynom[n].x;
+            }
+            else {
+                newPoint.y = polynom[n].y;
+            }
+        }
         if(event->button() == Qt::RightButton) {
             polynomExist = true;
             polynom.push_back(polynom[0]);
@@ -86,6 +97,17 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
     if(status == ADD_POLYNOM_SECOND) {
         tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+        int n = polynom.size() - 1;
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - polynom[n].x) <=
+               fabs(event->scenePos().y() - polynom[n].y))
+            {
+                newPoint.x = polynom[n].x;
+            }
+            else {
+                newPoint.y = polynom[n].y;
+            }
+        }
         this->addMyPolynom(previousPoint, Qt::white);
         this->addMyPolynom(newPoint, colorPolynom);
         previousPoint = newPoint;
@@ -296,6 +318,10 @@ void paintScene::SetStatus(SCENE_STATUS st)
     status = st;
     if(st == CHOOSE_SIDE) {
         QCursor c = Qt::OpenHandCursor;
+        emit ChangeCursor(c);
+    }
+    else {
+        QCursor c = Qt::ArrowCursor;
         emit ChangeCursor(c);
     }
 }
