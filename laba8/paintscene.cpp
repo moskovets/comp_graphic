@@ -315,13 +315,20 @@ void paintScene::addPoint(QPoint &nP)
 
 void paintScene::SetStatus(SCENE_STATUS st)
 {
-    status = st;
     if(st == CHOOSE_SIDE) {
         QCursor c = Qt::OpenHandCursor;
         emit ChangeCursor(c);
+        status = st;
+        return;
     }
     else {
         QCursor c = Qt::ArrowCursor;
         emit ChangeCursor(c);
     }
+    this->clear();
+    if(status == ADD_POLYNOM_SECOND) {
+        polynom.clear();
+    }
+    this->repaintScene();
+    status = st;
 }
