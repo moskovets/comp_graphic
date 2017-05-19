@@ -8,7 +8,7 @@ paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
     status = ADD_POLYNOM_FIRST;
-    polynomExist = false;
+    polynomExist = polyForCutExist = false;
 }
 
 paintScene::~paintScene()
@@ -26,11 +26,40 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
     if(status == ADD_FIRST) {
-        //previousPoint = firstVertex = newPoint;
+        if(polyForCutExist) {
+            this->addMyPolynomForCut(Qt::white);
+            polyForCut.clear();
+        }
+        polyForCut.push_back(newPoint);
+        previousPoint = firstVertex = newPoint;
         status = ADD_SECOND;
+        polyForCutExist = false;
     }
     else if(status == ADD_SECOND) {
-        //TODO
+        this->addMyPolynomForCut(previousPoint, Qt::white);
+        int n = polyForCut.size() - 1;
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - polyForCut[n].x) <=
+               fabs(event->scenePos().y() - polyForCut[n].y))
+            {
+                newPoint.x = polyForCut[n].x;
+            }
+            else {
+                newPoint.y = polyForCut[n].y;
+            }
+        }
+        if(event->button() == Qt::RightButton) {
+            polyForCutExist = true;
+            polyForCut.push_back(polyForCut[0]);
+            this->addMyPolynomForCut(colorLine);
+            status = ADD_FIRST;
+        }
+        else {
+            this->addMyPolynomForCut(newPoint, colorLine);
+            polyForCut.push_back(newPoint);
+            previousPoint = newPoint;
+        }
+        this->repaintScene();
     }
     else if(status == ADD_POLYNOM_FIRST) {
         if(polynomExist) {
@@ -91,7 +120,22 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         this->repaintScene();
     }
     else if(status == ADD_SECOND) {
-        //TODO
+        tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+        int n = polyForCut.size() - 1;
+        if(event->modifiers() == Qt::ShiftModifier) {
+            if(fabs(event->scenePos().x() - polyForCut[n].x) <=
+               fabs(event->scenePos().y() - polyForCut[n].y))
+            {
+                newPoint.x = polyForCut[n].x;
+            }
+            else {
+                newPoint.y = polyForCut[n].y;
+            }
+        }
+        this->addMyPolynomForCut(previousPoint, Qt::white);
+        this->addMyPolynomForCut(newPoint, colorLine);
+        previousPoint = newPoint;
+        this->repaintScene();
     }
 }
 
@@ -157,13 +201,32 @@ void paintScene::addMyPolynom(const QColor &color)
     }
 }
 
+void paintScene::addMyPolynomForCut(tPoint &p, const QColor &color)
+{
+    int n = polyForCut.size() - 1;
+    this->addLine(polyForCut[0].x, polyForCut[0].y, p.x, p.y, QPen(color, 1, Qt::SolidLine));
+    if(n > 0) {
+        this->addLine(polyForCut[n].x, polyForCut[n].y, p.x, p.y, QPen(color, 1, Qt::SolidLine));
+    }
+}
+
+void paintScene::addMyPolynomForCut(const QColor &color)
+{
+    int n = polyForCut.size() - 1;
+    for(int i = 0; i < n; i++) {
+        this->addLine(polyForCut[i].x,     polyForCut[i].y,
+                      polyForCut[i + 1].x, polyForCut[i + 1].y,
+                      QPen(color, 1, Qt::SolidLine));
+    }
+}
+
 void paintScene::clearAll()
 {
     this->clear();
     paintFlag = false;
     polynomExist = false;
     polynom.clear();
-    //segments.clear();
+    polyForCut.clear();
 }
 
 bool paintScene::IsExist()
@@ -174,6 +237,7 @@ bool paintScene::IsExist()
 void paintScene::repaintScene()
 {
     this->addMyPolynom(colorPolynom);
+    this->addMyPolynomForCut(colorLine);
 }
 
 void paintScene::sleepFeature(int time)

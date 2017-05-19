@@ -49,6 +49,8 @@ public:
     void addMyLine(QPoint &a, QPoint &b, const QColor &color, int width = 1);
     void addMyPolynom(tPoint &newPoint, const QColor &color);
     void addMyPolynom(const QColor &color);
+    void addMyPolynomForCut(tPoint &newPoint, const QColor &color);
+    void addMyPolynomForCut(const QColor &color);
     void clearAll();
     bool IsExist();
 
@@ -67,6 +69,7 @@ private:
     tPoint     firstVertex;
 
     bool       polynomExist;
+    bool       polyForCutExist;
 
     pair<tPoint, tPoint> nearSide;
 private:
@@ -75,7 +78,6 @@ private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     void findNearSide(tPoint &p);
-    //void calculateParalPoint(const tPoint &start, tPoint &p);
 };
 
 #endif // PAINTSCENE_H
