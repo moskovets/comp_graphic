@@ -13,7 +13,7 @@ paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
     paintFlag = false;
     status = ADD_POLYNOM_FIRST;
 
-    polynomExist = polyForCutExist = nearVFlag = true; //false;
+    polynomExist = polyForCutExist = nearVFlag = false;
 }
 
 paintScene::~paintScene()

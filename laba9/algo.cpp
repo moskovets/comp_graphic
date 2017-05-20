@@ -134,9 +134,10 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
                 resPolynom.push_back(S);
         }
 
+        //PrintResPolynom(scene, polynom, Qt::white);
         polynom = resPolynom;
         polynom.push_back(polynom[0]);
-DebugPrintPolynom(polynom);
+        DebugPrintPolynom(polynom);
         //PrintResPolynom(scene, resPolynom, Qt::green);
         //scene->sleepFeature(1000);
         resPolynom.clear();

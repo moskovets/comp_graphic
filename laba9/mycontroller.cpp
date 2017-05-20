@@ -188,17 +188,6 @@ void MyController::on_brushButton_clicked()
         errorMessage.exec();
     }
     else {
-    scene->polynom.push_back(tPoint(200, 200));
-    scene->polynom.push_back(tPoint(400, 200));
-    scene->polynom.push_back(tPoint(400, 400));
-    scene->polynom.push_back(tPoint(200, 400));
-    scene->polynom.push_back(tPoint(200, 200));
-    //polyForCutExist = true;
-    scene->polyForCut.push_back(tPoint(100, 250));
-    scene->polyForCut.push_back(tPoint(300, 450));
-    scene->polyForCut.push_back(tPoint(350, 300));
-    scene->polyForCut.push_back(tPoint(100, 250));
-    scene->repaintScene();
         if(SimpleAlgo(scene, colorBrush) == 1) {
             QErrorMessage errorMessage;
             errorMessage.showMessage("Отсекатель не выпуклый!");
