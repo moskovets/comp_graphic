@@ -3,12 +3,16 @@
 #include <QTime>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QKeyEvent>
+
+#define CIRCLE_R 10
+#define CIRCLE_WIDTH 3
 
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
     status = ADD_POLYNOM_FIRST;
-    polynomExist = polyForCutExist = false;
+    polynomExist = polyForCutExist = nearVFlag = false;
 }
 
 paintScene::~paintScene()
@@ -112,7 +116,7 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         int n = polynom.size() - 1;
         if(event->modifiers() == Qt::ShiftModifier) {
             if(fabs(event->scenePos().x() - polynom[n].x) <=
-               fabs(event->scenePos().y() - polynom[n].y))
+                    fabs(event->scenePos().y() - polynom[n].y))
             {
                 newPoint.x = polynom[n].x;
             }
@@ -125,27 +129,42 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         previousPoint = newPoint;
         this->repaintScene();
     }
-    else if(status == ADD_SECOND) {
-        tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
-        int n = polyForCut.size() - 1;
-        if(event->modifiers() == Qt::ShiftModifier) {
-            if(fabs(event->scenePos().x() - polyForCut[n].x) <=
-               fabs(event->scenePos().y() - polyForCut[n].y))
-            {
-                newPoint.x = polyForCut[n].x;
+    else {
+        if(status == ADD_FIRST || status == ADD_SECOND) {
+            tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+            if(event->modifiers() == Qt::ControlModifier) {
+                findNearVertex(newPoint);
             }
             else {
-                newPoint.y = polyForCut[n].y;
+                if(nearVFlag) {
+                    drawCircle(QColor(Qt::white));
+                    nearVFlag = false;
+                }
             }
         }
-        if(event->modifiers() == Qt::ControlModifier) {
-            findPointOnBorder(newPoint);
+        if(status == ADD_SECOND) {
+            tPoint newPoint = tPoint(event->scenePos().x(), event->scenePos().y());
+            int n = polyForCut.size() - 1;
+            if(event->modifiers() == Qt::ShiftModifier) {
+                if(fabs(event->scenePos().x() - polyForCut[n].x) <=
+                        fabs(event->scenePos().y() - polyForCut[n].y))
+                {
+                    newPoint.x = polyForCut[n].x;
+                }
+                else {
+                    newPoint.y = polyForCut[n].y;
+                }
+            }
+            if(event->modifiers() == Qt::ControlModifier) {
+                findPointOnBorder(newPoint);
+            }
+            this->addMyPolynomForCut(previousPoint, Qt::white);
+            this->addMyPolynomForCut(newPoint, colorLine);
+            previousPoint = newPoint;
+            this->repaintScene();
         }
-        this->addMyPolynomForCut(previousPoint, Qt::white);
-        this->addMyPolynomForCut(newPoint, colorLine);
-        previousPoint = newPoint;
-        this->repaintScene();
     }
+
 }
 
 double distanse(tPoint &a, tPoint &b) {
@@ -176,6 +195,10 @@ void paintScene::findNearSide(tPoint &p)
 
 void paintScene::findPointOnBorder(tPoint &p)
 {
+    if(nearVFlag) {
+        p = nearVertex;
+        return;
+    }
     findNearSide(p);
     tPoint s = nearSide.first;
     if(nearSide.first.x == nearSide.second.x) {
@@ -190,6 +213,39 @@ void paintScene::findPointOnBorder(tPoint &p)
     else {
         p.x = round((p.y - s.y) / k) + s.x;
     }
+}
+
+void paintScene::findNearVertex(tPoint &p)
+{
+    int tmpVertex = 0;
+    int mindistance = distanse(polynom[0], p);
+    int n = polynom.size() - 1;
+    for(int i = 0; i < n; i++) {
+        int tmp = distanse(polynom[i], p);
+        if(tmp < mindistance) {
+            mindistance = tmp;
+            tmpVertex = i;
+        }
+    }
+    if(mindistance > CIRCLE_R) {
+        if(nearVFlag) {
+            drawCircle(QColor(Qt::white));
+            nearVFlag = false;
+        }
+    }
+    else {
+        nearVertex = polynom[tmpVertex];
+        nearVFlag = true;
+        drawCircle(Qt::black);
+    }
+
+}
+
+void paintScene::drawCircle(QColor c)
+{
+   this->addEllipse(nearVertex.x - CIRCLE_R / 2, nearVertex.y - CIRCLE_R / 2,
+                    CIRCLE_R, CIRCLE_R,
+                    QPen(c, CIRCLE_WIDTH, Qt::SolidLine));
 }
 
 void paintScene::addMyLine(tPoint &a, tPoint &b, const QColor &color, int width)
@@ -255,6 +311,10 @@ bool paintScene::IsExist()
 
 void paintScene::repaintScene()
 {
+    //this->clear();
+    if(nearVFlag) {
+        drawCircle(Qt::black);
+    }
     this->addMyPolynom(colorPolynom);
     this->addMyPolynomForCut(colorLine);
 }

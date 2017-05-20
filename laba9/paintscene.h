@@ -72,6 +72,8 @@ private:
     bool       polyForCutExist;
 
     pair<tPoint, tPoint> nearSide;
+    tPoint     nearVertex;
+    bool       nearVFlag;
 private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
@@ -79,6 +81,8 @@ private:
 
     void findNearSide(tPoint &p);
     void findPointOnBorder(tPoint &p);
+    void findNearVertex(tPoint &p);
+    void drawCircle(QColor c);
 };
 
 #endif // PAINTSCENE_H
