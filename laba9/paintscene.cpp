@@ -12,7 +12,8 @@ paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     paintFlag = false;
     status = ADD_POLYNOM_FIRST;
-    polynomExist = polyForCutExist = nearVFlag = false;
+
+    polynomExist = polyForCutExist = nearVFlag = true; //false;
 }
 
 paintScene::~paintScene()

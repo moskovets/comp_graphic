@@ -75,8 +75,75 @@ tPoint P(double t, tPoint &p1, tPoint &p2) {
     tmp.y = p1.y + round((p2.y - p1.y) * t);
     return tmp;
 }
+//проверка пересечения векторов
+bool FindIntersection(tVector segment, tPoint &p1, tPoint &p2, tVector &norm)
+{
 
+}
+bool VisibleVertex(tPoint &vertex, tPoint &p1, tVector &norm) {
+    tVector v1(vertex, p1);
+    double mult = ScalarMult(v1, norm);
+    return mult > 0;
+}
+void PrintResPolynom(paintScene *scene, vector<tPoint> &resPolynom, const QColor &colorBrush) {
+    if(resPolynom.size() == 0) {
+        qDebug() << "cut all";
 
+        return;
+    }
+    resPolynom.push_back(resPolynom[0]);
+    for(int i = 0; i < resPolynom.size() - 1; i++) {
+        scene->addMyLine(resPolynom[i],resPolynom[i+1], colorBrush, 3);
+    }
+}
+void DebugPrintPolynom(vector<tPoint> &polynom) {
+    qDebug() << "-------------------";
+    for(int i = 0; i < polynom.size(); i++) {
+        qDebug() << polynom[i].x << polynom[i].y;
+    }
+    qDebug() << "-------------------";
+}
+
+int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
+               vector<tPoint> &polynom, vector<tPoint> &resPolynom, paintScene *scene)
+{
+    int n = Cut.size() - 1;
+    //int m = polynom.size() - 1;
+    tPoint F, S, I;
+    double Dsk, Wsk, t;DebugPrintPolynom(Cut);DebugPrintPolynom(polynom);
+    for(int i = 0; i < n; i++) {
+        int m = polynom.size();
+        for(int j = 0; j < m; j++) {
+            if(j == 0)
+                F = polynom[j];
+            else {
+                tVector D(polynom[j], S);
+                Dsk = ScalarMult(D, normVect[i]);
+                if(Dsk != 0) {
+                    tVector W(S, Cut[i]);
+                    Wsk = ScalarMult(W, normVect[i]);
+                    t = -Wsk / Dsk;
+                    if(t >= 0 && t <= 1) {
+                        I = P(t, S, polynom[j]);
+                        resPolynom.push_back(I);
+                    }
+                }
+            }
+            S = polynom[j];
+            if(VisibleVertex(S, Cut[i], normVect[i]))
+                resPolynom.push_back(S);
+        }
+
+        polynom = resPolynom;
+        polynom.push_back(polynom[0]);
+DebugPrintPolynom(polynom);
+        //PrintResPolynom(scene, resPolynom, Qt::green);
+        //scene->sleepFeature(1000);
+        resPolynom.clear();
+
+    }
+    resPolynom = polynom;
+}
 
 int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
 {
@@ -85,7 +152,9 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
         return 1;
     vector<tVector> normVect;
     findNormVectorsToSide(scene->polynom, obhod, normVect);
-    //TODO
+    vector<tPoint> resPolynom;
+    CutSegment(scene->polynom, normVect, scene->polyForCut, resPolynom, scene);
+    PrintResPolynom(scene, resPolynom, colorBrush);
     return 0;
 }
 
