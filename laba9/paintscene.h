@@ -78,6 +78,7 @@ private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     void findNearSide(tPoint &p);
+    void findPointOnBorder(tPoint &p);
 };
 
 #endif // PAINTSCENE_H

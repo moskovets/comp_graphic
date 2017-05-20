@@ -30,6 +30,9 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             this->addMyPolynomForCut(Qt::white);
             polyForCut.clear();
         }
+        if(event->modifiers() == Qt::ControlModifier) {
+            findPointOnBorder(newPoint);
+        }
         polyForCut.push_back(newPoint);
         previousPoint = firstVertex = newPoint;
         status = ADD_SECOND;
@@ -47,6 +50,9 @@ void paintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             else {
                 newPoint.y = polyForCut[n].y;
             }
+        }
+        if(event->modifiers() == Qt::ControlModifier) {
+            findPointOnBorder(newPoint);
         }
         if(event->button() == Qt::RightButton) {
             polyForCutExist = true;
@@ -132,6 +138,9 @@ void paintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
                 newPoint.y = polyForCut[n].y;
             }
         }
+        if(event->modifiers() == Qt::ControlModifier) {
+            findPointOnBorder(newPoint);
+        }
         this->addMyPolynomForCut(previousPoint, Qt::white);
         this->addMyPolynomForCut(newPoint, colorLine);
         previousPoint = newPoint;
@@ -144,16 +153,8 @@ double distanse(tPoint &a, tPoint &b) {
 }
 
 int findDistanse(tPoint &a, tPoint &b, tPoint &p) {
-    double ab, bp, ap;
+    double ab;
     ab = distanse(a, b);
-    bp = distanse(p, b);
-    ap = distanse(a, p);
-    if(bp * bp + ab * ab < ap * ap) {
-        return bp;
-    }
-    if(bp * bp > ab * ab + ap * ap) {
-        return ap;
-    }
     double d = fabs((b.y - a.y) * p.x - (b.x - a.x) * p.y + b.x * a.y - b.y * a.x) / ab;
     return d;
 }
@@ -171,6 +172,24 @@ void paintScene::findNearSide(tPoint &p)
         }
     }
     nearSide = pair<tPoint, tPoint>(polynom[minside], polynom[minside + 1]);
+}
+
+void paintScene::findPointOnBorder(tPoint &p)
+{
+    findNearSide(p);
+    tPoint s = nearSide.first;
+    if(nearSide.first.x == nearSide.second.x) {
+        p.x = s.x;
+        return;
+    }
+    double k = (nearSide.first.y - nearSide.second.y) / (double)
+               (nearSide.first.x - nearSide.second.x);
+    if(k < 1) {
+        p.y = round((p.x - s.x) * k) + s.y;
+    }
+    else {
+        p.x = round((p.y - s.y) / k) + s.x;
+    }
 }
 
 void paintScene::addMyLine(tPoint &a, tPoint &b, const QColor &color, int width)
