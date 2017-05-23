@@ -2,10 +2,11 @@
 #include <vector>
 #include <QThread>
 #include "paintscene.h"
-
+#define EPS_PARAL 0.05
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
-struct tSegment {
+struct tSegment
+{
     bool empty = false;
     tPoint p1;
     tPoint p2;
@@ -28,7 +29,9 @@ struct tSegment {
         return false;
     }
 };
-struct tVector {
+
+struct tVector
+{
     int x;
     int y;
     int z;
@@ -50,24 +53,30 @@ struct tVector {
     }
 };
 
-void VectorMult(tVector &a, tVector& b, tVector &res) {
+void VectorMult(tVector &a, tVector& b, tVector &res)
+{
     res.x = a.y * b.z - a.z * b.y;
     res.y = a.z * b.x - a.x * b.z;
     res.z = a.x * b.y - a.y * b.x;
 }
-int ScalarMult(tVector &a, tVector& b) {
+
+int ScalarMult(tVector &a, tVector& b)
+{
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
-bool CheckParal(tVector &a, tVector& b) {
+
+// проверка параллельности векторов через поиск угла
+bool CheckParal(tVector &a, tVector& b)
+{
     double aa = sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
     double bb = sqrt(b.x * b.x + b.y * b.y + b.z * b.z);
     double sk = ScalarMult(a, b);
     double angle = sk / aa / bb;
-    qDebug() << angle;
-
-    return fabs(angle) < 0.05;
+    return fabs(angle) < EPS_PARAL;
 }
-int IsConvexPolygon(vector<tPoint> &polynom) {
+
+int IsConvexPolygon(vector<tPoint> &polynom)
+{
     tVector a(polynom[1], polynom[0]);
     tVector b;
     int n = polynom.size();
@@ -85,7 +94,9 @@ int IsConvexPolygon(vector<tPoint> &polynom) {
     }
     return res;
 }
-int findNormVectorsToSide(vector<tPoint> &polynom, int obhod, vector<tVector> &normVect) {
+
+int findNormVectorsToSide(vector<tPoint> &polynom, int obhod, vector<tVector> &normVect)
+{
     int n = polynom.size() - 1;
     tVector b;
     for(int i = 0; i < n; i++) {
@@ -96,18 +107,16 @@ int findNormVectorsToSide(vector<tPoint> &polynom, int obhod, vector<tVector> &n
             normVect.push_back(tVector(-b.y, b.x));
     }
 }
-tPoint P(double t, tPoint &p1, tPoint &p2) {
+tPoint P(double t, tPoint &p1, tPoint &p2)
+{
     tPoint tmp;
     tmp.x = p1.x + round((p2.x - p1.x) * t);
     tmp.y = p1.y + round((p2.y - p1.y) * t);
     return tmp;
 }
-//проверка пересечения векторов
-bool FindIntersection(tVector segment, tPoint &p1, tPoint &p2, tVector &norm)
-{
 
-}
-bool VisibleVertex(tPoint &vertex, tPoint &p1, tVector &norm) {
+bool VisibleVertex(tPoint &vertex, tPoint &p1, tVector &norm)
+{
     tVector v1(vertex, p1);
     double mult = ScalarMult(v1, norm);
     return mult > 0;
@@ -115,7 +124,6 @@ bool VisibleVertex(tPoint &vertex, tPoint &p1, tVector &norm) {
 void PrintResPolynom(paintScene *scene, vector<tPoint> &resPolynom, const QColor &colorBrush) {
     if(resPolynom.size() == 0) {
         qDebug() << "cut all";
-
         return;
     }
     resPolynom.push_back(resPolynom[0]);
@@ -135,7 +143,6 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
                vector<tPoint> &polynom, vector<tPoint> &resPolynom, paintScene *scene)
 {
     int n = Cut.size() - 1;
-    //int m = polynom.size() - 1;
     tPoint F, S, I;
     double Dsk, Wsk, t;DebugPrintPolynom(Cut);DebugPrintPolynom(polynom);
     for(int i = 0; i < n; i++) {
@@ -160,7 +167,6 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
             if(VisibleVertex(S, Cut[i], normVect[i]))
                 resPolynom.push_back(S);
         }
-
         //PrintResPolynom(scene, polynom, Qt::white);
         polynom = resPolynom;
         polynom.push_back(polynom[0]);
@@ -168,11 +174,11 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
         //PrintResPolynom(scene, resPolynom, Qt::green);
         //scene->sleepFeature(1000);
         resPolynom.clear();
-
     }
     resPolynom = polynom;
 }
-void PrintResPolynom(paintScene *scene, vector<tSegment> &segments, const QColor &colorBrush) {
+void PrintResPolynom(paintScene *scene, vector<tSegment> &segments, const QColor &colorBrush)
+{
     for(int i = 0; i < segments.size(); i++) {
         scene->addMyLine(segments[i].p1,segments[i].p2, colorBrush, 3);
     }
@@ -208,15 +214,18 @@ void DeleteDoubleAndNullSegments(vector<tSegment> &segments)
     }
     segments = resSegment;
 }
-bool IsSegmentsOnLineAndHaveIntersection(tSegment &s1, tSegment &s2) {
+
+// проверка лежат ли отрезки на одной прямой и пересекаются
+bool IsSegmentsOnLineAndHaveIntersection(tSegment &s1, tSegment &s2)
+{
     tVector v1(s1);
     tVector v2(s2);
     tVector h(v1.y, -v1.x);
-    if(CheckParal(h, v2)) {
+    if(CheckParal(h, v2)) // проверка параллельности
+    {
         tVector v3(s1.p1, s2.p1);
-        qDebug() << "hey";
-        if(CheckParal(h, v3)) {
-            qDebug() << "lala";
+        if(CheckParal(h, v3)) { // проверка принадлежности одной прямой
+            // проверка наличия пересечений
             if(s1.p1.x == s1.p2.x) { //vertical segments
                 if(s1.p1.y <= s2.p2.y && s1.p1.y >= s2.p1.y)
                     return true;
@@ -233,15 +242,18 @@ bool IsSegmentsOnLineAndHaveIntersection(tSegment &s1, tSegment &s2) {
     }
     return false;
 }
-void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment &s1, tSegment &s2) {
+
+//разбиение пересекающихся отрезков на части, добавление "уникальных" отрезков в список, удаление исходных
+void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment &s1, tSegment &s2)
+{
     if(s1.p1.x == s2.p2.x || s2.p1.x == s1.p2.x)
         return;
     s1.empty = true;
     s2.empty = true;
-    if(s1.p1.isEqual(s2.p1) &&  s1.p2.isEqual(s2.p2))
+    if(s1.p1.isEqual(s2.p1) &&  s1.p2.isEqual(s2.p2)) // магия
         return;
-    bool flagchange = false;
-    if(s1.p1.x == s1.p1.x) {
+
+    if(s1.p1.x == s1.p1.x) { //для вертикальных отрезков отдельно
         if(s2.p1.y < s1.p1.y) {
             segments.push_back(tSegment(s2.p1, s1.p1));
         }
@@ -257,9 +269,8 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
             t = s1.p2;
             end = s2.p2;
         }
-        flagchange = true; //TODO;
-         segments.push_back(tSegment(t, end));
-         return;
+        segments.push_back(tSegment(t, end));
+        return;
     }
 
     if(s2.p1.x < s1.p1.x) {
@@ -277,29 +288,22 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
         t = s1.p2;
         end = s2.p2;
     }
-    //segments.push_back(tSegment(s1.p1, t)); //del
-    //segments.push_back(tSegment(s1.p1, t)); //del
     segments.push_back(tSegment(t, end));
 }
 
 void FindOverlappingSegments(vector<tSegment> &segments)
 {
-   // vector<tSegment> resSegment;
     for(int i = 0; i < segments.size(); i++) {
         if(!segments[i].empty) {
             for(int j = 0; j < segments.size(); j++) {
-                //qDebug() << "hop";
                 if(segments[j].empty || i == j)
                     continue;
                 if(IsSegmentsOnLineAndHaveIntersection(segments[i], segments[j])) {
-                    qDebug() << "ok";
                     AddToListSegmentsResultsOfIntersection(segments, segments[i], segments[j]);
                 }
             }
         }
     }
-  //  segments = resSegment;
-
     DeleteDoubleAndNullSegments(segments);
 }
 
@@ -308,10 +312,13 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
     int obhod = IsConvexPolygon(scene->polynom);
     if(!obhod)
         return 1;
+
     vector<tVector> normVect;
     findNormVectorsToSide(scene->polynom, obhod, normVect);
+
     vector<tPoint> resPolynom;
     CutSegment(scene->polynom, normVect, scene->polyForCut, resPolynom, scene);
+
     vector<tSegment> segments;
     GetSegmentsFromVertex(segments, resPolynom);
     FindOverlappingSegments(segments);
