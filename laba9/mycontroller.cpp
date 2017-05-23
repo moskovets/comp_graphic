@@ -182,12 +182,19 @@ bool MyController::ValidPoint(QPoint &p) {
 
 void MyController::on_brushButton_clicked()
 {
+    if(ui->stepBox->isChecked()) {
+        scene->stepFlag = true;
+    }
+    else {
+        scene->stepFlag = false;
+    }
     if(!scene->IsExist()) {
         QErrorMessage errorMessage;
         errorMessage.showMessage("Отсекатель не задан!");
         errorMessage.exec();
     }
     else {
+        vector<tPoint> polynom_copy = scene->polyForCut;
         if(SimpleAlgo(scene, colorBrush) == 1) {
             QErrorMessage errorMessage;
             errorMessage.showMessage("Отсекатель не выпуклый!");
@@ -196,6 +203,7 @@ void MyController::on_brushButton_clicked()
         else {
             scene->paintFlag = false;
         }
+        scene->polyForCut = polynom_copy;
     }
 }
 

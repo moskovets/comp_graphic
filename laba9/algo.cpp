@@ -144,7 +144,8 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
 {
     int n = Cut.size() - 1;
     tPoint F, S, I;
-    double Dsk, Wsk, t;DebugPrintPolynom(Cut);DebugPrintPolynom(polynom);
+    double Dsk, Wsk, t;
+    //DebugPrintPolynom(Cut);DebugPrintPolynom(polynom);
     for(int i = 0; i < n; i++) {
         int m = polynom.size();
         for(int j = 0; j < m; j++) {
@@ -167,12 +168,15 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
             if(VisibleVertex(S, Cut[i], normVect[i]))
                 resPolynom.push_back(S);
         }
-        //PrintResPolynom(scene, polynom, Qt::white);
+        if(scene->stepFlag)
+            PrintResPolynom(scene, polynom, Qt::white);
         polynom = resPolynom;
         polynom.push_back(polynom[0]);
         //DebugPrintPolynom(polynom);
-        //PrintResPolynom(scene, resPolynom, Qt::green);
-        //scene->sleepFeature(1000);
+        if(scene->stepFlag) {
+            PrintResPolynom(scene, resPolynom, Qt::green);
+            scene->sleepFeature(1000);
+        }
         resPolynom.clear();
     }
     resPolynom = polynom;
@@ -318,6 +322,8 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
 
     vector<tPoint> resPolynom;
     CutSegment(scene->polynom, normVect, scene->polyForCut, resPolynom, scene);
+    if(scene->stepFlag)
+        PrintResPolynom(scene, resPolynom, Qt::white);
 
     vector<tSegment> segments;
     GetSegmentsFromVertex(segments, resPolynom);

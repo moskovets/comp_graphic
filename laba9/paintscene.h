@@ -63,6 +63,8 @@ public:
     QColor colorLine = Qt::black;
     QColor colorPolynom = Qt::black;
 
+    bool stepFlag;
+
     signals:
     void ChangeCursor(QCursor &c);
 
@@ -77,6 +79,7 @@ private:
     pair<tPoint, tPoint> nearSide;
     tPoint     nearVertex;
     bool       nearVFlag;
+
 private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
