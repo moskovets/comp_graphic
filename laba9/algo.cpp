@@ -137,13 +137,25 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
         //PrintResPolynom(scene, polynom, Qt::white);
         polynom = resPolynom;
         polynom.push_back(polynom[0]);
-        DebugPrintPolynom(polynom);
+        //DebugPrintPolynom(polynom);
         //PrintResPolynom(scene, resPolynom, Qt::green);
         //scene->sleepFeature(1000);
         resPolynom.clear();
 
     }
     resPolynom = polynom;
+}
+void PrintResPolynom(paintScene *scene, vector<tSegment> &segments, const QColor &colorBrush) {
+    for(int i = 0; i < segments.size(); i++) {
+        scene->addMyLine(segments[i].p1,segments[i].p2, colorBrush, 3);
+    }
+}
+void GetSegmentsFromVertex(vector<tSegment> &segments, vector<tPoint> &resPolynom) {
+    for(int i = 0; i < resPolynom.size() - 1; i++) {
+        if(!resPolynom[i].isEqual(resPolynom[i+1])) {
+            segments.push_back(tSegment(resPolynom[i],resPolynom[i+1]));
+        }
+    }
 }
 
 int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
@@ -155,7 +167,11 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
     findNormVectorsToSide(scene->polynom, obhod, normVect);
     vector<tPoint> resPolynom;
     CutSegment(scene->polynom, normVect, scene->polyForCut, resPolynom, scene);
-    PrintResPolynom(scene, resPolynom, colorBrush);
+    vector<tSegment> segments;
+    GetSegmentsFromVertex(segments, resPolynom);
+
+    PrintResPolynom(scene, segments, colorBrush);
+
     return 0;
 }
 

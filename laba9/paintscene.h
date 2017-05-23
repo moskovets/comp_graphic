@@ -22,6 +22,9 @@ struct tPoint {
         y = a.y();
     }
     tPoint() {}
+    bool isEqual(tPoint p) {
+        return x == p.x && y == p.y;
+    }
 };
 
 enum SCENE_STATUS {
