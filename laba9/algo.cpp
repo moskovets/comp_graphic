@@ -2,6 +2,7 @@
 #include <vector>
 #include <QThread>
 #include "paintscene.h"
+#include <math.h>
 #define EPS_PARAL 0.05
 #define SIGN(x) ((int) (x > 0) - (x < 0))
 
@@ -12,6 +13,8 @@ struct tSegment
     tPoint p2;
     tSegment() {}
     tSegment(tPoint &a, tPoint &b) {
+        if(a.isEqual(b))
+            empty = true;
         if(a.x == b.x && a.y > b.y) {
             p2 = a;
             p1 = b;
@@ -68,8 +71,8 @@ int ScalarMult(tVector &a, tVector& b)
 // проверка параллельности векторов через поиск угла
 bool CheckParal(tVector &a, tVector& b)
 {
-    double aa = sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-    double bb = sqrt(b.x * b.x + b.y * b.y + b.z * b.z);
+    double aa = sqrt(double(a.x * a.x + a.y * a.y + a.z * a.z));
+    double bb = sqrt(double(b.x * b.x + b.y * b.y + b.z * b.z));
     double sk = ScalarMult(a, b);
     double angle = sk / aa / bb;
     return fabs(angle) < EPS_PARAL;
@@ -227,7 +230,16 @@ bool IsSegmentsOnLineAndHaveIntersection(tSegment &s1, tSegment &s2)
     tVector h(v1.y, -v1.x);
     if(CheckParal(h, v2)) // проверка параллельности
     {
-        tVector v3(s1.p1, s2.p1);
+        tVector v3;
+        if(!s1.p1.isEqual(s2.p1))
+            v3 = tVector(s1.p1, s2.p1);
+        else if(!s1.p2.isEqual(s2.p1))
+            v3 = tVector(s1.p2, s2.p1);
+        else if(!s1.p2.isEqual(s2.p2))
+            v3 = tVector(s1.p2, s2.p2);
+        else
+            v3 = tVector(s1.p1, s2.p2);
+
         if(CheckParal(h, v3)) { // проверка принадлежности одной прямой
             // проверка наличия пересечений
             if(s1.p1.x == s1.p2.x) { //vertical segments
@@ -257,7 +269,7 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
     if(s1.p1.isEqual(s2.p1) &&  s1.p2.isEqual(s2.p2)) // магия
         return;
 
-    if(s1.p1.x == s1.p1.x) { //для вертикальных отрезков отдельно
+    if(s1.p1.x == s1.p2.x) { //для вертикальных отрезков отдельно
         if(s2.p1.y < s1.p1.y) {
             segments.push_back(tSegment(s2.p1, s1.p1));
         }
@@ -276,15 +288,20 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
         segments.push_back(tSegment(t, end));
         return;
     }
+    if(s2.p1.x > s2.p2.x) {
+        qDebug() << "aaaaaaa";
+    }
 
     if(s2.p1.x < s1.p1.x) {
         segments.push_back(tSegment(s2.p1, s1.p1));
     }
-    else {
+    else if(s2.p1.x > s1.p1.x) {
         segments.push_back(tSegment(s1.p1, s2.p1));
     }
     tPoint t, end;
-    if(s2.p2.x <= s1.p2.x) {
+    if(s2.p2.x == s1.p2.x)
+        return;
+    if(s2.p2.x < s1.p2.x) {
         t = s2.p2;
         end = s1.p2;
     }
@@ -300,6 +317,7 @@ void FindOverlappingSegments(vector<tSegment> &segments)
     for(int i = 0; i < segments.size(); i++) {
         if(!segments[i].empty) {
             for(int j = 0; j < segments.size(); j++) {
+                if(segments[i].empty) break;
                 if(segments[j].empty || i == j)
                     continue;
                 if(IsSegmentsOnLineAndHaveIntersection(segments[i], segments[j])) {
