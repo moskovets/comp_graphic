@@ -105,6 +105,7 @@ int CutSegment(vector<tPoint> &Cut, vector<tVector> &normVect,
         polynom.push_back(polynom[0]);
         //DebugPrintPolynom(polynom);
         if(scene->stepFlag) {
+            scene->repaintScene();
             PrintResPolynom(scene, resPolynom, Qt::green);
             scene->sleepFeature(1000);
         }
@@ -131,9 +132,10 @@ int SimpleAlgo(paintScene *scene, const QColor &colorBrush)
 
     vector<tPoint> resPolynom;
     CutSegment(scene->polynom, normVect, scene->polyForCut, resPolynom, scene);
-    if(scene->stepFlag)
+    if(scene->stepFlag) {
         PrintResPolynom(scene, resPolynom, Qt::white);
-
+        scene->repaintScene();
+    }
     vector<tSegment> segments;
     GetSegmentsFromVertex(segments, resPolynom);
     FindOverlappingSegments(segments);

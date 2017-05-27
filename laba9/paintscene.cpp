@@ -288,11 +288,21 @@ void paintScene::addMyPolynomForCut(tPoint &p, const QColor &color)
 
 void paintScene::addMyPolynomForCut(const QColor &color)
 {
-    int n = polyForCut.size() - 1;
-    for(int i = 0; i < n; i++) {
-        this->addLine(polyForCut[i].x,     polyForCut[i].y,
-                      polyForCut[i + 1].x, polyForCut[i + 1].y,
-                      QPen(color, 1, Qt::SolidLine));
+    if(StateFlag) {
+        int n = polyForCutSave.size() - 1;
+        for(int i = 0; i < n; i++) {
+            this->addLine(polyForCutSave[i].x,     polyForCutSave[i].y,
+                          polyForCutSave[i + 1].x, polyForCutSave[i + 1].y,
+                          QPen(color, 1, Qt::SolidLine));
+        }
+    }
+    else {
+        int n = polyForCut.size() - 1;
+        for(int i = 0; i < n; i++) {
+            this->addLine(polyForCut[i].x,     polyForCut[i].y,
+                          polyForCut[i + 1].x, polyForCut[i + 1].y,
+                          QPen(color, 1, Qt::SolidLine));
+        }
     }
 }
 
@@ -303,6 +313,18 @@ void paintScene::clearAll()
     polynomExist = false;
     polynom.clear();
     polyForCut.clear();
+}
+
+void paintScene::SaveState()
+{
+    polyForCutSave = polyForCut;
+    StateFlag = true;
+}
+
+void paintScene::ActivatePreviousState()
+{
+    polyForCut = polyForCutSave;
+    StateFlag = false;
 }
 
 bool paintScene::IsExist()

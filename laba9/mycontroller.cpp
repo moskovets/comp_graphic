@@ -194,7 +194,7 @@ void MyController::on_brushButton_clicked()
         errorMessage.exec();
     }
     else {
-        vector<tPoint> polynom_copy = scene->polyForCut;
+        scene->SaveState();
         if(SimpleAlgo(scene, colorBrush) == 1) {
             QErrorMessage errorMessage;
             errorMessage.showMessage("Отсекатель не выпуклый!");
@@ -203,7 +203,7 @@ void MyController::on_brushButton_clicked()
         else {
             scene->paintFlag = false;
         }
-        scene->polyForCut = polynom_copy;
+        scene->ActivatePreviousState();
     }
 }
 

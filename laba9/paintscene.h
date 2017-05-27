@@ -38,6 +38,8 @@ public:
     void addMyPolynomForCut(tPoint &newPoint, const QColor &color);
     void addMyPolynomForCut(const QColor &color);
     void clearAll();
+    void SaveState();
+    void ActivatePreviousState();
     bool IsExist();
 
     vector<tPoint> polynom; // at the end push start vertex
@@ -55,6 +57,9 @@ private:
     SCENE_STATUS status;
     tPoint     previousPoint;      // Координаты предыдущей точки
     tPoint     firstVertex;
+
+    vector<tPoint> polyForCutSave;
+    bool StateFlag = false;
 
     bool       polynomExist;
     bool       polyForCutExist;
