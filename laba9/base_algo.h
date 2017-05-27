@@ -29,7 +29,7 @@ struct tSegment
     tSegment(tPoint &a, tPoint &b) {
         if(a.isEqual(b)) //todo
             empty = true;
-        if(a.x == b.x && a.y > b.y) {
+        if((a.x > b.x) || (a.x == b.x && a.y > b.y)) {
             p2 = a;
             p1 = b;
         }
@@ -69,6 +69,7 @@ struct tVector
         z = 0;
     }
 };
+
 void VectorMult(tVector &a, tVector& b, tVector &res);
 
 int ScalarMult(tVector &a, tVector& b);

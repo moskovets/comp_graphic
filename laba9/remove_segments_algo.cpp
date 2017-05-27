@@ -11,36 +11,31 @@ bool CheckParal(tVector &a, tVector& b)
     double angle = sk / aa / bb;
     return fabs(angle) < EPS_PARAL;
 }
+
+// Конвертирование циклического списка вершин в список ребер с упорядоченными
+// отрезками: tSegment сам упорядочит по возрастанию х (и при == х по у)
 void GetSegmentsFromVertex(vector<tSegment> &segments, vector<tPoint> &resPolynom)
 {
     for(int i = 0; i < resPolynom.size() - 1; i++) {
-        if(!resPolynom[i].isEqual(resPolynom[i+1])) {
-            if(resPolynom[i].x <= resPolynom[i + 1].x) {
-                segments.push_back(tSegment(resPolynom[i],resPolynom[i+1]));
-            }
-            else {
-                segments.push_back(tSegment(resPolynom[i+1],resPolynom[i]));
-            }
-        }
+        if(!resPolynom[i].isEqual(resPolynom[i+1]))
+            segments.push_back(tSegment(resPolynom[i],resPolynom[i+1]));
     }
 }
 
-
+// удаление одинаковых отрезков и отрезков, которые отмечены как удаленные
 void DeleteDoubleAndNullSegments(vector<tSegment> &segments)
 {
     vector<tSegment> resSegment;
     for(int i = 0; i < segments.size(); i++) {
         bool flag = true;
-        if(segments[i].empty)
-            continue;
-        for(int j = 0; j < resSegment.size(); j++) {
-            if(segments[i].isEqual(resSegment[j])) {
-                flag = false;
-                break;
+        if(!segments[i].empty) {
+            for(int j = 0; j < resSegment.size() && flag; j++) {
+                if(segments[i].isEqual(resSegment[j]))
+                    flag = false;
             }
+            if(flag)
+                resSegment.push_back(segments[i]);
         }
-        if(flag)
-            resSegment.push_back(segments[i]);
     }
     segments = resSegment;
 }
@@ -89,7 +84,7 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
         return;
     s1.empty = true;
     s2.empty = true;
-    if(s1.p1.isEqual(s2.p1) &&  s1.p2.isEqual(s2.p2)) // магия
+    if(s1.isEqual(s2)) // магия
         return;
 
     if(s1.p1.x == s1.p2.x) { //для вертикальных отрезков отдельно
@@ -99,8 +94,10 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
         else {
             segments.push_back(tSegment(s1.p1, s2.p1));
         }
+        if(s2.p2.y == s1.p2.y)
+            return;
         tPoint t, end;
-        if(s2.p2.y <= s1.p2.y) {
+        if(s2.p2.y < s1.p2.y) {
             t = s2.p2;
             end = s1.p2;
         }
@@ -111,10 +108,6 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
         segments.push_back(tSegment(t, end));
         return;
     }
-    if(s2.p1.x > s2.p2.x) {
-        qDebug() << "aaaaaaa";
-    }
-
     if(s2.p1.x < s1.p1.x) {
         segments.push_back(tSegment(s2.p1, s1.p1));
     }
@@ -135,12 +128,14 @@ void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment
     segments.push_back(tSegment(t, end));
 }
 
+// удаления из списка отрезков всех перекрывающихся
 void FindOverlappingSegments(vector<tSegment> &segments)
 {
     for(int i = 0; i < segments.size(); i++) {
         if(!segments[i].empty) {
             for(int j = 0; j < segments.size(); j++) {
-                if(segments[i].empty) break;
+                if(segments[i].empty)
+                    break;
                 if(segments[j].empty || i == j)
                     continue;
                 if(IsSegmentsOnLineAndHaveIntersection(segments[i], segments[j])) {
