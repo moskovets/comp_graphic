@@ -8,24 +8,7 @@
 #include <QCursor>
 #include <vector>
 #include <math.h>
-
-
-struct tPoint {
-    int x;
-    int y;
-    tPoint(int x1, int y1) {
-        x = x1;
-        y = y1;
-    }
-    tPoint(QPoint a) {
-        x = a.x();
-        y = a.y();
-    }
-    tPoint() {}
-    bool isEqual(tPoint p) {
-        return x == p.x && y == p.y;
-    }
-};
+#include "base_algo.h"
 
 enum SCENE_STATUS {
     ADD_POLYNOM_FIRST,  //добавление первой вершины прямоугольника

@@ -17,13 +17,17 @@ SOURCES += main.cpp\
     paintscene.cpp \
     mainwindow.cpp \
     mycontroller.cpp \
-    algo.cpp
+    algo.cpp \
+    base_algo.cpp \
+    remove_segments_algo.cpp
 
 HEADERS  += paint.h \
     paintscene.h \
     mainwindow.h \
     mycontroller.h \
-    algo.h
+    algo.h \
+    base_algo.h \
+    remove_segments_algo.h
 
 FORMS    += paint.ui \
     mainwindow.ui \
