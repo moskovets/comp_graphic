@@ -339,8 +339,13 @@ void paintScene::addPoint(QPoint &nP)
     }
     paintFlag = true;
     if(status == ADD_FIRST) {
+        if(polyForCutExist) {
+            this->addMyPolynomForCut(Qt::white);
+            polyForCut.clear();
+        }
+        polyForCut.push_back(newPoint);
         previousPoint = firstVertex = newPoint;
-        //TODO
+        polyForCutExist = false;
         status = ADD_SECOND;
     }
     else if(status == ADD_POLYNOM_FIRST) {
@@ -360,7 +365,11 @@ void paintScene::addPoint(QPoint &nP)
         this->repaintScene();
     }
     else if(status == ADD_SECOND) {
-        //TODO
+        this->addMyPolynomForCut(previousPoint, Qt::white);
+        this->addMyPolynomForCut(newPoint, colorLine);
+        polyForCut.push_back(newPoint);
+        previousPoint = newPoint;
+        this->repaintScene();
     }
 }
 
