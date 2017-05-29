@@ -8,9 +8,10 @@
 
 int IsConvexPolygon(vector<tPoint> &polynom)
 {
+    polynom.push_back(polynom[1]);
     tVector a(polynom[1], polynom[0]);
-    tVector b;
     int n = polynom.size();
+    tVector b;
     tVector tmp;
     int res = 0;
     for(int i = 1; i < n - 1; i++) {
@@ -19,10 +20,12 @@ int IsConvexPolygon(vector<tPoint> &polynom)
         if(res == 0)
             res = SIGN(tmp.z);
         if(tmp.z && res != SIGN(tmp.z)) {
+            polynom.pop_back();
             return 0;
         }
         a = b;
     }
+    polynom.pop_back();
     return res;
 }
 
@@ -49,7 +52,7 @@ tPoint P(double t, tPoint &p1, tPoint &p2)
 bool VisibleVertex(tPoint &vertex, tPoint &p1, tVector &norm)
 {
     tVector v1(vertex, p1);
-    double mult = ScalarMult(v1, norm);
+    int mult = ScalarMult(v1, norm);
     return mult > 0;
 }
 void PrintResPolynom(paintScene *scene, vector<tPoint> &resPolynom, const QColor &colorBrush) {
