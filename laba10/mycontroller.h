@@ -38,6 +38,10 @@ signals:
     void SceneChange(QGraphicsScene *scene);
 private slots:
 
+    void on_drawButton_clicked();
+
+    void on_rotateButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
@@ -50,7 +54,7 @@ private:
     QColor colorLine;
     QColor colorBrush;
     int timePause;
-    QIntValidator *Validator;
+    QRegExpValidator *Validator;
 
 };
 

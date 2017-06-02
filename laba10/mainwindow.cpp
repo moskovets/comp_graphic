@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QHBoxLayout *layout = new QHBoxLayout;
     ui->centralWidget->setLayout(layout);
-    this->setWindowTitle("Лабораторная работа №9");
+    this->setWindowTitle("Лабораторная работа №10");
 
     this->setMouseTracking(true);
 
