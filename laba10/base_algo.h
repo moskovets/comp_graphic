@@ -4,9 +4,9 @@
 #include <QPoint>
 struct tPoint
 {
-    int x;
-    int y;
-    tPoint(int x1, int y1) {
+    double x;
+    double y;
+    tPoint(double x1, double y1) {
         x = x1;
         y = y1;
     }
@@ -68,6 +68,17 @@ struct tVector
         y = s.p2.y - s.p1.y;
         z = 0;
     }
+};
+
+struct tFunction
+{
+    double (*f)(double, double);
+    double xmin;
+    double xmax;
+    double dx;
+    int n;
+    double zmin;
+    double zmax;
 };
 
 void VectorMult(tVector &a, tVector& b, tVector &res);
