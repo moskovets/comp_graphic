@@ -6,19 +6,23 @@ struct tPoint
 {
     double x;
     double y;
-    tPoint(double x1, double y1) {
+    double z;
+    tPoint(double x1, double y1, double z1 = 0) {
         x = x1;
         y = y1;
+        z = z1;
     }
     tPoint(QPoint a) {
         x = a.x();
         y = a.y();
+        z = 0;
     }
     tPoint() {}
     bool isEqual(tPoint p) {
-        return x == p.x && y == p.y;
+        return x == p.x && y == p.y && z == p.z;
     }
 };
+
 
 struct tSegment
 {

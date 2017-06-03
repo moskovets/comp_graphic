@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     mycontroller.cpp \
     algo.cpp \
-    base_algo.cpp
+    base_algo.cpp \
+    point_transf.cpp
 
 HEADERS  += paint.h \
     paintscene.h \
     mainwindow.h \
     mycontroller.h \
     algo.h \
-    base_algo.h
+    base_algo.h \
+    point_transf.h
 
 FORMS    += paint.ui \
     mainwindow.ui \
