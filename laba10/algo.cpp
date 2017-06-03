@@ -3,12 +3,18 @@
 #include <QThread>
 #include "paintscene.h"
 #include <math.h>
+#include <limits.h>
 #include "base_algo.h"
+#include "point_transf.h"
+
+#define INF (INT_MAX-1)
 #define EPS 0.001
-int SimpleAlgo(paintScene *scene, tFunction func)
+#define BORDER 20
+
+void GorisontAlgo(tFunction &func, vector<pair<tPoint, tPoint>> &Res)
 {
-    int maxHor = 0;
-    int minHor = scene->height();
+    int maxHor = -INF;
+    int minHor = INF;
     vector<tPoint> highHorisont;
     vector<tPoint> lowHorisont;
     for(int i = func.xmin; i <= func.xmax; i += func.dx) {
@@ -24,23 +30,33 @@ int SimpleAlgo(paintScene *scene, tFunction func)
         //боковые линии
         tPoint tmp = tPoint(lowHorisont[0].x, func.f(lowHorisont[0].x, i));
         if(flag) {
-            scene->addMyLine(tmp, P);
+            Res.push_back(pair<tPoint, tPoint>(tmp, P));
         }
         P = tmp;
         tmp = tPoint(lowHorisont[pointCount-1].x, func.f(lowHorisont[pointCount-1].x, i));
         if(flag) {
-            scene->addMyLine(tmp, Q);
+            Res.push_back(pair<tPoint, tPoint>(tmp, Q));
         }
         Q = tmp;
         flag = true;
         //
+
         //корректировка массивов горизонтов
         for(int j = 0; j < pointCount - 1; j++) {
             lowHorisont[j].y  = min(lowHorisont[j].y,  func.f(lowHorisont[j].x,  i));
             highHorisont[j].y = max(highHorisont[j].y, func.f(highHorisont[j].x, i));
         }
-
     }
+}
+
+int SimpleAlgo(paintScene *scene, tFunction func)
+{
+    //построение с помощью алгоритма плавающего горизонта
+    GorisontAlgo(func, scene->graphic);
+    //корректировка координат с учетом размеров сцены
+
+
+
     return 0;
 }
 

@@ -33,8 +33,12 @@ public:
     signals:
     void ChangeCursor(QCursor &c);
 
+    vector<pair<tPoint, tPoint>> graphic;
+    bool flagGraphExist;
+
 private:
     SCENE_STATUS status;
+
 
 private:
     // Для рисования используем события мыши
