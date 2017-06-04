@@ -37,7 +37,7 @@ MyController::MyController(QWidget *parent) :
 }
 double f1(double x, double z)
 {
- return sin(x) * cos(z);
+ //return sin(x) * cos(z);
  //return x*x - z*z;
  return sin(x)*x*cos(z);
  return sqrt(x * x - z);
