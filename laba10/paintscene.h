@@ -24,17 +24,18 @@ public:
     explicit paintScene(QObject *parent = 0);
     ~paintScene();
     void repaintScene();
-    void addMyLine(tPoint &a, tPoint &b, QColor color = Qt::black, int width = 1);
+    void addMyLine(tPoint a, tPoint b, QColor color = Qt::black, int width = 1);
     void addMyLine(QPoint &a, QPoint &b, QColor color = Qt::black, int width = 1);
     void clearAll();
 
     QColor colorLine = Qt::black;
 
+    vector<pair<tPoint, tPoint>> graphic;
+    bool flagGraphExist;
+
     signals:
     void ChangeCursor(QCursor &c);
 
-    vector<pair<tPoint, tPoint>> graphic;
-    bool flagGraphExist;
 
 private:
     SCENE_STATUS status;

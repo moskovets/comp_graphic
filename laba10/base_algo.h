@@ -12,6 +12,11 @@ struct tPoint
         y = y1;
         z = z1;
     }
+    tPoint(tPoint &a, tPoint &center) {
+        x = a.x + center.x;
+        y = a.y + center.y;
+        z = a.z;
+    }
     tPoint(QPoint a) {
         x = a.x();
         y = a.y();
