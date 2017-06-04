@@ -4,7 +4,9 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QKeyEvent>
+#include "point_transf.h"
 
+#define TO_RAD (M_PI/180)
 paintScene::paintScene(QObject *parent) : QGraphicsScene(parent)
 {
     status = NO_ACT;
@@ -37,6 +39,16 @@ void paintScene::addMyLine(QPoint &a, QPoint &b, QColor color, int width)
 void paintScene::clearAll()
 {
     this->clear();
+}
+
+void paintScene::rotate(double tetax, double tetay, double tetaz)
+{
+    tetax *= TO_RAD;
+    tetay *= TO_RAD;
+    tetaz *= TO_RAD;
+
+    Rotate rot { tetax, tetay, tetaz };
+    RotateModel(graphic, rot);
 }
 
 void paintScene::repaintScene()

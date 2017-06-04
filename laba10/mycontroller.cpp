@@ -37,15 +37,16 @@ MyController::MyController(QWidget *parent) :
 }
 double f1(double x, double z)
 {
- return sqrt(x * x - z * 1000);
+ return sin(x) * cos(z);
+ //return x*x - z*z;
+ return sin(x)*x*cos(z);
+ return sqrt(x * x - z);
+
 }
 
 void MyController::GetScene(paintScene *scene1)
 {
     this->scene = scene1;
-    //f, xmin, xmax, dx, n, zmin, zmax
-    tFunction func1 { f1, -1000, 1000, 100, 10, -100, 100 } ;
-    SimpleAlgo(scene, func1);
  }
 
 MyController::~MyController()
@@ -143,6 +144,10 @@ bool MyController::ValidPoint(QPoint &p) {
 
 void MyController::on_drawButton_clicked()
 {
+    //f, xmin, xmax, dx, n, zmin, zmax
+    tFunction func1 { f1, -2, 2, 0.05, 41, -2, 2 } ;
+    SimpleAlgo(scene, func1);
+
     vector<QLineEdit*> edits;
     edits.push_back(ui->xminEdit);
     edits.push_back(ui->xmaxEdit);
@@ -157,9 +162,9 @@ void MyController::on_drawButton_clicked()
         return;
 
     //f, xmin, xmax, dx, n, zmin, zmax
-    tFunction func1 { f1, data[0], data[1], data[2], data[3], data[4], data[5] } ;
+    //tFunction func1 { f1, data[0], data[1], data[2], data[3], data[4], data[5] } ;
 
-    SimpleAlgo(scene, func1);
+    //SimpleAlgo(scene, func1);
 
 }
 
@@ -175,6 +180,17 @@ void MyController::on_rotateButton_clicked()
     if(LineEditError != NO_ER)
         return;
 
-    //check building fucnction
+    //check building fucnction TODO
+
+    //vector<pair<tPoint, tPoint>> copy;
+    //copy = scene->graphic;
+
+    scene->clearAll();
+
+    scene->rotate(data[0], data[1], data[2]);
+
+    scene->repaintScene();
+    //scene->graphic = copy;
+
     //rotate function
 }

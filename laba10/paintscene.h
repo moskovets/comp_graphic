@@ -27,6 +27,7 @@ public:
     void addMyLine(tPoint a, tPoint b, QColor color = Qt::black, int width = 1);
     void addMyLine(QPoint &a, QPoint &b, QColor color = Qt::black, int width = 1);
     void clearAll();
+    void rotate(double tetax, double tetay, double tetaz);
 
     QColor colorLine = Qt::black;
 
