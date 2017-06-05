@@ -39,6 +39,7 @@ public:
 
 
 private:
+    QPointF previousPoint;
     SCENE_STATUS status;
 
 
@@ -46,6 +47,7 @@ private:
     // Для рисования используем события мыши
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // PAINTSCENE_H

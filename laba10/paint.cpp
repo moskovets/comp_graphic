@@ -11,7 +11,7 @@ Paint::Paint(QWidget *parent) :
     this->setMouseTracking(true);
     scene = new paintScene();       // Инициализируем графическую сцену
     ui->graphicsView->setScene(scene);  // Устанавливаем графическую сцену
-    ui->graphicsView->setMouseTracking(true);
+    //ui->graphicsView->setMouseTracking(true);
 
     QObject::connect(scene, SIGNAL(ChangeCursor(QCursor&)),
             this, SLOT(ChangeCursor(QCursor&)));
@@ -34,7 +34,7 @@ void Paint::slotTimer()
     timer->stop();
     //scene->repaintScene();
     scene->setSceneRect(0,0, ui->graphicsView->width() - 20, ui->graphicsView->height() - 20);
-    timer->start(TIMER_TIME);
+    //timer->start(TIMER_TIME);
 }
 
 void Paint::ChangeCursor(QCursor &c)
