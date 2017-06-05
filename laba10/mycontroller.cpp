@@ -24,6 +24,7 @@ MyController::MyController(QWidget *parent) :
 
     par = parent;
     ui->setupUi(this);
+
     Validator = new QRegExpValidator(QRegExp("^[+-]?[0-9]{0,5}(\\.|,|$)[0-9]{0,4}$"));
     ui->xminEdit->setValidator(Validator);
     ui->xmaxEdit->setValidator(Validator);
@@ -34,6 +35,16 @@ MyController::MyController(QWidget *parent) :
     ui->tetaxEdit->setValidator(Validator);
     ui->tetayEdit->setValidator(Validator);
     ui->tetazEdit->setValidator(Validator);
+
+    //xmin, xmax, dx,  n, zmin, zmax
+    // -2,   2,  0.05, 41, -2,   2
+    ui->xminEdit->setText("-2");
+    ui->xmaxEdit->setText("2");
+    ui->dxEdit->setText("0.05");
+    ui->nEdit->setText("41");
+    ui->zminEdit->setText("-2");
+    ui->zmaxEdit->setText("2");
+
     for(int i = 0; i < FUNC_NUMBER; i++) {
         ui->functionBox->addItem(func.GetStr(i));
     }
@@ -141,10 +152,7 @@ bool MyController::ValidPoint(QPoint &p) {
 
 void MyController::on_drawButton_clicked()
 {
-    //f, xmin, xmax, dx, n, zmin, zmax
-    tFunction func1 { func.GetFunc(functionIndex), -2, 2, 0.05, 41, -2, 2 } ;
-    SimpleAlgo(scene, func1);
-
+    scene->clearAll();
     vector<QLineEdit*> edits;
     edits.push_back(ui->xminEdit);
     edits.push_back(ui->xmaxEdit);
@@ -159,10 +167,9 @@ void MyController::on_drawButton_clicked()
         return;
 
     //f, xmin, xmax, dx, n, zmin, zmax
-    //tFunction func1 { f1, data[0], data[1], data[2], data[3], data[4], data[5] } ;
-
-    //SimpleAlgo(scene, func1);
-
+    tFunction func1 { func.GetFunc(functionIndex), data[0], data[1], data[2],
+                                                   data[3], data[4], data[5] } ;
+    SimpleAlgo(scene, func1);
 }
 
 void MyController::on_rotateButton_clicked()
@@ -177,23 +184,21 @@ void MyController::on_rotateButton_clicked()
     if(LineEditError != NO_ER)
         return;
 
-    //check building fucnction TODO
+    if(!scene->flagGraphExist)
+        return;
 
-    //vector<pair<tPoint, tPoint>> copy;
-    //copy = scene->graphic;
-
-    scene->clearAll();
-
+    scene->clear();
     scene->rotate(data[0], data[1], data[2]);
-
     scene->repaintScene();
-    //scene->graphic = copy;
-
-    //rotate function
 }
 
 void MyController::on_functionBox_activated(int index)
 {
     functionIndex = index;
     qDebug() << index;
+}
+
+void MyController::on_clearallButton_clicked()
+{
+    scene->clearAll();
 }

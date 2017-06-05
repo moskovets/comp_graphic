@@ -39,6 +39,8 @@ void paintScene::addMyLine(QPoint &a, QPoint &b, QColor color, int width)
 void paintScene::clearAll()
 {
     this->clear();
+    graphic.clear();
+    flagGraphExist = false;
 }
 
 void paintScene::rotate(double tetax, double tetay, double tetaz)

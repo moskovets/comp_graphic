@@ -157,7 +157,7 @@ int SimpleAlgo(paintScene *scene, tFunction func)
     ScaleModel(scene->graphic, scale);
 
     scene->repaintScene();
-
+    scene->flagGraphExist = true;
     return 0;
 }
 

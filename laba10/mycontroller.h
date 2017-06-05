@@ -45,6 +45,8 @@ private slots:
 
     void on_functionBox_activated(int index);
 
+    void on_clearallButton_clicked();
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
