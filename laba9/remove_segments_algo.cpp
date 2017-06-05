@@ -80,8 +80,8 @@ bool IsSegmentsOnLineAndHaveIntersection(tSegment &s1, tSegment &s2)
 //разбиение пересекающихся отрезков на части, добавление "уникальных" отрезков в список, удаление исходных
 void AddToListSegmentsResultsOfIntersection(vector<tSegment> &segments, tSegment &s1, tSegment &s2)
 {
-    if(s1.p1.x == s2.p2.x || s2.p1.x == s1.p2.x)
-        return;
+    //if(s1.p1.x == s2.p2.x || s2.p1.x == s1.p2.x)
+    //    return;
     s1.empty = true;
     s2.empty = true;
     if(s1.isEqual(s2)) // магия
