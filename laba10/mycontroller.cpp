@@ -165,10 +165,11 @@ void MyController::on_drawButton_clicked()
 
     if(LineEditError != NO_ER)
         return;
-
+    if((int)data[3] <= 0)
+        return;
     //f, xmin, xmax, dx, n, zmin, zmax
     tFunction func1 { func.GetFunc(functionIndex), data[0], data[1], data[2],
-                                                   data[3], data[4], data[5] } ;
+                                                   (int)data[3], data[4], data[5] } ;
     SimpleAlgo(scene, func1);
 }
 

@@ -19,7 +19,7 @@ public:
         return f[index];
     }
 
-    char* GetStr(int index)
+    const char* GetStr(int index)
     {
         switch(index) {
         case 0:
@@ -29,8 +29,9 @@ public:
         case 2:
             return "y - sin(x)*x*cos(z)";
         case 3:
-            return "y*y - x*x + z";
+            return "y - x*z";
         }
+        return "";
     }
 
 private:
@@ -50,7 +51,7 @@ private:
     }
     static double f4(double x, double z)
     {
-        return sqrt(x * x - z);
+        return x*z;
     }
 };
 #endif // F_H
