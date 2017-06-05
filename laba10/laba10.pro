@@ -27,7 +27,8 @@ HEADERS  += paint.h \
     mycontroller.h \
     algo.h \
     base_algo.h \
-    point_transf.h
+    point_transf.h \
+    f.h
 
 FORMS    += paint.ui \
     mainwindow.ui \

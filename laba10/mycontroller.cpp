@@ -8,6 +8,7 @@
 #include <QColorDialog>
 #include <QDebug>
 #include "algo.h"
+#include "f.h"
 
 #define MIN_PAR    10
 #define LEN        300
@@ -33,16 +34,12 @@ MyController::MyController(QWidget *parent) :
     ui->tetaxEdit->setValidator(Validator);
     ui->tetayEdit->setValidator(Validator);
     ui->tetazEdit->setValidator(Validator);
-
+    for(int i = 0; i < FUNC_NUMBER; i++) {
+        ui->functionBox->addItem(func.GetStr(i));
+    }
+    functionIndex = 0;
 }
-double f1(double x, double z)
-{
- //return sin(x) * cos(z);
- //return x*x - z*z;
- return sin(x)*x*cos(z);
- return sqrt(x * x - z);
 
-}
 
 void MyController::GetScene(paintScene *scene1)
 {
@@ -145,7 +142,7 @@ bool MyController::ValidPoint(QPoint &p) {
 void MyController::on_drawButton_clicked()
 {
     //f, xmin, xmax, dx, n, zmin, zmax
-    tFunction func1 { f1, -2, 2, 0.05, 41, -2, 2 } ;
+    tFunction func1 { func.GetFunc(functionIndex), -2, 2, 0.05, 41, -2, 2 } ;
     SimpleAlgo(scene, func1);
 
     vector<QLineEdit*> edits;
@@ -193,4 +190,10 @@ void MyController::on_rotateButton_clicked()
     //scene->graphic = copy;
 
     //rotate function
+}
+
+void MyController::on_functionBox_activated(int index)
+{
+    functionIndex = index;
+    qDebug() << index;
 }

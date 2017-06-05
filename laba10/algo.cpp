@@ -9,7 +9,7 @@
 
 #define INF (INT_MAX-1)
 #define EPS 0.001
-#define BORDER 20
+#define BORDER 100
 void FindYBroders(vector<pair<tPoint, tPoint>> &graph, double &ymax, double &ymin)
 {
     ymax = ymin = graph[0].first.y;

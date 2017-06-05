@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <vector>
 #include <paintscene.h>
+#include "f.h"
 
 using namespace std;
 enum Text_Error { EMPTY, E_SYMBOL, NO_ER };
@@ -42,6 +43,8 @@ private slots:
 
     void on_rotateButton_clicked();
 
+    void on_functionBox_activated(int index);
+
 private:
     QString GetColor(QColor &color);
     double *GetData(vector <QLineEdit*> &vec);
@@ -55,7 +58,8 @@ private:
     QColor colorBrush;
     int timePause;
     QRegExpValidator *Validator;
-
+    int functionIndex;
+    CFunction func;
 };
 
 double Analiz_Text(QString str);
