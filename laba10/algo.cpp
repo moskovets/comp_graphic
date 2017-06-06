@@ -56,6 +56,13 @@ tPoint IntersectionSegments(tPoint &p1, tPoint &p2, tPoint &p3, tPoint &p4)
     //res.z = p1.z;
     return res;
 }
+double Round(double x) //magic
+{
+    x *= 100000;
+    x = round(x);
+    x /= 100000;
+    return x;
+}
 
 void GorisontAlgo(tFunction &func, vector<pair<tPoint, tPoint>> &Res)
 {
@@ -70,9 +77,11 @@ void GorisontAlgo(tFunction &func, vector<pair<tPoint, tPoint>> &Res)
     tPoint P, Q;
     bool flag = false;
     double zstep = (func.zmax - func.zmin) / (func.n - 1);
+    zstep = Round(zstep);
     int pointCount = lowHorisont.size();
-
     for(double i = func.zmin; i <= func.zmax + EPS; i += zstep) {
+        if(i > func.zmax)
+            i = func.zmax;
         //боковые линии
         tPoint tmp = tPoint(lowHorisont[0].x, func.f(lowHorisont[0].x, i), i);
         if(flag) {
@@ -107,7 +116,7 @@ void GorisontAlgo(tFunction &func, vector<pair<tPoint, tPoint>> &Res)
                     Res.push_back(pair<tPoint, tPoint>(I, first));
                 I = IntersectionSegments(first, second, highHorisont[j-1], highHorisont[j]);
                 I.z = i;
-                if(flag2 < 0) //magic
+                if(flag2 > 0)
                     Res.push_back(pair<tPoint, tPoint>(I, second));
                 else
                     Res.push_back(pair<tPoint, tPoint>(I, first));
@@ -126,7 +135,6 @@ void GorisontAlgo(tFunction &func, vector<pair<tPoint, tPoint>> &Res)
             first = second;
             flag1 = flag2;
         }
-
 
         //корректировка массивов горизонтов
         for(int j = 0; j < pointCount; j++) {
